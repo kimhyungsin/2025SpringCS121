@@ -17,7 +17,7 @@ schedule: active
   - Prepare by reading and doing the exercises in [Java for Python Programmers](https://runestone.academy/runestone/books/published/java4python/Java4Python/toctree.html), "Preface," "Introduction," "Why learn another programming language?," "Let's look at a Java program", and "Java Data Types"
   - [Slides](../slides/CS.1.Basics.pdf)<br><br>
 
-- Lab 1: "Homework Help" on Monday, January 23rd
+- Lab 1: "Homework Help" on Wednesday, January 13 (Section 2) and Friday January 17 (Section 1)
 - Homework 2: "Conditionals and Loops" assigned Wednesday, January 25th, **due Wednesday, February 1st**
   - [Description](../homework/2/)
 - Lecture 3: "CS and Java Fundamentals: Conditionals and Loops" on 1/25 (Section 2) and 1/26 (Section 1)
