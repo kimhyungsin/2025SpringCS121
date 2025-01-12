@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homework 12: Basic Binary Search Tree</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="homework-12-basic-binary-search-tree">Homework 12: Basic Binary Search Tree</h1>
+<p>The goal of this homework is to practice:</p>
+
+<ul>
+  <li>Working with binary search trees (BSTs)</li>
+  <li>Implementing Iterable</li>
+  <li>Writing recursive methods</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>This is an <strong>individual</strong> assignment.</p>
+
+<p>Start by downloading <a href="bst.zip">bst.zip</a>, which contains the starter files for this assignment.</p>
+
+<h3 id="task-1-read-basicbstjava">Task 1: Read BasicBST.java</h3>
+
+<p>For this assignment, you will be adding code to <code class="language-plaintext highlighter-rouge">BasicBST.java</code>. <code class="language-plaintext highlighter-rouge">BasicBST.java</code> includes a collection of completed methods copied from the textbook’s <code class="language-plaintext highlighter-rouge">algs4</code> library’s <a href="https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BST.java.html">BST.java</a>.</p>
+
+<p>Start by <strong>reading the code</strong> in <code class="language-plaintext highlighter-rouge">BasicBST.java</code>.</p>
+
+<h3 id="task-2-implement-key-height">Task 2: Implement Key height()</h3>
+<p>You will notice that <code class="language-plaintext highlighter-rouge">BasicBST</code> has several <code class="language-plaintext highlighter-rouge">height()</code> methods. You will be completing the method with this signature:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Returns the height of the specified key in the BasicBST tree.
+ * if the key does not exist in the tree, return -1;
+ * if the key is in a leaf node, return 0.
+ * For a non-leaf node, its height is one more than its
+ * taller child.
+ *
+ * @return the height of the specified key in the BasicBST tree
+ */
+
+public int height(Key key) {
+    // TODO Implement this method
+    return -1;
+}
+</code></pre></div></div>
+
+<p><strong>Hint</strong>:
+Refer to the implementation of the other <code class="language-plaintext highlighter-rouge">height()</code> methods for ideas about how to implement this version.</p>
+
+<p>If your code is working, the main method should give the following output:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java-algs4 BasicBST &lt; TinyInput.txt
+Tree printed in level order, showing keys and heights:
+S 5
+E 4
+X 0
+A 1
+R 3
+C 0
+H 2
+M 1
+L 0
+P 0
+
+Tree printed in order, showing keys and heights:
+A 1
+C 0
+E 4
+H 2
+L 0
+M 1
+P 0
+R 3
+S 5
+X 0
+...
+</code></pre></div></div>
+
+<h3 id="task-3-implement-leaves">Task 3: Implement leaves()</h3>
+<p><code class="language-plaintext highlighter-rouge">BasicBST</code> also includes several methods that return <code class="language-plaintext highlighter-rouge">Iterable</code> objects. You should complete the following method:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Returns all keys of the leaves in the BasicBST as an {@code Iterable}.
+ * If the tree is empty, return an iterable with no key in it.
+ *
+ * @return all keys in the leaves of the BasicBST, in the order from
+ * the smallest leaf key to the largest leaf key
+ */
+
+
+public Iterable&lt;Key&gt; leaves() {
+    Queue&lt;Key&gt; queue = new Queue&lt;Key&gt;();
+    // TODO: write code to add the leaf keys to the queue
+    return queue;
+}
+</code></pre></div></div>
+
+<p><strong>Hint</strong>:
+Refer to the implementation of <code class="language-plaintext highlighter-rouge">levelOrder()</code> and <code class="language-plaintext highlighter-rouge">keys()</code> for ideas about how to implement <code class="language-plaintext highlighter-rouge">leaves()</code>.</p>
+
+<p>If your code is working, the main method should give the following output:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java-algs4 BasicBST &lt; TinyInput.txt
+...
+Leaf keys printed in order: 
+C L P X 
+</code></pre></div></div>
+
+<h3 id="hints">Hints</h3>
+
+<ul>
+  <li>Consider writing a <code class="language-plaintext highlighter-rouge">toString()</code> method, so you can visualize the nodes in the BST</li>
+  <li>Consider writing unit tests for <code class="language-plaintext highlighter-rouge">height()</code> and <code class="language-plaintext highlighter-rouge">leaves()</code>. You can also test using the main method, but you should test using more than just <code class="language-plaintext highlighter-rouge">TinyInput.txt</code>. Consider creating and testing with text files containing:
+    <ul>
+      <li>All characters in the alphabet</li>
+      <li>Short words</li>
+      <li>A paragraph of text</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>BasicBST.java</li>
+  <li><strong>A completed readme.txt file</strong> containing hours spent on the assignment, etc.</li>
+</ul>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

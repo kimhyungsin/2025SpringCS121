@@ -1,0 +1,358 @@
+I"�&<h1 id="lab-4-solutions-tracing-programs">Lab 4 Solutions: Tracing Programs</h1>
+
+<h3 id="task-1-trace-naïve-fibonacci">Task 1: Trace Naïve Fibonacci</h3>
+
+<p>Consider the following naïve recursion code for Fibonacci numbers:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static long F(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return F(n-1) + F(n-2);
+}
+</code></pre></div></div>
+
+<p>Trace the code and draw the recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code>.</p>
+
+<h4 id="solution">Solution</h4>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="cs121_tracing_task1.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Fibonacci recursion tree" />
+</div>
+</div>
+
+<h3 id="task-2-trace-dynamic-fibonacci">Task 2: Trace Dynamic Fibonacci</h3>
+<p>Consider the following dynamic programming code for Fibonacci numbers:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>long[] F = new long[n+1];
+F[0] = 0;
+F[1] = 1;
+for (int i = 2; i &lt;= n; i++)
+    F[i] = F[i-1] + F[i-2];
+</code></pre></div></div>
+
+<p>Trace the code for <code class="language-plaintext highlighter-rouge">n</code> being 5, and write down the values of the elements in array <code class="language-plaintext highlighter-rouge">F</code>.</p>
+
+<h4 id="solution-1">Solution</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>F[0]</th>
+      <th>F[1]</th>
+      <th>F[2]</th>
+      <th>F[3]</th>
+      <th>F[4]</th>
+      <th>F[5]</th>
+      <th>i</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>0</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td><strong>1</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>2</strong></td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td><strong>1</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>3</strong></td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td><strong>2</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>4</strong></td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td><strong>3</strong></td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+      <td><strong>5</strong></td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td><strong>5</strong></td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>5</td>
+      <td><strong>6</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="task-3-trace-recursive-dynamic-fibonacci">Task 3: Trace Recursive Dynamic Fibonacci</h3>
+
+<p>Consider the following recursion code with memoization for Fibonacci numbers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static long[] memo = new long[100];
+public static long F(int n)
+{
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    if (memo[n] == 0)
+        memo[n] = F(n-1) + F(n-2);
+    return memo[n];
+}
+</code></pre></div></div>
+<h3 id="task-31">Task 3.1</h3>
+<p>Trace the code and draw the recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code></p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="cs121_tracing_task3.1.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Recursive Dynamic Fibonacci call tree" />
+</div>
+</div>
+
+<h3 id="task-32">Task 3.2</h3>
+<p>Keep all the statements except change <code class="language-plaintext highlighter-rouge">memo[n] = F(n-1) + F(n-2);</code> to <code class="language-plaintext highlighter-rouge">memo[n] = F(n-2) + F(n-1);</code>. This just switches the positions for <code class="language-plaintext highlighter-rouge">F(n-1)</code> and <code class="language-plaintext highlighter-rouge">F(n-2)</code>. Now trace the slightly changed code and draw the new recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code>.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="cs121_tracing_task3.2.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Recursive Dynamic Fibonacci call tree" />
+</div>
+</div>
+
+<h3 id="task-4-dynamic-coin-change">Task 4: Dynamic Coin Change</h3>
+
+<p>Consider the dynamic programming code for coin change:</p>
+
+\[c(i,j) = \begin{cases} 0 &amp; \text{if } j = 0 \\
+\frac{j}{d_1}               &amp; \text{if } i = 1 \\
+\infty                      &amp; \text{if } j &lt; 0 \\
+\text{min}\Big(c(i - 1, j), 1 + c(i, j - d_i)\Big) &amp; \text{otherwise} \\
+\end{cases}\]
+
+<ol>
+  <li>Draw the 2D array <code class="language-plaintext highlighter-rouge">C[i, j]</code>, and trace the algorithm for a change amount of <code class="language-plaintext highlighter-rouge">8</code> and a coin set <code class="language-plaintext highlighter-rouge">{1, 4, 5}</code>.</li>
+  <li>The mathematical definition above for the function \(c(i, j)\) has a problem for the base case \(i = 1\). It works when the first coin value \(d_1\) is 1. But if \(d_1\) is not 1, the base case needs to be changed.
+    <ul>
+      <li>Consider a change amount of <code class="language-plaintext highlighter-rouge">8</code> and the coin set <code class="language-plaintext highlighter-rouge">{2, 4, 5}</code>. Trace using the definition above for \(c(i, j)\) to identify the problem.</li>
+      <li>Try to fix the problem by changing the \(c(i, j)\) definition for the base case \(i = 1\). Check your fix by tracing your revised definition with an amount of <code class="language-plaintext highlighter-rouge">8</code> and the coin set <code class="language-plaintext highlighter-rouge">{2, 4, 5}</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="solutions">Solutions</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1 (i=1)</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>4 (i=2)</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>5 (i=3)</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+\[c(i,j) = \begin{cases} 0 &amp; \text{if } j = 0 \\
+\frac{j}{d_1}               &amp; \text{if } i = 1 \text{ and } j \% d_1 = 0 \\
+\infty                      &amp; \text{if } i = 1 \text{ and } j \% d_1 \neq 0 \\
+\infty                      &amp; \text{if } j &lt; 0 \\
+\text{min}\Big(c(i - 1, j), 1 + c(i, j - d_i)\Big) &amp; \text{otherwise} \\
+\end{cases}\]
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2 (i=1)</td>
+      <td>0</td>
+      <td>∞</td>
+      <td>1</td>
+      <td>∞</td>
+      <td>2</td>
+      <td>∞</td>
+      <td>3</td>
+      <td>∞</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>4 (i=2)</td>
+      <td>0</td>
+      <td>∞</td>
+      <td>1</td>
+      <td>∞</td>
+      <td>1</td>
+      <td>∞</td>
+      <td>2</td>
+      <td>∞</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>5 (i=3)</td>
+      <td>0</td>
+      <td>∞</td>
+      <td>1</td>
+      <td>∞</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="task-5-mutually-recursive-functions">Task 5: Mutually Recursive Functions</h3>
+
+<p>Consider the following pair of mutually recursive functions:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static int f(int n) {
+    if (n == 0) return 0;
+    return f(n-1) + g(n-1);
+}
+
+public static int g(int n) {
+    if (n == 0) return 0;
+    return g(n-1) + f(n);
+}
+</code></pre></div></div>
+
+<p>What is the value of <code class="language-plaintext highlighter-rouge">g(2)</code>?</p>
+
+<h4 id="solution-2">Solution</h4>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="cs121_tracing_task5.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="g(2) recursion tree" />
+</div>
+</div>
+
+:ET

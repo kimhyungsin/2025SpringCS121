@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 13: Command-line Programs</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-13-command-line-programs">Lab 13: Command-line Programs</h1>
+<p>The goal of this lab is to practice combining simple command-line programs using UNIX-syle pipes. You will also practice using symbol tables.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>Download <a href="cli.zip">cli.zip</a>, which contains the starter files for this assignment.</p>
+
+<h3 id="task-0-setup">Task 0: Setup</h3>
+
+<p>This assignment requires a Unix-style command-line environment. If you are running Linux or macOS, you are all set. But if you are running Windows, you have a couple options:</p>
+
+<ul>
+  <li>Use a teammate’s computer running Linux or macOS</li>
+  <li>Follow <a href="https://docs.microsoft.com/en-us/windows/wsl/install">these instructions</a> to install <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux (WSL)</a>
+    <ul>
+      <li>You may also need to follow steps 1 and 2 to <a href="https://lift.cs.princeton.edu/java/linux/">install the textbook command-line tools</a> in the WSL environment</li>
+      <li>If unzipping the command-line tools fails, install the <code class="language-plaintext highlighter-rouge">unzip</code> command by running: <code class="language-plaintext highlighter-rouge">sudo apt update</code> then <code class="language-plaintext highlighter-rouge">sudo apt install zip</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Hint:</strong>
+For those using WSL: suppose you downloaded the starter files to your Downloads folder in Windows. To locate the starter files in the WSL command-line, you need to change directory to that folder within the WSL command-line. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd /mnt/c/Users/peter/Downloads/cli
+</code></pre></div></div>
+<p>Notice how the Windows filesystem is accessed from the WSL command-line: each Windows drive (e.g., <code class="language-plaintext highlighter-rouge">c</code>) is mounted in the <code class="language-plaintext highlighter-rouge">/mnt</code> directory.</p>
+
+<h3 id="task-1-background">Task 1: Background</h3>
+
+<ul>
+  <li>Refer to Algorithms chapters 3.1 and 3.4 for information about symbol tables and hash tables</li>
+  <li>Refer to the <a href="/~cs121/slides/31ElementarySymbolTables.pdf">“Symbol Tables”</a> and <a href="/~cs121/slides/34HashTables.pdf">“Hash Tables”</a>  lecture slides</li>
+  <li>Read the information about Unix commands below</li>
+</ul>
+
+<h4 id="unix-commands">Unix Commands</h4>
+
+<p>There are many different ways to use a computer to solve a problem. Suppose you want to count the number of occurrences of different words in a book, perhaps to identify the most and least common words. You might:</p>
+
+<ul>
+  <li>Write a program that accepts a text file as a command-line argument, counts the number of each word’s occurrence, then prints the result</li>
+  <li>Use a <a href="http://www.writewords.org.uk/word_count.asp">word frequency counter website</a></li>
+  <li>Combine multiple command-line programs to achieve the same result</li>
+</ul>
+
+<p>This final approach will be the focus of this lab, in order to demonstrate the influential <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix Philosophy</a> of software development. Multiple programs can be combined by connecting each program’s STDOUT (standard out) to the next program’s STDIN (standard in), forming a “pipeline.”</p>
+
+<p>Here is an example that illustrates this approach, using the <code class="language-plaintext highlighter-rouge">dickens.txt</code> file, which is included with the starter files:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>It was the age of foolishness, it was the age of wisdom.
+It was the best of times, it was the worst of times.
+It was the epoch of belief, it was the epoch of incredulity.
+It was the season of darkness, it was the season of light.
+It was the spring of hope, it was the winter of despair.
+</code></pre></div></div>
+
+<p>Word counts can be calculated by combining three simple command-line programs:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">tr</code> Performs substitutions on STDIN, printing results to STDOUT</li>
+  <li><code class="language-plaintext highlighter-rouge">sort</code> Sorts STDIN, printing to STDOUT</li>
+  <li><code class="language-plaintext highlighter-rouge">uniq</code> Prints the number of identical lines seen on STDIN to STDOUT. Relies on STDIN being sorted.</li>
+</ul>
+
+<p>Here is the program pipeline and output. <strong>Run this pipeline on your computer, and ensure you get the same result.</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tr " " "\n" &lt; dickens.txt | tr -d "[:punct:]" | tr "[:upper:]" "[:lower:]" | sort | uniq -c
+   2 age
+   1 belief
+   1 best
+   1 darkness
+   1 despair
+   2 epoch
+   1 foolishness
+   1 hope
+   1 incredulity
+  10 it
+   1 light
+  10 of
+   2 season
+   1 spring
+  10 the
+   2 times
+  10 was
+   1 winter
+   1 wisdom
+   1 worst
+</code></pre></div></div>
+
+<p>Observe how we use <code class="language-plaintext highlighter-rouge">tr</code> to replace spaces with newlines (ensuring each word is on its own line), to remove punctuation, and to replace uppercase characters with lowercase ones. Next, we use <code class="language-plaintext highlighter-rouge">sort</code> and <code class="language-plaintext highlighter-rouge">uniq</code> to count the number of occurrences of each word. <strong>Try removing commands in the pipeline, and observe how this affects the results</strong>.</p>
+
+<p><strong>Note:</strong>
+We use <code class="language-plaintext highlighter-rouge">&lt; dickens.txt</code> to connect <code class="language-plaintext highlighter-rouge">dickens.txt</code> to the first program in the pipeline’s STDIN.</p>
+
+<p><strong>Note:</strong>
+<code class="language-plaintext highlighter-rouge">\n</code> is the newline or linefeed (LF) character. On macOS, Linux, and other Unix-based operating systems, <code class="language-plaintext highlighter-rouge">\n</code> is typed when you press “return” or “enter” on your keyboard. Things are slightly different (by default) on Windows, with two characters typed when you press “return” or “enter” on your keyboard: <code class="language-plaintext highlighter-rouge">\r\n</code>, which is referred to as CR/LF. On Windows, it is best practice to switch to your text editor to use the LF style line endings (<code class="language-plaintext highlighter-rouge">\n</code> only).</p>
+
+<p><strong>Note:</strong>
+The leading <code class="language-plaintext highlighter-rouge">$</code> before the command simply indicates that the commands are run on a Unix shell. So if you try to copy-paste this example, you shouldn’t copy the <code class="language-plaintext highlighter-rouge">$</code>.</p>
+
+<p>For this lab, you will be writing two simple command-line programs, which can be combined to achieve a similar result.</p>
+
+<h3 id="task-2-replacejava">Task 2: Replace.java</h3>
+
+<p>This program should accept two arguments, <code class="language-plaintext highlighter-rouge">find</code> and <code class="language-plaintext highlighter-rouge">replace</code>, indicating the text to be found, and what it should be replaced with. It should read STDIN line-by-line, perform the substitutions, and output the results to STDOUT.</p>
+
+<p>Examples:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ java-introcs Replace was is &lt; dickens.txt
+It is the age of foolishness, it is the age of wisdom.
+It is the best of times, it is the worst of times.
+It is the epoch of belief, it is the epoch of incredulity.
+It is the season of darkness, it is the season of light.
+It is the spring of hope, it is the winter of despair.
+
+$ java-introcs Replace "\\p{Punct}" "" &lt; dickens.txt
+It was the age of foolishness it was the age of wisdom
+It was the best of times it was the worst of times
+It was the epoch of belief it was the epoch of incredulity
+It was the season of darkness it was the season of light
+It was the spring of hope it was the winter of despair
+
+$ java-introcs Replace " " "\\n" &lt; dickens.txt
+It
+was
+the
+age
+of
+...
+
+</code></pre></div></div>
+
+<p><strong>Hint:</strong>
+You should use <code class="language-plaintext highlighter-rouge">String</code>’s <code class="language-plaintext highlighter-rouge">replaceAll()</code> method. If you read <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#replaceAll(java.lang.String,java.lang.String)">the documentation</a> you will see that <code class="language-plaintext highlighter-rouge">replaceAll()</code> accepts a “<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#sum">regular expression</a>” as its first parameter. This makes <code class="language-plaintext highlighter-rouge">replaceAll()</code> more complicated to use, but is helpful because it allows us to easily replace all kinds of punctuation, as shown in the example above.</p>
+
+<p><strong>Hint:</strong>
+You may have noticed the <code class="language-plaintext highlighter-rouge">\\p</code> in the second example. The <code class="language-plaintext highlighter-rouge">\</code> character (backslash) is commonly used as an escape character: it gives the subsequent character special meaning. Two backslashes used together (<code class="language-plaintext highlighter-rouge">\\</code>) represent the <code class="language-plaintext highlighter-rouge">\</code> character itself, rather than anything special. This is important, because in the second example we want the <code class="language-plaintext highlighter-rouge">Replace</code> program to get <code class="language-plaintext highlighter-rouge">\p{Punct}</code> (as described in the documentation for <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#sum">regular expressions</a>). If we didn’t use two backslashes, the command-line environment itself might interpret <code class="language-plaintext highlighter-rouge">\p</code> as something special, preventing the <code class="language-plaintext highlighter-rouge">\p</code> from reaching the <code class="language-plaintext highlighter-rouge">Replace</code> program. Determining the correct number of escape characters to use can be tricky, so we’ve given the following lines of code to help you parse the command-line arguments:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>String find = args[0];
+String replace = args[1].replace("\\n", "\n");
+</code></pre></div></div>
+
+<p>Notice that this isn’t a perfect solution, since it only “unescapes” newline characters. A more general solution might use the 3rd party <a href="https://commons.apache.org/proper/commons-lang/javadocs/api-2.6/org/apache/commons/lang/StringEscapeUtils.html#escapeJava(java.lang.String)"><code class="language-plaintext highlighter-rouge">escapeJava()</code> method from Apache’s StringEscapeUtils</a>.</p>
+
+<p><strong>Note</strong>:
+You can also debug your program by typing input yourself, instead of redirecting a file to STDIN. When supplying input interactively, each time you press “Return” or “Enter”, your program should process another line of input. Your program should not exit until it encounters the “end of file” character. On macOS and Linux, you can type this with “Control+D”, or on Windows “Control+Z” then “Enter”.</p>
+
+<h3 id="task-3-countjava">Task 3: Count.java</h3>
+
+<p>This program should read STDIN line-by-line, using a symbol table to count how many times each line has been seen. When STDIN is empty, it should print the number of each line’s occurrences to STDOUT.</p>
+
+<p>Example, with <code class="language-plaintext highlighter-rouge">fruit.txt</code> as input:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ java-introcs Count &lt; fruit.txt
+2 apple
+1 apple banana carrot
+1 carrot
+</code></pre></div></div>
+
+<p>You can use any of these symbol table implementations in your code:</p>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/HashMap.html">The <code class="language-plaintext highlighter-rouge">java.util.HashMap</code> class</a> from the Java standard library</li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/ST.html">The <code class="language-plaintext highlighter-rouge">ST</code> class</a> from the textbook authors</li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/SeparateChainingHashST.html">The <code class="language-plaintext highlighter-rouge">SeparateChainingHashST</code> class</a> from the textbook authors</li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/LinearProbingHashST.html">The <code class="language-plaintext highlighter-rouge">LinearProbingHashST</code> class</a> from the textbook authors</li>
+</ul>
+
+<p><strong>Hint:</strong>
+To achieve the behavior we want, you should convert each line to lowercase before storing it in the symbol table, making the count case-insensitive.</p>
+
+<p><strong>Hint:</strong>
+Think carefully about what should be the “keys” to the symbol table, and what should be the “values.”</p>
+
+<h3 id="task-4-combine-your-programs">Task 4: Combine your programs</h3>
+
+<p>With both programs working, you can combine them to achieve the functionality we want:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ java-introcs Replace " " "\\n" &lt; dickens.txt | java-introcs Replace "\\p{Punct}" "" | java-introcs Count
+10 was
+1 winter
+1 best
+2 epoch
+10 it
+1 hope
+1 wisdom
+10 the
+1 spring
+2 times
+1 incredulity
+1 foolishness
+1 light
+10 of
+2 season
+1 worst
+1 darkness
+1 belief
+1 despair
+2 age
+</code></pre></div></div>
+
+<p>The order may differ, but otherwise your output should match the example above. Of course, we get the same result as the example which used <code class="language-plaintext highlighter-rouge">tr</code>, <code class="language-plaintext highlighter-rouge">sort</code>, and <code class="language-plaintext highlighter-rouge">uniq</code>.</p>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Replace.java</li>
+  <li>Count.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

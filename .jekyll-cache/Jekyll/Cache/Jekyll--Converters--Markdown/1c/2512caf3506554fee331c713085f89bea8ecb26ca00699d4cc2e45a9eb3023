@@ -1,0 +1,385 @@
+I"`a<h1 id="homework-5-image-classification-part-1">Homework 5: Image Classification, Part 1</h1>
+
+<p>As part of this homework, you will write a client program that classifies images. The goal of this homework is to familiarize you with programming in Java. You will practice:</p>
+
+<ul>
+  <li>Applying object-oriented programming concepts</li>
+  <li>Making predictions using machine learning</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<h3 id="task-1-reading">Task 1: Reading</h3>
+
+<ul>
+  <li>Read Algorithms, chapter 1.2, “Data Abstraction” to learn the basics of object-oriented programming</li>
+  <li>Refer to the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Picture">Picture</a> and <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Color">Color</a> cheatsheets. The full APIs are also linked from the cheatsheets.</li>
+  <li>Read the information about machine learning below.</li>
+</ul>
+
+<h4 id="background">Background</h4>
+
+<p>Classification is one of the central problems in <em>machine learning (ML)</em>, a discipline that is transforming 21st century computing. As a familiar example, consider the problem of classifying handwritten digits using <a href="https://www.snaplogic.com/machine-learning-showcase/handwritten-digit-recognition">this web application</a>:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:500px;">
+<img src="digit.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Recognizing handwritten 4" />
+</div>
+</div>
+
+<p>Machine learning algorithms like this are widely used to classify handwritten digits (e.g., to recognize postal ZIP codes, process bank checks, and parse income tax forms).</p>
+
+<p>The full power of machine learning derives from its amazing versatility. Machine learning algorithms rely upon data to learn to make predictions, without being explicitly programmed for the task. For example, the same code you will write to classify handwritten digits extends to classifying other types of images, simply by training the algorithm with different data.</p>
+
+<p>Moreover, machine learning techniques apply not only to images but also to numerical, text, audio, and video data. Modern applications of ML span science, engineering, and commerce: from autonomous vehicles, medical diagnostics, and video surveillance to product recommendations, voice recognition, and language translation.</p>
+
+<h4 id="approach">Approach</h4>
+
+<p>To classify images, we will use a <strong>supervised learning</strong> algorithm. Supervised learning is divided into two phases – <strong>training</strong> and <strong>testing</strong>.</p>
+
+<h5 id="training">Training</h5>
+
+<p>In the training phase, the algorithm learns a function that maps an input to an output (or a label) using training data consisting of known input-output pairs. For the handwritten digit application, the training data comprise 60,000 grayscale images (inputs) and associated digits (labels). Here is a small subset:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="training.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Training data" />
+</div>
+</div>
+
+<p>In a <strong>multiclass classification problem</strong>, we seek to classify images into one of \(m\) classes, labeled \(0, 1, \ldots, m - 1\). For our handwritten digit application, there are \(m = 10\) classes, with class \(i\) corresponding to digit \(i\).</p>
+
+<h5 id="testing">Testing</h5>
+
+<p>In the testing phase, the algorithm uses the learned function to predict labels for unseen inputs.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:500px;">
+<img src="testing.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Testing data" />
+</div>
+</div>
+
+<p>Typically, the algorithm makes some prediction errors (e.g., predicts 9 when the handwritten digit is 6). An important quality metric is the <strong>test error rate</strong> – the fraction of testing inputs that the algorithm misclassifies. It measures how well the learning algorithm generalizes from the training data to new data.</p>
+
+<h3 id="task-2-download-project-files">Task 2: Download Project Files</h3>
+
+<p>This is an <strong>individual</strong> assignment.</p>
+
+<p>Start by downloading <a href="classify.zip">classify.zip</a>, which contains the IntelliJ starter project. It is ~300MB, so it will take some time to download.</p>
+
+<h3 id="task-3-implement-imageclassifierjava">Task 3: Implement ImageClassifier.java</h3>
+
+<h4 id="overview">Overview</h4>
+
+<ul>
+  <li>For this assignment, we provide a ML library – <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> – for classifying vectors of <code class="language-plaintext highlighter-rouge">n</code> real numbers into one of <code class="language-plaintext highlighter-rouge">m</code> classes. In a future assignment, you will implement this ML library using perceptrons.</li>
+  <li>For this assignment, your task is to write an image classifier client, named <code class="language-plaintext highlighter-rouge">ImageClassifier.java</code>, that classifies images using the <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> data type we provide.</li>
+  <li>Note that you will <strong>not</strong> implement <code class="language-plaintext highlighter-rouge">MultiPerceptron.java</code> until a future assignment. The focus of this assignment is on <strong>using</strong> data types, whereas the focus of Part 2 is on <strong>creating</strong> data types. For now, you must use the pre-compiled <code class="language-plaintext highlighter-rouge">MultiPerceptron.class</code> that is included in the project folder.</li>
+  <li>You should comment all instance variables, explaining their purposes.</li>
+  <li>Your code must conform to the stated API. Violations include:
+    <ul>
+      <li>Adding public methods. You are free to add private methods (which are accessible only in the class in which they are declared).</li>
+      <li>Producing undocumented side effects, such as reading from standard input in <code class="language-plaintext highlighter-rouge">main()</code> or altering the <code class="language-plaintext highlighter-rouge">Picture</code> argument to <code class="language-plaintext highlighter-rouge">extractFeatures.</code> See the <code class="language-plaintext highlighter-rouge">ImageClassifier</code> API below.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="multiperceptron-data-type">MultiPerceptron Data Type</h4>
+
+<p>This ML library is widely applicable: you can use it not only to classify images but also to classify numerical, text, and audio data. The main idea is to extract features from the data, representing each training and testing input as a vector \(x = x_0, x_1, \ldots, x_{n-1}\) of \(n\) real numbers. For our handwritten digit application, each input is a 28-by-28 grayscale image and the features are the \(n = 28 \times 28 = 784\) grayscale values that constitute the image.</p>
+
+<p>Here is the MultiPerceptron API that you will use:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class MultiPerceptron
+
+    // Creates a multi-perceptron object with m classes
+    // and size of the feature vector n.
+    public MultiPerceptron(int m, int n)
+
+    // Returns the number of classes m.
+    public int numberOfClasses()
+    
+    // Returns the number of inputs n, the size of the feature vector
+    public int numberOfInputs()
+    
+    // Returns the predicted label for the given input.
+    public int predictMulti(double[] x)
+
+    // Trains this multi-perceptron on the labeled input.
+    public void trainMulti(double[] x, int label)
+</code></pre></div></div>
+
+<h4 id="imageclassifierjava-client">ImageClassifier.java client</h4>
+
+<p>Your task is to write a client program <code class="language-plaintext highlighter-rouge">ImageClassifier.java</code> that classifies images using the <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> data type described in the previous section by:</p>
+<ul>
+  <li>Training it using the input-output pairs specified in a training data file.</li>
+  <li>Testing the predictions using the input-output pairs specified in a testing data file.</li>
+  <li>Printing a list of misclassified images and the test error rate.</li>
+</ul>
+
+<p>Organize your client according to the following API:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ImageClassifier
+
+    // Creates a feature vector (1D array) from the given picture.
+    // See below for more details.
+    public static double[] extractFeatures(Picture picture)
+
+    // See below.
+    public static void main(String[] args)
+</code></pre></div></div>
+
+<h5 id="extractfeatures">extractFeatures()</h5>
+
+<p>The <code class="language-plaintext highlighter-rouge">extractFeatures()</code> method converts a grayscale image into a one-dimensional array suitable for use with the <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> data type. This method must perform two conversions:</p>
+
+<ol>
+  <li>Convert the width-by-height image into a width-by-height matrix of grayscale values. Recall that a shade of gray has its red, green, and blue components all equal.</li>
+  <li>Convert the width-by-height matrix of grayscale values into a one-dimensional array of length width \(\times\) height by iterating over the matrix elements in row-major order.</li>
+</ol>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="row_major.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="RGB matrix to grayscale matrix to row-major vector" />
+</div>
+</div>
+
+<h5 id="main">main()</h5>
+
+<p>The <code class="language-plaintext highlighter-rouge">main()</code> method takes two command-line arguments:</p>
+<ol>
+  <li>The name of a file that contains the training data.</li>
+  <li>The name of a file that contains the testing data.</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">main()</code> should:</p>
+
+<ol>
+  <li>Create a <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> object with <code class="language-plaintext highlighter-rouge">m</code> classes and <code class="language-plaintext highlighter-rouge">n = width * height</code> inputs.</li>
+  <li>Train the <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> object using the images and labels from the training data file.</li>
+  <li>Use the trained <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> object to classify the images from the testing data file, producing as output the following information:
+    <ul>
+      <li>A list of misclassified images, one per line.</li>
+      <li>The test error rate (the fraction of test images that the algorithm misclassified).</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Here are some sample executions:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs ImageClassifier digits-training20.txt digits-testing10.txt 
+digits/testing/1/46.png
+digits/testing/7/36.png
+digits/testing/7/80.png
+digits/testing/1/40.png
+digits/testing/1/39.png
+digits/testing/7/79.png
+digits/testing/9/20.png
+digits/testing/9/58.png
+test error rate = 0.8
+
+&gt; java-introcs ImageClassifier digits-training60K.txt digits-testing10K.txt 
+jar:file:digits.jar!/testing/5/9428.png
+jar:file:digits.jar!/testing/6/4814.png
+jar:file:digits.jar!/testing/5/4915.png
+...
+jar:file:digits.jar!/testing/5/7870.png
+jar:file:digits.jar!/testing/4/1751.png
+jar:file:digits.jar!/testing/5/6043.png
+test error rate = 0.136
+
+&gt; java-introcs ImageClassifier fashion-training60K.txt fashion-testing10K.txt 
+...
+
+&gt; java-introcs ImageClassifier Kuzushiji-training60K.txt Kuzushiji-testing10K.txt
+...
+
+&gt; java-introcs ImageClassifier fruit-training30K.txt fruit-testing6K.txt
+...
+
+&gt; java-introcs ImageClassifier animals-training60K.txt animals-testing12K.txt
+...
+
+&gt; java-introcs ImageClassifier music-training50K.txt music-testing10K.txt
+...
+</code></pre></div></div>
+
+<p><strong>Note:</strong>
+Dont worry about the odd looking filenames. It’s just a verbose way to specify the location to a specific image file in a JAR (Java ARchive) file. Modern operating systems are not so adept at manipulating hundreds of thousands of individual image files, so this makes training more efficient. For example, consider <code class="language-plaintext highlighter-rouge">jar:file:digits.jar!/testing/5/9428.png</code>. In this case, <code class="language-plaintext highlighter-rouge">jar:file:digits.jar</code> identifies the JAR file <code class="language-plaintext highlighter-rouge">digits.jar</code> and <code class="language-plaintext highlighter-rouge">/training/5/9428.png</code> identifies a file named <code class="language-plaintext highlighter-rouge">9428.png</code>, which is located in the subdirectory <code class="language-plaintext highlighter-rouge">/training/5/</code> of the JAR file.</p>
+
+<h4 id="input-files">Input Files</h4>
+
+<p>A training data file consists of a sequence of lines:</p>
+<ul>
+  <li>The first line contains the number of classes <code class="language-plaintext highlighter-rouge">m</code></li>
+  <li>The second line contains the <code class="language-plaintext highlighter-rouge">width</code> and <code class="language-plaintext highlighter-rouge">height</code>, respectively, of the images</li>
+  <li>Each remaining line contains the name of an image file (e.g., corresponding to a handwritten digit) followed by an integer label (e.g., identifying the correct digit), separated by whitespace.</li>
+</ul>
+
+<p>The file format for testing data files is the same, but you will use the integer labels in the testing data files only to check the accuracy of your predictions.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="input.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Input file example" />
+</div>
+</div>
+
+<p>We provide a variety of sample input files in the specified format, including handwritten digits, fashion articles from Zalando, Hirigana characters, and doodles of fruit, animals, and musical instruments.</p>
+
+<table>
+<tr>
+  <th>Data files</th>
+  <th>Description</th>
+  <th>Examples</th>
+  <th>Source</th>
+</tr>
+<tr>
+  <td>digits.jar<br />
+    digits-training60K.txt<br />
+    digits-testing10K.txt
+  </td>
+  <td>Handwritten digits</td>
+  <td><img src="digits.png" alt="Digits" /></td>
+  <td><a href="http://yann.lecun.com/exdb/mnist/">MNIST</a></td>
+</tr>
+<tr>
+  <td>fashion.jar<br />
+    fashion-training60K.txt<br />
+    fashion-testing10K.txt
+  </td>
+  <td>Fashion articles</td>
+  <td><img src="fashion.png" alt="Fashion articles" /></td>
+  <td><a href="https://github.com/zalandoresearch/fashion-mnist">Fashion MNIST</a></td>
+</tr>
+<tr>
+  <td>Kuzushiji.jar<br />
+    Kuzushiji-training60K.txt<br />
+    Kuzushiji-testing10K.txt
+  </td>
+  <td>Hirigana characters</td>
+  <td><img src="hirigana.png" alt="Hirigana characters" /></td>
+  <td><a href="https://github.com/rois-codh/kmnist">Kuzushiji MNIST</a></td>
+</tr>
+<tr>
+  <td>fruit.jar<br />
+    fruit-training30K.txt<br />
+    fruit-testing6K.txt
+  </td>
+  <td>Fruit doodles</td>
+  <td><img src="fruit.png" alt="Fruit doodles" /></td>
+  <td><a href="https://quickdraw.withgoogle.com/data">Quick, Draw!</a></td>
+</tr>
+<tr>
+  <td>animals.jar<br />
+    animals-training60K.txt<br />
+    animals-testing12K.txt
+  </td>
+  <td>Animal doodles</td>
+  <td><img src="animals.png" alt="Animal doodles" /></td>
+  <td><a href="https://quickdraw.withgoogle.com/data">Quick, Draw!</a></td>
+</tr>
+<tr>
+  <td>music.jar<br />
+    music-training50K.txt<br />
+    music-testing10K.txt
+  </td>
+  <td>Musical instrument doodles</td>
+  <td><img src="instruments.png" alt="Musical instrument doodles" /></td>
+  <td><a href="https://quickdraw.withgoogle.com/data">Quick, Draw!</a></td>
+</tr>
+</table>
+
+<h4 id="hints">Hints</h4>
+
+<p>These are purely suggestions for how you might make progress. You do not have to follow these steps. If you get stumped or frustrated on some portion of the assignment, please contact the instructor or TAs for help.</p>
+
+<h5 id="parsing-input-files">Parsing Input Files</h5>
+
+<ul>
+  <li>Review the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#In">“In” data type</a>, which is an object-oriented version of <code class="language-plaintext highlighter-rouge">StdIn</code>. You need the object-oriented version in this program since you will be reading from two different files in the same program.
+    <ul>
+      <li>Create an <code class="language-plaintext highlighter-rouge">In</code> object for the training file<code class="language-plaintext highlighter-rouge">digits-training20.txt</code>. Read the
+integers <code class="language-plaintext highlighter-rouge">m</code>, <code class="language-plaintext highlighter-rouge">width</code>, and<code class="language-plaintext highlighter-rouge">height</code>, and print them to standard output. Read pairs of filenames (strings) and labels (integers) and print them to standard output.</li>
+      <li>Do the same for the testing file <code class="language-plaintext highlighter-rouge">digits-testing10.txt</code>.</li>
+    </ul>
+  </li>
+  <li>Modify your program to take the names of the testing and training files as
+command-line arguments.</li>
+  <li>Review the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Picture">“Picture” data type</a>. For each image, create a new <code class="language-plaintext highlighter-rouge">Picture</code> object and display in its own window. Note that the image displays may overlap!</li>
+</ul>
+
+<h5 id="feature-extraction">Feature Extraction</h5>
+
+<ul>
+  <li>Review the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Picture">“Picture”</a> and <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Color">“Color”</a> data types, as well as the <a href="https://introcs.cs.princeton.edu/31datatype/Grayscale.java.html">Grayscale.java</a> and <a href="https://introcs.cs.princeton.edu/java/31datatype/Luminance.java.html">Luminance.java</a> example programs. Note that the images <strong>are already grayscale</strong>, so you dont need to perform any fancy calculations – since, the red, green, and blue components are equal, you can use any of <code class="language-plaintext highlighter-rouge">getRed()</code>, <code class="language-plaintext highlighter-rouge">getGreen()</code>, or <code class="language-plaintext highlighter-rouge">getBlue()</code> to get the grayscale value.</li>
+  <li>Create a <code class="language-plaintext highlighter-rouge">Picture</code> object for the image <code class="language-plaintext highlighter-rouge">49785.png</code> (located in the project folder) and display it in a window. (Remove or comment out this code after you have successfully displayed the image.)</li>
+  <li>Create a <code class="language-plaintext highlighter-rouge">Picture</code> object for the image <code class="language-plaintext highlighter-rouge">image3-by-3.png</code> (located in the project folder) corresponding to the 3-by-3 example given below. Extract its width and height and print the values to standard output. Then, extract the grayscale values of the pixels and print. If its not already in row-major order, adjust your code so that it prints the values in the specified order.</li>
+</ul>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="3by3.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="3 pixel by 3 pixel image to matrix to vector" />
+</div>
+</div>
+
+<ul>
+  <li>Create a one-dimensional array of length widthheight and copy the grayscale values to the array. Print the values of this array to confirm you can create a vector (row-major order) of values from a <code class="language-plaintext highlighter-rouge">Picture</code>object.</li>
+  <li>Using this code you should be ready to implement the static method <code class="language-plaintext highlighter-rouge">extractFeatures()</code> that takes a <code class="language-plaintext highlighter-rouge">Picture</code> as an argument and returns the grayscale values as a <code class="language-plaintext highlighter-rouge">double[]</code> in row-major order.</li>
+  <li>Finally, write a <code class="language-plaintext highlighter-rouge">main()</code> method that tests <code class="language-plaintext highlighter-rouge">extractFeatures()</code>.</li>
+</ul>
+
+<p><strong>Note:</strong>
+If you are using IntelliJ, do not type the<code class="language-plaintext highlighter-rouge">import java.awt.Color;</code> statement that is normally needed to access Javas color data type. IntelliJ is pre-configured to automatically add import statements when needed (and remove them when not needed).</p>
+
+<h5 id="classifying-images">Classifying Images</h5>
+
+<ul>
+  <li><strong>Classifier</strong>: After reading <code class="language-plaintext highlighter-rouge">m</code>, <code class="language-plaintext highlighter-rouge">width</code>, and <code class="language-plaintext highlighter-rouge">height</code> from the training file, create a <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> object of the correct dimensions.</li>
+  <li><strong>Training</strong>: For each training image, train the classifier using the corresponding label.</li>
+  <li><strong>Testing:</strong> For each testing image, predict its class. Print each misclassified image to standard output and tabulate statistics on the number of misclassified images.</li>
+  <li><strong>Error rate</strong>: After training and testing, print the error rate to standard output in the specified format.</li>
+  <li><strong>Small Test</strong>: Test your program on some small data files, such as <code class="language-plaintext highlighter-rouge">digits-training20.txt</code> and <code class="language-plaintext highlighter-rouge">digits-testing10.txt</code></li>
+  <li><strong>Big Test</strong>: Now, the fun part. Use large training and testing input files, such as <code class="language-plaintext highlighter-rouge">digits-training60K.txt</code> and <code class="language-plaintext highlighter-rouge">digits-testing10K.txt</code>. Be prepared to wait for 1 minute (or more) while your program processes 60,000 images.</li>
+</ul>
+
+<h3 id="task-4-analysis">Task 4: Analysis</h3>
+
+<p>Some people (especially in Europe and Latin America) write a 7 with a line through the middle, while others (especially in Japan and Korea) make the top line crooked:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:50px;">
+<img src="7a.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Plain 7" />
+</div>
+</div>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:50px;">
+<img src="7b.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="7 with line" />
+</div>
+</div>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:50px;">
+<img src="7c.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="7 with crooked top" />
+</div>
+</div>
+
+<p>Suppose that the training data consists solely of samples that do not use any of these conventions. How well do you think the algorithm will perform when you test it on different populations? What are the possible consequences?</p>
+
+<p>Now suppose that you are using a supervised learning algorithm to diagnose cancer. Suppose the training data consists of examples solely on individuals from population X but you use it on individuals from population Y. What are the possible consequences?</p>
+
+<p>Provide your answers in your <code class="language-plaintext highlighter-rouge">readme.txt</code> file.</p>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>ImageClassifier.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your analysis, etc.</li>
+</ul>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Thanks to Princeton’s COS126 materials, which served as a basis for this assignment.</p>
+:ET

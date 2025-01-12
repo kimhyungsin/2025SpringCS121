@@ -1,0 +1,471 @@
+I"m�<h1 id="homework-5-image-classification-part-2">Homework 5: Image Classification, Part 2</h1>
+
+<p>As part of this homework, you will implement perceptron learners. The goal of this homework is to familiarize you with programming in Java. You will practice:</p>
+
+<ul>
+  <li>Applying object-oriented programming concepts</li>
+  <li>Implementing machine learning algorithms</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<h3 id="task-1-reading">Task 1: Reading</h3>
+
+<ul>
+  <li>Read Algorithms, chapter 1.2, “Data Abstraction” to learn the basics of object-oriented programming.</li>
+  <li>Read the information about machine learning below.</li>
+</ul>
+
+<h4 id="background">Background</h4>
+
+<p>A “perceptron” is a simplified model of a biological neuron. It is a function that takes a vector \(x = x_0, x_1,\ldots , x_{n-1}\) of \(n\) real numbers as input and outputs (or predicts) either +1 or -1. A perceptron is characterized by a vector \(w = w_0, w_1, \ldots , w_{n-1}\) of \(n\) real numbers known as the weight vector. The perceptron computes the weighted sum:</p>
+
+\[S = w_0 \times x_0 + w_1 \times x_1 + \ldots + w_{n-1} \times x_{n-1}\]
+
+<p>and outputs the sign of that number.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="sum.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A weight sum of the input vector results in a prediction" />
+</div>
+</div>
+
+<p>A perceptron addresses the binary classification problem, in which we seek to classify input vectors into one of two classes. By convention, we use the labels +1 (positive) and -1 (negative) to denote the two classes. For the handwritten digit application, a perceptron will be trained to predict +1 for images that correspond to a target digit; and -1 otherwise. The input vector x holds the grayscale values of each pixel in an image; the weight vector w is pre-computed by a process described later.</p>
+
+<p>A single perceptron can be used for the <em>binary</em> classification problem. For a <em>multiclass</em> classification problem with m classes, we create an array of m perceptrons, each solving its own binary classification problem. For our handwritten digit application, each perceptron solves a binary classification problem of the form “<em>does the image correspond to the digit 6?</em>”</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="multi.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Multiple perceptrons are needed in the multiclass classification problem" />
+</div>
+</div>
+
+<p>We train each perceptron independently and make predictions by distilling the results from the m perceptrons, following a process we describe later.</p>
+
+<h4 id="approach">Approach</h4>
+
+<p>How do we determine the values of the weight vector w so that the perceptron makes accurate predictions? The core idea is to use the training data of known
+input-output pairs to incrementally refine the weights. Specifically, we initialize the weights to 0 and then process the labeled inputs one at a time. When we process a labeled input, there are three possibilities:</p>
+
+<ol>
+  <li><em>Correct prediction:</em> the perceptron predicts the correct label (+1 or -1) for the given input vector x . In this case, we leave w unchanged.</li>
+  <li><em>False positive:</em> the given input vector x is labeled -1 but the perceptron predicts +1. In this case, we adjust w as follows:
+    <ul>
+      <li>for each \(i\) : \(w^{'}_{i} = w_{i} - x_{i}\)</li>
+    </ul>
+  </li>
+  <li><em>False negative</em>: the given input vector x is labeled +1 but the perceptron predicts -1. In this case, we adjust w as follows:
+    <ul>
+      <li>for each \(i\) : \(w^{'}_{i} = w_{i} + x_{i}\)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The perceptron algorithm is one of the earliest and simplest examples of a supervised learning algorithm.</p>
+
+<p>Here is an example trace of the perceptron algorithm using 4 labeled inputs, each of length n = 3:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="update.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Updates to the perception weights based on incorrect predictions" />
+</div>
+</div>
+
+<p>In a multiclass classification problem, we train multiple perceptrons independently and make predictions by distilling the results from the m perceptrons.</p>
+
+<ul>
+  <li><em>Multiclass training:</em> initialize the weight vector of each of the m perceptrons to be zero and process the labeled training inputs one at a time. To train the perceptrons on an input vector x with multi-class label j (0 to m - 1):
+    <ul>
+      <li>Train perceptron j on input vector x with the label = +1</li>
+      <li>Train the other m - 1 perceptrons on input vector x with the label = -1</li>
+      <li>That is, when training perceptron j , we treat an input vector labeled j as a positive example and an input vector with any other label as a negative example.</li>
+    </ul>
+  </li>
+  <li><em>Multiclass prediction:</em> to make a prediction for an input vector x, compute the weighted sum for each of the m perceptrons on that input. The multiclass prediction is the index of the perceptron with the largest weighted sum. Intuitively, each perceptron with a positive weighted sum predicts that x is a positive example for its class; the perceptron with the largest weighted sum makes that prediction with the most intensity, so we use that perceptron for the prediction.</li>
+</ul>
+
+<p>This <em>one-vs-all</em> strategy decomposes a multiclass classification task into m binary classification tasks. In computer science, this decomposition is known as a <em>reduction</em>; this particular kind of reduction is used all over machine learning.</p>
+
+<p>Here is an example of a multi-perceptron with m = 2 classes and n = 3.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="multipredict.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Updates to the perception weights based on incorrect predictions, for the multiclass problem" />
+</div>
+</div>
+
+<h3 id="task-2-back-up-multiperceptronclass">Task 2: Back Up MultiPerceptron.class</h3>
+
+<p>In the first part of this assignment, you used our implementation of <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> which we provided as a pre-compiled <code class="language-plaintext highlighter-rouge">MultiPerceptron.class</code> file. For the second part of this assignment, we will continue to work in the same project folder.</p>
+
+<p>As part of this assignment, you will be implementing <code class="language-plaintext highlighter-rouge">MultiPerceptron.java</code> yourself. However, when you compile this .java file, our <code class="language-plaintext highlighter-rouge">MultiPerceptron.class</code> file will be erased! Make a copy of <code class="language-plaintext highlighter-rouge">MultiPerceptron.class</code> somewhere else on your computer, so you will not lose it. This will be helpful when you get to Task 5, Integration Testing.</p>
+
+<h3 id="task-3-implement-perceptronjava">Task 3: Implement Perceptron.java</h3>
+
+<p>This is an <strong>individual</strong> assignment.</p>
+
+<p>Create a data type that represents a perceptron by implementing the following API:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Perceptron {
+
+    // Creates a perceptron with n inputs.
+    public Perceptron(int n)
+
+    // Returns the number of inputs n.
+    public int numberOfInputs()
+
+    // Returns the weighted sum of the weight vector and x.
+    public double weightedSum(double[] x)
+
+    // Predict the label (+1 or -1) of input x.
+    public int predict(double[] x)
+
+    // Trains this perceptron on the labeled (+1 or -1) input x.
+    public void train(double[] x, int label)
+
+    // Returns a string representation of this perceptron.
+    public String toString()
+
+    // Tests this class by directly calling all instance methods.
+    public static void main(String[] args)
+}
+</code></pre></div></div>
+
+<p>We recommend representing a <code class="language-plaintext highlighter-rouge">Perceptron</code> using two instance variables: an integer <code class="language-plaintext highlighter-rouge">n</code> and an array of double-precision floating-point numbers <code class="language-plaintext highlighter-rouge">weights[]</code>.</p>
+
+<p>Here is some more information about the required behavior:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Perceptron(int n)</code> The constructor creates an array of n weights and initializes them to 0. Assume <code class="language-plaintext highlighter-rouge">n &gt;= 1</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">double weightedSum(double[] x)</code> The weighted sum of the input vector x is:
+\(w_0 \times x_0 + w_1 \times x_1 + \ldots + w_{n-1} \times x_{n-1}\)</li>
+  <li><code class="language-plaintext highlighter-rouge">int predict(double[] x)</code> Returns +1 if the weighted sum is positive and -1 if it is negative (or zero).</li>
+  <li><code class="language-plaintext highlighter-rouge">void train(double[] x, int label)</code> Checks whether the perceptron correctly classifies the labeled input x and updates the weight vector accordingly. Assume that the argument label is either +1 or -1.</li>
+  <li><code class="language-plaintext highlighter-rouge">String toString()</code> Returns a string representation of the weight vector, with the individual weights separated by commas and enclosed in parentheses. For example: <code class="language-plaintext highlighter-rouge">(2.0, 1.0, -1.0, 5.0, 3.0)</code></li>
+  <li><em>Corner cases:</em> You may assume that the arguments to the constructor and instance methods are valid. For example, you may assume that the label is either +1 or -1, the input vector x is of length n, and <code class="language-plaintext highlighter-rouge">n &gt;= 1</code>.</li>
+</ul>
+
+<h4 id="code-style">Code Style</h4>
+
+<p>For both <code class="language-plaintext highlighter-rouge">Perceptron.java</code> and the upcoming <code class="language-plaintext highlighter-rouge">MultiPerceptron.java</code>, you must:</p>
+
+<ul>
+  <li>Provide a comment describing the purpose of every method, using the names of the argument variables in your description.</li>
+  <li>Comment all instance variables.</li>
+  <li>Write code that conforms to the specified APIs. If a method has a different signature or does not behave as specified, you will lose a substantial number of points. Producing undocumented side effects (such as printing to standard output in any of the constructor or instance methods) is also an API violation. You may not add public methods to the API; however, you may add <em>private</em> methods (which are accessible only in the class in which they are declared).</li>
+</ul>
+
+<h4 id="hints">Hints</h4>
+
+<ul>
+  <li>First, implement the <code class="language-plaintext highlighter-rouge">Perceptron</code> constructor <code class="language-plaintext highlighter-rouge">Perceptron(int n)</code>, and the method <code class="language-plaintext highlighter-rouge">int numberOfInputs()</code>.
+    <ul>
+      <li>Test by writing code in the main method that instantiates a few <code class="language-plaintext highlighter-rouge">Perceptron</code> objects and prints the number of inputs for each object.</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">String toString()</code> method.
+    <ul>
+      <li>Test by writing code in the main method to print the various <code class="language-plaintext highlighter-rouge">Perceptron</code> objects. What should the output be for a newly instantiated <code class="language-plaintext highlighter-rouge">Perceptron</code> object?</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">double weightedSum(double[] x)</code> method.
+    <ul>
+      <li>Test by writing code in the main method to print the result of invoking the <code class="language-plaintext highlighter-rouge">weightedSum</code> method on the various <code class="language-plaintext highlighter-rouge">Perceptron</code> objects (using, of course, appropriately sized arrays).</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">int predict(double[] x)</code> method.</li>
+  <li>Finally, implement the <code class="language-plaintext highlighter-rouge">void train(double[] x, int label)</code> method. Note that <code class="language-plaintext highlighter-rouge">train</code> should call <code class="language-plaintext highlighter-rouge">predict</code>.</li>
+  <li>Test everything by using the code in the Testing section below and by submitting to Gradescope. Do not move onto <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> until <code class="language-plaintext highlighter-rouge">Perceptron</code> is working properly.</li>
+</ul>
+
+<h4 id="testing">Testing</h4>
+
+<p>This code trains a <code class="language-plaintext highlighter-rouge">Perceptron</code> using four input vectors of length three. This code can be run from your main method.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>double[] training1 = {  5.0, -4.0,  3.0 };  // yes
+double[] training2 = {  2.0,  3.0, -2.0 };  // no
+double[] training3 = {  4.0,  3.0,  2.0 };  // yes
+double[] training4 = { -6.0, -5.0,  7.0 };  // no
+
+int n = 3;
+Perceptron perceptron = new Perceptron(n);
+StdOut.println(perceptron);
+perceptron.train(training1, +1);
+StdOut.println(perceptron);
+perceptron.train(training2, -1);
+StdOut.println(perceptron);
+perceptron.train(training3, +1);
+StdOut.println(perceptron);
+perceptron.train(training4, -1);
+StdOut.println(perceptron);
+</code></pre></div></div>
+
+<p>If your code is correct, it should print:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(0.0, 0.0, 0.0)
+(5.0, -4.0, 3.0)
+(5.0, -4.0, 3.0)
+(5.0, -4.0, 3.0)
+(11.0, 1.0, -4.0)
+</code></pre></div></div>
+
+<h3 id="task-4-implement-multiperceptronjava">Task 4: Implement MultiPerceptron.java</h3>
+
+<p>Create a data type that represents a perceptron by implementing the following API:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class MultiPerceptron {
+
+    // Creates a multi-perceptron object with m classes and n inputs.
+    public MultiPerceptron(int m, int n)
+
+    // Returns the number of classes m.
+    public int numberOfClasses()
+
+    // Returns the number of inputs n (length of the feature vector).
+    public int numberOfInputs()
+
+    // Returns the predicted label (between 0 and m-1) for the given input.
+    public int predictMulti(double[] x)
+
+    // Trains this multi-perceptron on the labeled (between 0 and m-1) input.
+    public void trainMulti(double[] x, int label)
+
+    // Returns a string representation of this MultiPerceptron.
+    public String toString()
+
+    // Tests this class by directly calling all instance methods.
+    public static void main(String[] args)
+}
+</code></pre></div></div>
+
+<p>We recommend representing a <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> using three instance variables: an integer <code class="language-plaintext highlighter-rouge">m</code> (for the number of classes), an integer <code class="language-plaintext highlighter-rouge">n</code> (for the number of inputs), and an array of Perceptron objects <code class="language-plaintext highlighter-rouge">perceptrons[]</code>.</p>
+
+<p>Here is some more information about the required behavior:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MultiPerceptron(int m, int n)</code> The constructor creates an array of m perceptrons, each with n inputs and all weights initialized to 0. Assume m &gt;= 1 and n &gt;= 1.</li>
+  <li><code class="language-plaintext highlighter-rouge">String toString()</code> Returns a string representation of the perceptrons, with the string representations of the perceptrons separated by commas and enclosed in parentheses. Here is an example with m = 4 and n = 3: <code class="language-plaintext highlighter-rouge">((-10.0, -8.0, 5.0), (3.0, 4.0, 5.0), (6.0, 4.0, -2.0), (1.0, 9.0, -10.0))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">int predictMulti(double[] x)</code> Return the label corresponding to the perceptron with the greatest weighted sum (between 0 and m - 1). If two (or more) perceptrons tie for the largest weighted sum, return the index of any such perceptron.</li>
+  <li><code class="language-plaintext highlighter-rouge">void trainMulti(double[] x, int label)</code> Refer to the description of “Multiclass training” above. A call to this method should result in calls to each perceptron’s <code class="language-plaintext highlighter-rouge">train</code> method.</li>
+  <li><em>Corner cases:</em> You may assume that the arguments to the constructor and instance methods are valid. For example, you may assume that the argument label is an integer between 0 and m - 1, <code class="language-plaintext highlighter-rouge">x[]</code> is an array of length n, and m &gt;= 1 and n &gt;= 1.</li>
+</ul>
+
+<h4 id="hints-1">Hints</h4>
+
+<ul>
+  <li>First, implement the <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> constructor, <code class="language-plaintext highlighter-rouge">MultiPerceptron(int m, int n)</code>, and the methods, <code class="language-plaintext highlighter-rouge">int numberOfClasses()</code> and <code class="language-plaintext highlighter-rouge">int numberOfInputs()</code>.
+    <ul>
+      <li>Test by writing code in the main method that instantiates a few <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> objects and prints the number of classes and inputs for each object.</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">String toString()</code> method.
+    <ul>
+      <li>Test by writing code in the main method to print the various <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> objects. What should the output be for a newly instantiated <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> object?</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">int predictMulti(double[] x)</code> method.
+    <ul>
+      <li>When trying to find the <code class="language-plaintext highlighter-rouge">Perceptron</code> with the greatest weighted sum, note that weighted sums can be negative.</li>
+    </ul>
+  </li>
+  <li>Next, implement the <code class="language-plaintext highlighter-rouge">void trainMulti(double[] x, int label)</code> method.</li>
+  <li>Test everything by using the code in the Testing section (below) and by submitting to Gradescope.</li>
+</ul>
+
+<h4 id="testing-1">Testing</h4>
+
+<p>This code trains a <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> using four input vectors of length three. This code can be run from your main method.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int m = 2;
+int n = 3;
+
+double[] training1 = {  5.0, -4.0,  3.0 };
+double[] training2 = {  2.0,  3.0, -2.0 };
+double[] training3 = {  4.0,  3.0,  2.0 };
+double[] training4 = { -6.0, -5.0,  7.0 };
+
+MultiPerceptron perceptron = new MultiPerceptron(m, n);
+StdOut.println(perceptron);
+perceptron.trainMulti(training1, 1);
+StdOut.println(perceptron);
+perceptron.trainMulti(training2, 0);
+StdOut.println(perceptron);
+perceptron.trainMulti(training3, 1);
+StdOut.println(perceptron);
+perceptron.trainMulti(training4, 0);
+StdOut.println(perceptron);
+</code></pre></div></div>
+
+<p>If your code is correct, it should print:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>((0.0, 0.0, 0.0), (0.0, 0.0, 0.0))
+((0.0, 0.0, 0.0), (5.0, -4.0, 3.0))
+((2.0, 3.0, -2.0), (5.0, -4.0, 3.0))
+((-2.0, 0.0, -4.0), (5.0, -4.0, 3.0))
+((-8.0, -5.0, 3.0), (11.0, 1.0, -4.0))
+</code></pre></div></div>
+
+<h3 id="task-5-integration-testing">Task 5: Integration Testing</h3>
+
+<p>In Part 1 of this assignment you implemented a client, <code class="language-plaintext highlighter-rouge">ImageClassifier</code>, which used our implementation of <code class="language-plaintext highlighter-rouge">MultiPerceptron</code>. Now that you have implemented your version of <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> and (<code class="language-plaintext highlighter-rouge">Perceptron</code>), you can test your client with your own <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> implementation.</p>
+
+<p>Compile and run <code class="language-plaintext highlighter-rouge">ImageClassifier.java</code>, which will now use your implementation of <code class="language-plaintext highlighter-rouge">MultiPerceptron</code>. Do you get the same error rates as reported when using our implementation?</p>
+
+<h3 id="task-6-analysis">Task 6: Analysis</h3>
+
+<p>Modify your <code class="language-plaintext highlighter-rouge">ImageClassifier.java</code> from Part 1 so that in addition to printing the misclassified image filename, you also print the label associated with the filename and the incorrectly predicted digit. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jar:file:digits.jar!/testing/9/4560.png label: 9 predicted: 4
+</code></pre></div></div>
+
+<p>Run the following experiment (you may wish to redirect the standard output to a file):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java-introcs ImageClassifier digits-training60K.txt digits-testing1K.txt
+</code></pre></div></div>
+
+<ol>
+  <li>What digit is misclassified the most frequently (i.e., which label has the most false-negatives)?</li>
+  <li>For this digit, what are the top two digits that your <code class="language-plaintext highlighter-rouge">MultiPerceptron</code> incorrectly predicts?</li>
+  <li>Examine some of these misclassified images. Provide an explanation for what might have caused these misclassifications.</li>
+</ol>
+
+<p>Provide your answers in a new <code class="language-plaintext highlighter-rouge">readme_part2.txt</code> file, containing the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Programming Assignment: Image Classification: Part 2
+
+
+/**********************************************************************
+ * Approximate number of hours to complete this assignment            *
+ **********************************************************************/
+
+Number of hours:
+
+
+/**********************************************************************
+ * Analysis: 
+ * 1. What digit is misclassified the most frequently? 
+ * 2. For this digit, what are the top two digits that your 
+ *    MultiPerceptron incorrectly predicts?
+ * 3. Examine some of these misclassified images. Provide an
+      explanation for what might have caused these misclassifications.
+ **********************************************************************/
+
+1. Most frequently misclassified digit:
+
+
+2. Top two digits misclassified are:
+
+
+3. Explanation:
+
+
+/**********************************************************************
+ *  Did you receive help from classmates, past students, or
+ *  anyone else? If so, please list their names.  ("A Sunday lab TA"
+ *  or "Office hours on Thursday" is ok if you don't know their name.)
+ **********************************************************************/
+
+Yes or no?
+
+
+/**********************************************************************
+ *  Did you encounter any serious problems? If so, please describe.
+ **********************************************************************/
+
+Yes or no?
+
+
+/**********************************************************************
+ *  List any other comments here.                                     
+ **********************************************************************/
+
+
+</code></pre></div></div>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Perceptron.java</li>
+  <li>MultiPerceptron.java</li>
+  <li><strong>A completed readme_part2.txt file,</strong> including your analysis, etc.</li>
+</ul>
+
+<h2 id="further-reading-recommended">Further Reading (Recommended)</h2>
+
+<p><strong>When was the perceptron algorithm first discovered?</strong>
+It was proposed in 1958 by Frank Rosenblatt, an American psychologist. It is one of the earliest machine-learning algorithms. At the time, researchers were overly optimistic about its short-term potential and grossly underestimated the formidable challenge of building intelligent machines.</p>
+
+<p><strong>What is the significance of the perceptron algorithm?</strong>
+It is a really simple, beautiful algorithm that, nevertheless, can do something interesting.</p>
+
+<ul>
+  <li>The perceptron algorithm is one of the most fundamental algorithms in an area of ML called online learning (learning from samples one at a time).</li>
+  <li>The perceptron algorithm is closely related to the support-vector machines algorithm, another fundamental ML algorithm.</li>
+  <li>The perceptron algorithm has some beautiful theoretical properties. For example, if the training data set is linearly separable (i.e., there exists some weight vector that correctly classifies all of the training examples), and if we cycle through the training data repeatedly, the perceptron algorithm will eventually (and provably) find such a weight vector.</li>
+  <li>Perceptrons are a building block in neural networks. In neural networks, many perceptrons (or other artificial neurons) are connected in a network architecture, in which the outputs of some neurons are used as the inputs to other neurons. Training multi-layer neural networks requires a more sophisticated algorithm to adjust the weights, such as gradient descent.</li>
+</ul>
+
+<p><strong>Does the perceptron algorithm produce a different weight vector depending on the order in which it processes the training examples?</strong>
+Yes. We’ve randomized the training data. It would be a bad idea, for example, to process all of the handwritten 0s before all of the handwritten 6s.</p>
+
+<p><strong>Any intuition for why the perceptron algorithm works?</strong>
+Geometrically, you can view each input vector x as a point in \(R^n\) (n-dimensional real space) and the weight vector w as a hyperplane through the origin. The goal of the perceptron algorithm is to find a hyperplane that separates the positive examples from the negative examples. Using vector terminology, the weighted sum is known as the dot product; its sign determines on which side of the hyperplane the point lies.</p>
+
+<p>During training, when we encounter a point x that is on the wrong side of the hyperplane (i.e., a false positive or negative), we update the weight vector, thereby rotating the hyperplane slightly. After the rotation, x is either on the correct side of the hyperplane or, if not, at least a bit closer to the hyperplane (in terms of Euclidean distance).</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="hyperplane.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Samples shown on a 2D coordinate system, with the weight vector through the origin." />
+</div>
+</div>
+
+<p><strong>How can I improve accuracy of the perceptron algorithm?</strong>
+Here are some ideas:</p>
+<ul>
+  <li><strong>Multiclass perceptron</strong>. Instead of training all m perceptrons on each input vector, when there is a prediction error (multiclass perceptron predicts i but correct label is j ) , train only two perceptrons: train perceptron i (with label -1) and perceptron j (with label +1).</li>
+  <li><strong>Smoothed convergence</strong>. Adjust the weights with a fraction of +1 or -1 for correct or incorrect predictions (this helps with a smoother convergence) and iterate over the training step multiple times, each time training the perceptron with the same set of training data (randomized in order).</li>
+  <li><strong>Random starting weights</strong>. Normalize the Features array data to have values between 0 and 1 (divide the values with 255) and initialize the perceptron weights to random values (with uniform random or gaussian random to be less than 1 and on average 0).</li>
+  <li><strong>Averaged perceptron</strong>. Instead of using the last weight vector, take the average of the weight vectors that are computed along the way.</li>
+  <li><strong>Incorporate more features</strong>. Instead of using the feature vector \(x_0 , x_1 , \ldots , x_{n-1}\) create additional features. In particular, for each pair of features \(x_i\) and \(x_j\) , create a new feature
+\(x_{ij} = x_i \cdot x_j\). You could also keep going, adding not just pairs of features, but also triples, etc. This can significantly improve accuracy, but it becomes prohibitively expensive in terms
+of computation.</li>
+</ul>
+
+<p>See this <a href="http://rob.schapire.net/papers/FreundSc98.pdf">paper for additional ideas</a>, including the kernel trick and the voted-perceptron algorithm.</p>
+
+<p><strong>I noticed that the weights are always integral throughout the perceptron algorithm. Why is this?</strong>
+Adding or subtracting an integer to an integer yields an integer. The weights are always adjusted by either adding or subtracting the input vector; for the image classification problems we consider in this assignment, the input vector elements are integers between 0 and 255 (grayscale values).</p>
+
+<p><strong>As a perceptron is trained with more and more data, the weights increase in absolute value. Is this to be expected?</strong>
+Yes. This implies that the algorithm makes smaller and smaller relative changes to the weights as it learns from more and more input-output pairs.</p>
+
+<p><strong>Why not use the testing data for training?</strong>
+We seek a model that can make good predictions for unseen input-output pairs. If we use the testing data when training, the algorithm could “memorize” the input-output pairs. While this might achieve higher accuracy on those inputs, the results may not generalize to unseen inputs. This is referred to as “overfitting” the data.</p>
+
+<p><strong>What is the difference between supervised and unsupervised learning?</strong>
+In supervised learning, the algorithm has access to a training data for which we know the correct labels. These labels act as a teacher supervising the learning process. In unsupervised learning, the training data is unlabeled, so there are no correct answers; instead, the goal may be to cluster similar inputs together.</p>
+
+<p><strong>How to recognize my own handwritten digits?</strong>
+Use the same technique but must be careful to size-normalize and center the images, as is done in the <a href="https://en.wikipedia.org/wiki/MNIST_database">MNIST training data</a>.</p>
+
+<p><strong>Can ML algorithms be trained to classify alphabetic and mathematical symbols?</strong>
+Yes. Here are web apps that let you draw and find the most similar <a href="https://shapecatcher.com">Unicode characters</a> or <a href="https://detexify.kirelabs.org/classify.html">LaTeX symbols</a>.</p>
+
+<p><strong>Any games based on classifying hand-drawn images?</strong>
+Yes. Try <a href="https://quickdraw.withgoogle.com/">Quick, Draw</a>, which uses neural networks and the world’s largest doodling data set.</p>
+
+<p><strong>What is the best performing algorithm for classifying handwritten digits using the MNIST dataset?</strong>
+The current champion uses convolution neural networks and achieves a 99.79% accuracy rate on the MNIST testing database consisting of 10,000 images. Here are the 21 incorrect predictions:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="incorrect.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Incorrect predictions from the state-of-the-art classifier for MNIST." />
+</div>
+</div>
+
+<p>There is not much room for improvement; indeed, some of the errors appear to be due to incorrectly labeled (or ambiguous) inputs.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Thanks to Princeton’s COS126 materials, which served as a basis for this assignment.</p>
+:ET

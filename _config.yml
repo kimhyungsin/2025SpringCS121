@@ -1,0 +1,4 @@
+name: CSCI 121 Jekyll Site
+baseurl: "/~cs121"
+url: "http://localhost:4000"
+

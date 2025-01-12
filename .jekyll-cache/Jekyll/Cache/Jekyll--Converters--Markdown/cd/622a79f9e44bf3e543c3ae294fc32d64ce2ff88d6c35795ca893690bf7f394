@@ -1,0 +1,77 @@
+I"&<h1 id="lab-11-expressions">Lab 11: Expressions</h1>
+<p>In this lab, you will use stacks to convert postfix expressions to fully parenthesized infix expressions.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>First, download <a href="expressions.zip">expressions.zip</a>, which contains the starter files for this assignment.</p>
+
+<p>Next, develop an <code class="language-plaintext highlighter-rouge">Expression</code> class with the following methods:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Expression {
+    // Given a valid postfix expression, return its corresponding
+    // fully parenthesized infix expression
+    public static String postfixToInfix(String postfix)
+
+    // Given a postfix expression on STDIN, print the corresponding
+    // fully parenthesized infix expression to STDOUT.
+    // Exit when STDIN is empty.
+    public static void main(String[] args)
+}
+</code></pre></div></div>
+
+<p>When finished, <code class="language-plaintext highlighter-rouge">Expression</code> should work like this:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 Expression
+5 18 3 + * 2 -
+( ( 5 * ( 18 + 3 ) ) - 2 )
+
+&gt; java-algs4 Expression
+1
+1
+1 2 +
+( 1 + 2 )
+1 2 3 + -
+( 1 - ( 2 + 3 ) )
+</code></pre></div></div>
+
+<p>For this assignment, we only consider <code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code>, <code class="language-plaintext highlighter-rouge">*</code>, and <code class="language-plaintext highlighter-rouge">/</code> operations on <strong>positive integers</strong>.</p>
+
+<p>The following formats should be used for the <code class="language-plaintext highlighter-rouge">postfix</code> parameter and the String returned by the <code class="language-plaintext highlighter-rouge">postfixToInfix()</code> method:</p>
+<ul>
+  <li><strong>The <code class="language-plaintext highlighter-rouge">postfix</code> parameter</strong>: there is one space between each pair of adjacent terms, but no whitespace before the first one or after the last one. Here is an example: <code class="language-plaintext highlighter-rouge">"5 18 3 + * 2 -"</code></li>
+  <li><strong>The returned infix expression</strong>: you can choose to either omit spaces between the terms (e.g., <code class="language-plaintext highlighter-rouge">"((5*(18+3))-2)"</code>), or to include spaces (e.g.<code class="language-plaintext highlighter-rouge">"( ( 5 * ( 18 + 3 ) ) - 2 )"</code>)</li>
+</ul>
+
+<p>You should use <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Stack.html">the textbook’s <code class="language-plaintext highlighter-rouge">Stack</code> class</a> to build the infix expression. <a href="/~cs121/slides/CS.12.StacksQueues.pdf">The “Stacks and Queues” slides</a> show how to <em>evaluate</em> postfix expressions, but <em>converting</em> postfix to infix is slightly different. The example below shows the process of building an infix expression:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="expression_example.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Building an infix expression using a stack. When the plus operator is encountered, two items are popped, a plus sign is placed between then, they are surrounded by parentheses, and the result is pushed onto the stack." />
+</div>
+</div>
+
+<p><strong>Hint:</strong>
+Start by developing unit tests for the <code class="language-plaintext highlighter-rouge">postfixToInfix()</code> method, so you can implement <code class="language-plaintext highlighter-rouge">postfixToInfix()</code> before writing the <code class="language-plaintext highlighter-rouge">main()</code> method.</p>
+
+<p><strong>Hint</strong>:
+Given a <code class="language-plaintext highlighter-rouge">postfix</code> string with the above-described format, you can use <code class="language-plaintext highlighter-rouge">postfix.split(" ")</code> to split the given postfix string into an array of strings, such as <code class="language-plaintext highlighter-rouge">"5"</code>, <code class="language-plaintext highlighter-rouge">"18"</code>, …, <code class="language-plaintext highlighter-rouge">"-"</code>. You can process this array of strings to create the corresponding infix expression.</p>
+
+<p><strong>Hint</strong>:
+Each time you press “Return” or “Enter”, <code class="language-plaintext highlighter-rouge">Expression</code> should process another line of input. <code class="language-plaintext highlighter-rouge">Expression</code> should not exit until it encounters the “end of file” character. On MacOS and Linux, you can type this with “Control+D”, or on Windows “Control+Z”.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Expression.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+<ul>
+  <li>Practice using stacks</li>
+  <li>Practice using standard input</li>
+</ul>
+:ET

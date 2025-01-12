@@ -1,0 +1,165 @@
+I"�&<h1 id="lab-14-sorting-experiments">Lab 14: Sorting Experiments</h1>
+<p>In this lab, you will compare the performance of different sorting algorithms, using the textbook’s implementations of the algorithms.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>Similar to <a href="/~cs121/lab/arrays-vs-linked-lists/">the “Arrays vs Linked Lists” lab</a>, you will run experiments to determine the growth rate of different sorting algorithms. Specifically, your goal is to determine \(b\) in this equation:</p>
+
+\[\text{Running time} = a N^b\]
+
+<p>Where \(b = \text{log}_2(t_N \div t_{N/2})\), with \(t_N\) representing the time it takes to sort an array of size \(N\), and \(t_{N/2}\) representing the time it takes to perform the operation on an array half that size.</p>
+
+<p><strong>Hint:</strong>
+A reminder from algebra class:
+\(\text{log}_2(X) = \frac{\text{ln}(X)}{\text{ln}(2)}\)</p>
+
+<p><strong>Hint:</strong>
+The \(a N^b\) formula <strong>will not</strong> describe the growth rate of all operations. If this is the case, simply plot a graph of Size and Time, and give your best guess for the growth rate based on what you learned in class.</p>
+
+<h3 id="example-insertion-sort">Example: Insertion Sort</h3>
+
+<p>Download <a href="sorting.zip">sorting.zip</a>, which contains the starter files for this assignment.</p>
+
+<p>The starter files contain <code class="language-plaintext highlighter-rouge">SortingExperiment.java</code>, which you will use to test the performance of the sorting algorithms. <code class="language-plaintext highlighter-rouge">SortingExperiment</code> accepts three arguments:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ALGORITHM</code>: Which algorithm to use for sorting
+    <ul>
+      <li>Accepts <code class="language-plaintext highlighter-rouge">INSERTION</code>, <code class="language-plaintext highlighter-rouge">SELECTION</code>, <code class="language-plaintext highlighter-rouge">MERGE</code>, <code class="language-plaintext highlighter-rouge">QUICK</code>, or <code class="language-plaintext highlighter-rouge">HEAP</code></li>
+      <li><code class="language-plaintext highlighter-rouge">MYSTERY</code> and <code class="language-plaintext highlighter-rouge">SECRET</code> are also accepted, for the bonus task</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ORDER</code>: The initial order of the integers to be sorted
+    <ul>
+      <li>Accepts <code class="language-plaintext highlighter-rouge">RANDOM</code>, <code class="language-plaintext highlighter-rouge">ASCENDING</code>, or <code class="language-plaintext highlighter-rouge">DESCENDING</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">N</code>: The number of integers to sort
+    <ul>
+      <li>Accepts positive integers</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Take a few minutes to <strong>review the code</strong> in <code class="language-plaintext highlighter-rouge">SortingExperiment.java</code>.</p>
+
+<p>Try compiling then running the program. The program will show the number of seconds it took to sort the integers with the specified algorithm:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 SortingExperiment INSERTION RANDOM 1000
+Sorted in 0.01 seconds
+</code></pre></div></div>
+
+<p>I ran the program multiple times, doubling the number of integers each time. I stopped running experiments once the time exceeded 10 seconds. I used the data to estimate the exponent \(b\) in the growth rate equation, as shown in the third column of the table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Size \((N)\)</th>
+      <th>Time \((t_N)\)</th>
+      <th>Log Ratio \((b = \text{log}_2(t_N \div t_{N/2}))\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1000</td>
+      <td>0.01</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>2000</td>
+      <td>0.02</td>
+      <td>\(\text{ln}(0.02 \div 0.01)/\text{ln}(2) \approx 1\)</td>
+    </tr>
+    <tr>
+      <td>4000</td>
+      <td>0.04</td>
+      <td>\(\text{ln}(0.04 \div 0.02)/\text{ln}(2) \approx 1\)</td>
+    </tr>
+    <tr>
+      <td>8000</td>
+      <td>0.11</td>
+      <td>\(\text{ln}(0.11 \div 0.04)/\text{ln}(2) \approx 1.46\)</td>
+    </tr>
+    <tr>
+      <td>16000</td>
+      <td>0.40</td>
+      <td>\(\text{ln}(0.40 \div 0.11)/\text{ln}(2) \approx 1.86\)</td>
+    </tr>
+    <tr>
+      <td>32000</td>
+      <td>1.67</td>
+      <td>\(\text{ln}(1.67 \div 0.40)/\text{ln}(2) \approx 2.06\)</td>
+    </tr>
+    <tr>
+      <td>64000</td>
+      <td>8.20</td>
+      <td>\(\text{ln}(8.20 \div 1.67)/\text{ln}(2) \approx 2.30\)</td>
+    </tr>
+    <tr>
+      <td>128000</td>
+      <td>40.48</td>
+      <td>\(\text{ln}(40.48 \div 8.20)/\text{ln}(2) \approx 2.30\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I used <a href="https://docs.google.com/spreadsheets/d/1JZ53B3j1wzJpohNd0Db-mFcY5tPdChAKrouTl5ap-CI/edit?usp=sharing">this spreadsheet</a> to perform the log ratio calculations, and to generate a graph of the data.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="scatterplot.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Scatterplot for insertion sort" />
+</div>
+</div>
+
+<p>Since the experiments that took less than a second did not have many <a href="https://en.wikipedia.org/wiki/Significant_figures">significant figures</a>, I ignored their results. The other experiments suggest that \(b \approx 2\). This means that \(\text{running time} = a N^2\), suggesting that insertion sort grows <strong>quadratically</strong>, \(\Theta(N^2)\).</p>
+
+<h3 id="task-1-benchmark-four-sorts">Task 1: Benchmark Four Sorts</h3>
+
+<p>Your task is to <strong>complete similar experiments and calculations</strong> for four different sorts:</p>
+
+<ul>
+  <li>Selection sort</li>
+  <li>Mergesort</li>
+  <li>Quicksort</li>
+  <li>Heapsort</li>
+</ul>
+
+<p>I recommend making a copy of <a href="https://docs.google.com/spreadsheets/d/1JZ53B3j1wzJpohNd0Db-mFcY5tPdChAKrouTl5ap-CI/edit?usp=sharing">this spreadsheet</a> for each, to assist with the calculations and graphing. In each experiment, you should sort <code class="language-plaintext highlighter-rouge">RANDOM</code> integers (i.e., not <code class="language-plaintext highlighter-rouge">ASCENDING</code> or <code class="language-plaintext highlighter-rouge">DESCENDING</code>).</p>
+
+<p><strong>Hint:</strong> To avoid repetitive copy-pasting, consider modifying <code class="language-plaintext highlighter-rouge">SortingExperiment.java</code> to run multiple doubling experiments, stopping when the runtime exceeds a fixed amount of time (e.g., 60 seconds). Then, you can copy-paste everything at once into the spreadsheet.</p>
+
+<p><strong>Hint:</strong> To get more accurate timings, consider running multiple trials for each size, and printing the average. With more trials, your results will have greater precision, so it makes sense to print more digits in the fractional part. When running multiple trials, remove the fixed seed from <code class="language-plaintext highlighter-rouge">Random</code>’s constructor in <code class="language-plaintext highlighter-rouge">getData()</code>, to ensure that different data is used for each trial.</p>
+
+<p>After making these improvements, you can print your results like this:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 SortingExperiment INSERTION RANDOM 1000
+N       Average Time (seconds)
+1000    0.003
+2000    0.002
+4000    0.008
+8000    0.033
+16000   0.129
+32000   0.751
+64000   2.881
+128000  15.384
+256000  66.835
+</code></pre></div></div>
+
+<h3 id="task-2-conclusions">Task 2: Conclusions</h3>
+<p>Based on your experiments, which sorting algorithm is fastest at sorting large arrays of random integers?</p>
+
+<p><strong>Note:</strong>
+We only sorted random integers in these experiments. Your results might differ if you sorted different values.</p>
+
+<p><strong>Note:</strong>
+We did not test sorting small arrays (e.g., ten or fewer items), but as we described in class, some sorts perform well when sorting a large number of items, but perform comparatively worse when sorting small arrays. As a result, some system sorts fall back to insertion sort when sorting small (sub-)arrays. However, in absolute terms, small arrays can be sorted quickly, so accurate benchmarking would require a tool like the <a href="https://javadevcentral.com/jmh-benchmark-with-examples">Java Microbenchmark Harness (JMH)</a>.</p>
+
+<h3 id="bonus-task-identify-sorts">Bonus Task: Identify Sorts</h3>
+<p>The starter files include code for two sorts, in the <code class="language-plaintext highlighter-rouge">MYSTERY</code> and <code class="language-plaintext highlighter-rouge">SECRET</code> classes. The real names of these sorts are given somewhere on <a href="https://en.wikipedia.org/wiki/Sorting_algorithm">the Wikipedia page for sorting algorithms.</a> Measure the growth rate of the <code class="language-plaintext highlighter-rouge">MYSTERY</code> and <code class="language-plaintext highlighter-rouge">SECRET</code> sorts, and try to identify the actual names of these sorts. You can also inspect the classes’ source code.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 14: Sorting Experiments” quiz on Canvas.</p>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, <strong>you must answer the multiple choice questions correctly.</strong> If you answer incorrectly, you can retake the quiz after a short time.</p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+:ET

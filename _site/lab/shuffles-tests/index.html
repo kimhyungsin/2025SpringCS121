@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 12: Unit Tests for Shuffles</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-12-unit-tests-for-shuffles">Lab 12: Unit Tests for Shuffles</h1>
+<p>In this lab, you will write unit tests for the <a href="/~cs121/homework/shuffles1/">“Shuffles, part 1”</a> homework.</p>
+
+<p>If you are working on this homework with a partner, you should work on this lab together. If you are working on the homework individually, you should work on this lab individually.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>You are developing two classes for the homework: <code class="language-plaintext highlighter-rouge">Card</code> and <code class="language-plaintext highlighter-rouge">ArrayDeck</code>. You should create corresponding test classes for each of these (i.e., <code class="language-plaintext highlighter-rouge">CardTests</code>, and <code class="language-plaintext highlighter-rouge">ArrayDeckTests</code>).</p>
+
+<p>You should write unit tests using JUnit 5 Jupiter (version 5.4.2). You may find it helpful to consult <code class="language-plaintext highlighter-rouge">ExampleTests</code>, <a href="/~cs121/slides/UnitTesting.pdf">the slides</a>, and the resources linked below:</p>
+
+<ul>
+  <li><a href="http://junit.org/junit5/docs/current/user-guide/">JUnit 5 User Guide</a></li>
+  <li><a href="https://junit.org/junit5/docs/5.4.2/api/">JUnit 5 API Javadoc</a> in particular, <a href="https://junit.org/junit5/docs/5.4.2/api/org/junit/jupiter/api/Assertions.html">the list of available assertions</a></li>
+  <li><a href="https://phauer.com/2019/modern-best-practices-testing-java/">Modern Best Practices for Testing in Java</a></li>
+</ul>
+
+<p>You should <strong>write at least one unit test for each of the methods described in <a href="/~cs121/homework/shuffles1/">the assignment.</a></strong> For example, you should write at least one test for <code class="language-plaintext highlighter-rouge">Card</code>’s <code class="language-plaintext highlighter-rouge">toString</code> method. In some tests, it may make sense to use multiple assertions. Together, your tests should exercise all the functionality described in the assignment. To fully test my code, I wrote 8 tests, with 16 assertions total.</p>
+
+<p><strong>Hint:</strong>
+JUnit can test that code throws exceptions appropriately. To do this, JUnit uses “lambda expressions.” Here is an example of an assertion that uses a lambda expression:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Assertions.assertThrows(java.lang.IllegalArgumentException.class,
+                        () -&gt; {new ArrayDeck(0);});
+</code></pre></div></div>
+<p>The second argument to <code class="language-plaintext highlighter-rouge">assertThrows()</code> is a lambda expression. This lambda expression describes the code that should be run to cause the <code class="language-plaintext highlighter-rouge">IllegalArgumentException</code> to be thrown (i.e., <code class="language-plaintext highlighter-rouge">new ArrayDeck(0);</code>). Lambda expressions allow you to pass code as an argument.</p>
+
+<p><strong>Note:</strong>
+If the option to run your new test class (e.g., <code class="language-plaintext highlighter-rouge">CardTests</code>) doesn’t appear in the “Run …” dialogue, contact the instructor for help – you may need to edit the project configuration.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 12: Unit Tests for Shuffles” quiz on Canvas. You should submit a screenshot showing:</p>
+
+<ul>
+  <li>The code for your unit tests</li>
+  <li>The results of running your unit tests</li>
+</ul>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, you must write and run <strong>unit tests for both classes.</strong></p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

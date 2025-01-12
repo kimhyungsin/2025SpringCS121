@@ -1,0 +1,224 @@
+I"~,<h1 id="homework-2-conditionals-and-loops">Homework 2: Conditionals and Loops</h1>
+
+<p>The goal of this homework is to continue practicing programming in Java. In particular, you will practice:</p>
+
+<ul>
+  <li>Using Java loops, conditionals, and arrays</li>
+  <li>Debugging Java code</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>This is an <strong>individual</strong> assignment. Complete the three tasks listed below.</p>
+
+<h3 id="task-1-reading-and-exercises">Task 1: Reading and Exercises</h3>
+
+<ul>
+  <li>Read and do the exercises for “Java Data Types,” “Conditionals,” “Loops and Iteration” in <a href="https://runestone.academy/runestone/books/published/java4python/Java4Python/toctree.html">Java for Python Programmers</a>.</li>
+  <li>Read “Week 1: Loops” in the <a href="http://bit.ly/126StyleGuideS2021">Java Style Guide</a>.</li>
+  <li>Refer to the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/">Java Programming Cheatsheet</a></li>
+</ul>
+
+<h3 id="task-2-implement-four-programs">Task 2: Implement Four Programs</h3>
+
+<p>Start by downloading and unzipping <a href="hw2.zip">hw2.zip</a>, which contains the files you will need for this assignment. Open the hw2 project folder in IntelliJ, and create your Java files in this project folder.</p>
+
+<h4 id="bitsjava">Bits.java</h4>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">Bits.java</code> that takes an integer command-line argument <code class="language-plaintext highlighter-rouge">n</code> and uses a <code class="language-plaintext highlighter-rouge">while</code> loop to compute the number of times you need to divide <code class="language-plaintext highlighter-rouge">n</code> by 2 until it is strictly less than 1. Print the error message “Illegal input” if <code class="language-plaintext highlighter-rouge">n</code> is negative.</p>
+
+<p>Examples:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Bits 0
+0
+
+&gt; java-introcs Bits 1
+1
+
+&gt; java-introcs Bits 2
+2
+
+&gt; java-introcs Bits 4
+3
+
+&gt; java-introcs Bits 8
+4
+
+&gt; java-introcs Bits 16
+5
+
+&gt; java-introcs Bits 1000
+10
+
+&gt; java-introcs Bits -23
+Illegal input
+</code></pre></div></div>
+
+<p><strong>Note:</strong>
+This program computes the number of bits in the binary representation of n, which also equals \(1+\text{floor}(\text{log}_2 n)\) when \(n\) is positive. This quantity arises in information theory and the analysis of algorithms.</p>
+
+<h4 id="noonsnoozejava">NoonSnooze.java</h4>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">NoonSnooze.java</code> that takes an integer command-line argument representing the number of minutes, <code class="language-plaintext highlighter-rouge">snooze</code>, that have elapsed since 12:00pm (noon) and prints the resulting time. Assume a 12-hour clock (with ‘am’ and ‘pm’). <strong>You must not use loops</strong>. You may assume that the value of snooze is a non-negative integer.</p>
+
+<p><strong>Hints:</strong></p>
+<ul>
+  <li>Use integer division (<code class="language-plaintext highlighter-rouge">/</code>) and integer remainder (<code class="language-plaintext highlighter-rouge">%</code>) operators to help compute the new values for the hours and minutes.</li>
+  <li>Use the integer remainder (<code class="language-plaintext highlighter-rouge">%</code>) operator to determine if the clock should read am or pm.</li>
+  <li>Use conditionals (<code class="language-plaintext highlighter-rouge">if</code>) to help format the output.</li>
+</ul>
+
+<p><strong>Exercises:</strong>
+Before writing code, it is good practice to try solving the problem by hand. Try manually performing the calculations for the following values using only integer division (<code class="language-plaintext highlighter-rouge">/</code>) and integer remainder (<code class="language-plaintext highlighter-rouge">%</code>): 0, 9, 15, 60, 719, 720, 721, 1440, 1441, …, 5039, 5040, 5041</p>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs NoonSnooze 50
+12:50pm
+
+&gt; java-introcs NoonSnooze 100
+1:40pm
+
+&gt; java-introcs NoonSnooze 721
+12:01am
+
+&gt; java-introcs NoonSnooze 11111
+5:11am
+</code></pre></div></div>
+
+<h4 id="randomwalkerjava">RandomWalker.java</h4>
+
+<p>A drone begins flying aimlessly, starting at Jonas Clark Hall (0, 0). At each time step, the drone flies one meter in a random direction, either north, east, south, or west, with probability 25%. How far will the drone be from Jonas Clark Hall after n steps? This process is known as a <em>two-dimensional random walk</em>.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="RandomWalker.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Random walk example on a grid" />
+</div>
+</div>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">RandomWalker.java</code> that takes an integer command-line argument <code class="language-plaintext highlighter-rouge">n</code> and simulates the motion of a random walk for <code class="language-plaintext highlighter-rouge">n</code> steps. Print the location at each step (including the starting point), treating the starting point as the origin (0, 0). Finally, print the square of the final Euclidean distance from the origin.</p>
+
+<p><strong>Hint:</strong>
+First, think about which variables you need to maintain. You certainly need to parse and store the command-line argument n. You also need to store the current location (x, y) of the random walker. What should be the type of the variables x and y? What should be their initial values? To choose a random direction, consider using the idiom from the <code class="language-plaintext highlighter-rouge">RandomInt</code> program <a href="/~cs121/slides/CS.1.Basics.pdf">from the slides</a> to generate a random integer in a given range.</p>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs RandomWalker 10
+(0, 0)
+(0, -1)
+(0, 0)
+(0, 1)
+(0, 2)
+(-1, 2)
+(-2, 2)
+(-2, 1)
+(-1, 1)
+(-2, 1)
+(-3, 1)
+squared distance = 10
+
+&gt; java-introcs RandomWalker 20
+(0, 0)
+(0, 1)
+(-1, 1)
+(-1, 2)
+(0, 2)
+(1, 2)
+(1, 3)
+(0, 3)
+(-1, 3)
+(-2, 3)
+(-3, 3)
+(-3, 2)
+(-4, 2)
+(-4, 1)
+(-3, 1)
+(-3, 0)
+(-4, 0)
+(-4, -1)
+(-3, -1)
+(-3, -2)
+(-3, -3)
+squared distance = 18
+</code></pre></div></div>
+
+<h4 id="randomwalkersjava">RandomWalkers.java</h4>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">RandomWalkers.java</code> that takes two integer command-line arguments <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">trials</code>. In each of <code class="language-plaintext highlighter-rouge">trials</code> independent experiments, simulate a random walk of <code class="language-plaintext highlighter-rouge">n</code> steps and compute the squared distance. Output the <em>mean squared distance</em> (the average of the trials squared distances).</p>
+
+<p><strong>Hint:</strong></p>
+<ol>
+  <li>Copy the code (in <code class="language-plaintext highlighter-rouge">main</code>) from <code class="language-plaintext highlighter-rouge">RandomWalker.java</code> to <code class="language-plaintext highlighter-rouge">RandomWalkers.java</code>.</li>
+  <li>Which additional variables do you need?
+    <ul>
+      <li>You certainly need to read and store the command-line arguments <code class="language-plaintext highlighter-rouge">n</code> and <code class="language-plaintext highlighter-rouge">trials</code>.</li>
+      <li>In addition to the current location (x, y) of the random walker, you need an accumulator variable, say <code class="language-plaintext highlighter-rouge">totalSquaredDistance</code>, that stores the total sum of squared distances so far.</li>
+      <li>Nest the loop inside an outer loop that repeats <code class="language-plaintext highlighter-rouge">trials</code> times and add code to update <code class="language-plaintext highlighter-rouge">totalSquaredDistance</code> after each time through the outer loop.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Examples:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs RandomWalkers 100 10000
+mean squared distance = 101.446
+
+&gt; java-introcs RandomWalkers 100 10000
+mean squared distance = 99.1674
+
+&gt; java-introcs RandomWalkers 200 1000  
+mean squared distance = 195.75
+
+&gt; java-introcs RandomWalkers 400 2000      
+mean squared distance = 383.12      
+                               	 
+&gt; java-introcs RandomWalkers 800 5000      
+mean squared distance = 811.8264  
+                                	 
+&gt; java-introcs RandomWalkers 1600 100000      
+mean squared distance = 1600.13064
+</code></pre></div></div>
+
+<p><strong>Note:</strong>
+This process is a discrete version of a natural phenomenon known as Brownian motion. It serves as a scientific model for an astonishing range of physical processes, from the dispersion of ink flowing in water, to the formation of polymer chains in chemistry, to cascades of neurons firing in the brain.</p>
+
+<h3 id="task-3-analyze-your-results">Task 3: Analyze your results</h3>
+
+<p>Edit the text file named <code class="language-plaintext highlighter-rouge">readme.txt</code> that is a narrative description of your work.</p>
+
+<p>As <code class="language-plaintext highlighter-rouge">n</code> increases, we expect the random walk to end up farther and farther away from the origin. But how much farther? Use <code class="language-plaintext highlighter-rouge">RandomWalkers</code> to formulate a hypothesis as to how the mean squared distance grows as a function of <code class="language-plaintext highlighter-rouge">n</code>.</p>
+
+<p>What is the proportional relationship between the number of steps <code class="language-plaintext highlighter-rouge">n</code> of the random walk and the mean squared distance? By relationship, we mean something like:</p>
+
+\[\text{mean squared distance} = 126 n^9\]
+
+<p>(Although of course this is incorrect – the real answer is simpler!)</p>
+
+<p>Briefly justify your answer based on computational experiments. Describe the experiments and list several data points. Provide your answer in your <code class="language-plaintext highlighter-rouge">readme.txt</code> file.</p>
+
+<p><strong>Hint:</strong>
+Run a series of experiments keeping the number of trials fixed, but <strong>changing n</strong> - try large values for n (e.g., 100,000)</p>
+
+<p><strong>Hint:</strong>
+Run a series of experiments keeping n fixed but <strong>changing the number of trials</strong> - try large values for trials (e.g., 100,000)</p>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload these files to Gradescope:</p>
+
+<ul>
+  <li>Your four .java files:
+    <ul>
+      <li>Bits.java</li>
+      <li>NoonSnooze.java</li>
+      <li>RandomWalker.java</li>
+      <li>RandomWalkers.java</li>
+    </ul>
+  </li>
+  <li><strong>A completed readme.txt file,</strong> including your analysis, etc.</li>
+</ul>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Thanks to Princeton’s COS126 materials, which served as a basis for this assignment.</p>
+
+:ET

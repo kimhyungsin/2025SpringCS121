@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homework 13: Single Points of Failure</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="homework-13-single-points-of-failure">Homework 13: Single Points of Failure</h1>
+<p>The goal of this homework is to practice using undirected graphs.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>In this assignment, you will identify vertices and edges which serve as <a href="https://en.wikipedia.org/wiki/Single_point_of_failure">“single points of failure” (SPOF)</a>. Specifically, you will identify vertices and edges which, if removed, would partition the graph into multiple components.</p>
+
+<p>For example, consider the map of Marblehead shown below:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="map.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="6 vertices superimposed over a map of Marblehead, MA" />
+</div>
+</div>
+
+<p>Imagine that each vertex, labeled 0 to 5, represents a location of interest, and the edges represent roads between them. If vertices <code class="language-plaintext highlighter-rouge">3</code> or <code class="language-plaintext highlighter-rouge">4</code> were removed, the graph would be partitioned into two components. The graph could also be partitioned if either the <code class="language-plaintext highlighter-rouge">3 4</code> or <code class="language-plaintext highlighter-rouge">4 5</code> edges were removed.</p>
+
+<p>In this assignment, you will complete a program, <code class="language-plaintext highlighter-rouge">SPOF.java</code>, which will find these single points of failure. <code class="language-plaintext highlighter-rouge">SPOF.java</code> should accept one argument, the name of a text file describing a graph. First, the text file contains the number of vertices, then the number of edges. Next, the file contains a list of edges, represented as pairs of vertices. Consider <code class="language-plaintext highlighter-rouge">marblehead.txt</code>, shown below:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>6
+7
+0 1
+0 3
+1 2
+1 3
+2 3
+3 4
+4 5
+</code></pre></div></div>
+
+<p>When your program is finished, it should give the following output:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 SPOF marblehead.txt
+SPOF vertices:
+3
+4
+
+SPOF edges:
+3 4
+4 5
+</code></pre></div></div>
+
+<h3 id="task-1-download-starter-files">Task 1: Download Starter Files</h3>
+<p><a href="spof.zip">spof.zip</a> contains the starter files for this assignment.</p>
+
+<h3 id="task-2-implement-spofjava">Task 2: Implement SPOF.java</h3>
+<h4 id="load-the-graph">Load the Graph</h4>
+
+<p>Add code to the main method to create a <code class="language-plaintext highlighter-rouge">Graph</code> object from a text file. Refer to the <code class="language-plaintext highlighter-rouge">Graph(In in)</code> constructor of <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Graph.html">the <code class="language-plaintext highlighter-rouge">Graph</code> class</a>. <code class="language-plaintext highlighter-rouge">GraphDOT</code>’s main method from <a href="/~cs121/lab/graphs">the Graphs lab</a> may also be helpful.</p>
+
+<p><strong>Hint:</strong>
+Since <code class="language-plaintext highlighter-rouge">Graph</code> has a nice <code class="language-plaintext highlighter-rouge">toString()</code> method, you can easily print the graph to verify that you loaded it correctly.</p>
+
+<p><strong>Hint:</strong>
+You may need to include: <code class="language-plaintext highlighter-rouge">import edu.princeton.cs.algs4.Graph;</code></p>
+
+<p><strong>Note:</strong>
+One of the Gradescope tests will hide the details of any bugs in your code. To diagnose such bugs, create your own test data and unit tests.</p>
+
+<h4 id="detect-spof-vertices">Detect SPOF Vertices</h4>
+<p>Next, write code to detect and print single point of failure vertices. Here is some pseudocode:</p>
+
+<ul>
+  <li>For each vertex:
+    <ul>
+      <li>Make a copy of the graph, excluding this vertex</li>
+      <li>Use <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/CC.html">the CC class</a> to test whether the graph is still connected</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="detect-spof-edges">Detect SPOF Edges</h4>
+<p>Next, write code to detect and print single point of failure edges. Here is some pseudocode:</p>
+
+<ul>
+  <li>For each edge:
+    <ul>
+      <li>Make a copy of the graph, excluding this edge</li>
+      <li>Use <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/CC.html">the CC class</a> to test whether the graph is still connected</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Hint:</strong>
+Consider creating an <code class="language-plaintext highlighter-rouge">Edge</code> class to represent each edge from the original graph.</p>
+
+<p><strong>Hint:</strong>
+To avoid duplicate edges, consider storing each <code class="language-plaintext highlighter-rouge">Edge</code> in a set. Your <code class="language-plaintext highlighter-rouge">Edge</code> implementation can consider edges <code class="language-plaintext highlighter-rouge">0 1</code> and <code class="language-plaintext highlighter-rouge">1 0</code> to be equal, for example. Essentially, sets are symbol tables with just keys, not values (see <a href="/~cs121/slides/Sets.pdf">the “Sets” slides</a>). Multiple set implementations are available, so select the most appropriate:</p>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/HashSet.html">The <code class="language-plaintext highlighter-rouge">java.util.HashSet</code> class</a> from the Java standard library</li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/TreeSet.html">The <code class="language-plaintext highlighter-rouge">java.util.TreeSet</code> class</a> from the Java standard library</li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/SET.html">The <code class="language-plaintext highlighter-rouge">SET</code> class</a> from the textbook authors, which <a href="https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SET.java.html">is implemented using <code class="language-plaintext highlighter-rouge">TreeSet</code></a></li>
+</ul>
+
+<p>To be stored in a <code class="language-plaintext highlighter-rouge">HashSet</code>, your <code class="language-plaintext highlighter-rouge">Edge</code> class should implement <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">hashCode()</code> methods.
+To be stored in a <code class="language-plaintext highlighter-rouge">TreeSet</code>, your <code class="language-plaintext highlighter-rouge">Edge</code> class should implement <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">Comparable</code>.
+Refer to <a href="/~cs121/slides/34HashTables.pdf">the “Hash Tables” slides</a> for the <code class="language-plaintext highlighter-rouge">hashCode()</code> method recipe, and to <a href="/~cs121/slides/31ElementarySymbolTables.pdf">the “Symbol Tables” slides</a> for recipes for the <code class="language-plaintext highlighter-rouge">Comparable</code> interface and the <code class="language-plaintext highlighter-rouge">equals()</code> method. Implementing <code class="language-plaintext highlighter-rouge">Comparable</code> for <code class="language-plaintext highlighter-rouge">Edge</code> is challenging, because it isn’t obvious how to establish a total ordering between <code class="language-plaintext highlighter-rouge">Edges</code>, and without a total ordering, <code class="language-plaintext highlighter-rouge">Edges</code> may not be stored correctly in a <code class="language-plaintext highlighter-rouge">TreeSet</code>.</p>
+
+<p><strong>Hint:</strong>
+A solution that doesn’t use sets is also possible.</p>
+
+<h4 id="handle-corner-cases">Handle Corner Cases</h4>
+<p>If the graph isn’t connected to begin with, your code should print an error:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 SPOF island.txt
+ERROR: Graph is not connected
+</code></pre></div></div>
+
+<h2 id="submit">Submit</h2>
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>SPOF.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>For full credit, your code should be reasonably efficient (the autograder will check this).</p>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

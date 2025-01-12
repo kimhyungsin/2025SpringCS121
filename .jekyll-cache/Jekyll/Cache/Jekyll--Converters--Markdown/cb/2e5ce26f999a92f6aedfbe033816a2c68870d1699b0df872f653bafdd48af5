@@ -1,0 +1,161 @@
+I"=<h1 id="homework-9-deque">Homework 9: Deque</h1>
+<p>The goal of this homework is to implement the “deque” data structure. You will practice:</p>
+<ul>
+  <li>Implementing a data structure</li>
+  <li>Using generics</li>
+  <li>Using exceptions</li>
+  <li>Implementing the Iterable interface</li>
+  <li>Thinking about order of growth while writing code</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<h3 id="task-1-reading">Task 1: Reading</h3>
+<p>Ensure you are familiar with the material we covered in lecture about:</p>
+
+<ul>
+  <li>Linked lists</li>
+  <li>Queues</li>
+  <li>Stacks</li>
+  <li>Generics</li>
+  <li>Inheritance</li>
+  <li>Exceptions</li>
+</ul>
+
+<p>If not, review the recommended readings, especially Algorithms, chapter 1.3.</p>
+
+<h3 id="task-2-download-starter-files">Task 2: Download Starter Files</h3>
+
+<p><a href="deque.zip">deque.zip</a> contains the starter files for this assignment.</p>
+
+<h3 id="task-3-implement-dequejava">Task 3: Implement Deque.java</h3>
+
+<p>A “deque” (pronounced “deck”) is a double-ended queue. A deque is a generalization of a stack and a queue that supports adding and removing items from either the front or the back of the data structure. You should create a generic data type <code class="language-plaintext highlighter-rouge">Deque</code> that implements the following API:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Deque&lt;Item&gt; implements Iterable&lt;Item&gt; {
+
+    // construct an empty deque
+    public Deque()
+
+    // is the deque empty?
+    public boolean isEmpty()
+
+    // return the number of items on the deque
+    public int size()
+
+    // add the item to the front
+    public void addFirst(Item item)
+
+    // add the item to the back
+    public void addLast(Item item)
+
+    // remove and return the item from the front
+    public Item removeFirst()
+
+    // remove and return the item from the back
+    public Item removeLast()
+
+    // return an iterator over items in order from front to back
+    public Iterator&lt;Item&gt; iterator()
+
+    // unit testing (required)
+    public static void main(String[] args)
+
+}
+</code></pre></div></div>
+
+<p>Java contains data structures that support these operations (e.g., <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/LinkedList.html"><code class="language-plaintext highlighter-rouge">LinkedList</code></a>, <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayList.html"><code class="language-plaintext highlighter-rouge">ArrayList</code></a>). For this assignment, <strong>you cannot use these data structures</strong>, or the assignment will be far too easy. You should only import two classes: <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Iterator.html"><code class="language-plaintext highlighter-rouge">java.util.Iterator</code></a> and <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/NoSuchElementException.html"><code class="language-plaintext highlighter-rouge">java.util.NoSuchElementException</code></a>. <strong>You will not receive credit</strong> for a submission that uses a class like the Java Standard Library’s <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/LinkedList.html"><code class="language-plaintext highlighter-rouge">LinkedList</code></a>. Instead, you should use a nested Node class, similar to <a href="/~cs121/homework/tsp/">the TSP assignment.</a></p>
+
+<h4 id="exceptions">Exceptions</h4>
+
+<p>Throw the specified exceptions for the following corner cases:</p>
+
+<ul>
+  <li>Throw <code class="language-plaintext highlighter-rouge">IllegalArgumentException</code> if the client calls either <code class="language-plaintext highlighter-rouge">addFirst()</code> or <code class="language-plaintext highlighter-rouge">addLast()</code> with a <code class="language-plaintext highlighter-rouge">null</code> argument.</li>
+  <li>Throw <code class="language-plaintext highlighter-rouge">java.util.NoSuchElementException</code> if the client calls either <code class="language-plaintext highlighter-rouge">removeFirst()</code> or <code class="language-plaintext highlighter-rouge">removeLast()</code> when the deque is empty.</li>
+  <li>Throw <code class="language-plaintext highlighter-rouge">java.util.NoSuchElementException</code> if the client calls the <code class="language-plaintext highlighter-rouge">next()</code> method in the iterator when there are no more items to return.</li>
+</ul>
+
+<p><strong>Hint:</strong>
+Use this syntax to throw an exception:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>throw new IllegalArgumentException("A message describing the problem");
+</code></pre></div></div>
+<p>Of course, you should surround the exception with appropriate conditional logic, so it is only thrown when there is an actual problem.</p>
+
+<h4 id="testing">Testing</h4>
+
+<p>We recommend writing JUnit tests to check every public method. Alternatively, you can add code to your <code class="language-plaintext highlighter-rouge">main()</code> method to verify that methods work as prescribed (e.g., by printing results to standard output).</p>
+
+<h4 id="performance-requirements">Performance requirements</h4>
+
+<p>Your implementation must achieve the following worst-case performance requirements:</p>
+
+<ul>
+  <li>A deque containing n items must use at most 48n + 192 bytes of memory, not including the memory for the items themselves.</li>
+  <li>Each deque operation (including construction) must take constant time.</li>
+  <li>Each iterator operation (including construction) must take constant time.</li>
+</ul>
+
+<p>In summary:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Big Theta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Non-iterator operations</td>
+      <td>\(\Theta(1)\)</td>
+    </tr>
+    <tr>
+      <td>Iterator constructor</td>
+      <td>\(\Theta(1)\)</td>
+    </tr>
+    <tr>
+      <td>Other iterator operations</td>
+      <td>\(\Theta(1)\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Memory Usage</th>
+      <th>Big Theta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Deque</td>
+      <td>\(\Theta(n)\)</td>
+    </tr>
+    <tr>
+      <td>Iterator</td>
+      <td>\(\Theta(1)\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Deque.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Thanks to Princeton’s COS126 materials, which served as a basis for this assignment.</p>
+
+:ET

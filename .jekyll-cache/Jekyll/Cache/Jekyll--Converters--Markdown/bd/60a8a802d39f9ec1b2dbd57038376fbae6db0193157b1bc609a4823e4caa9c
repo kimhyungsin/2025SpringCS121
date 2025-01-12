@@ -1,0 +1,86 @@
+I"F<h1 id="lab-10-unit-tests-for-deque">Lab 10: Unit Tests for Deque</h1>
+<p>In this lab, you will write unit tests for <a href="/~cs121/homework/deque/">the Deque homework assignment</a>.</p>
+
+<p>If you are working on the homework with a partner, you should work on this lab together. If you are working on the homework individually, you should work on this lab individually.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>You should write unit tests that exercise <code class="language-plaintext highlighter-rouge">Deque</code>’s functionality. I recommend creating a <code class="language-plaintext highlighter-rouge">DequeTests</code> class in the <code class="language-plaintext highlighter-rouge">test</code> directory.</p>
+
+<p>You should write unit tests using JUnit 5 Jupiter (version 5.4.2). You may find it helpful to consult <code class="language-plaintext highlighter-rouge">ExampleTests</code>, <a href="/~cs121/slides/UnitTesting.pdf">the slides</a>, and the resources linked below:</p>
+
+<ul>
+  <li><a href="http://junit.org/junit5/docs/current/user-guide/">JUnit 5 User Guide</a></li>
+  <li><a href="https://junit.org/junit5/docs/5.4.2/api/">JUnit 5 API Javadoc</a> in particular, <a href="https://junit.org/junit5/docs/5.4.2/api/org/junit/jupiter/api/Assertions.html">the list of available assertions</a></li>
+  <li><a href="https://phauer.com/2019/modern-best-practices-testing-java/">Modern Best Practices for Testing in Java</a></li>
+</ul>
+
+<p><strong>Hint:</strong>
+To compile <code class="language-plaintext highlighter-rouge">Deque</code> before you’ve finished implementing it, you can return <code class="language-plaintext highlighter-rouge">null</code> from methods that return generics. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public Item removeFirst() {
+    return null;
+}
+</code></pre></div></div>
+
+<p><strong>Hint:</strong>
+To test my code thoroughly, I created the following tests:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">isEmpty()</code>
+    <ul>
+      <li>Tests that <code class="language-plaintext highlighter-rouge">isEmpty()</code> returns <code class="language-plaintext highlighter-rouge">true</code> for a new <code class="language-plaintext highlighter-rouge">Deque</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">zeroSize()</code>
+    <ul>
+      <li>Tests that <code class="language-plaintext highlighter-rouge">size()</code> returns <code class="language-plaintext highlighter-rouge">0</code> for a new <code class="language-plaintext highlighter-rouge">Deque</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">addFirst()</code>
+    <ul>
+      <li>Calls <code class="language-plaintext highlighter-rouge">addFirst()</code> a few times, then checks <code class="language-plaintext highlighter-rouge">isEmpty()</code> and <code class="language-plaintext highlighter-rouge">size()</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">addLast()</code>
+    <ul>
+      <li>Calls <code class="language-plaintext highlighter-rouge">addLast()</code> a few times, then checks <code class="language-plaintext highlighter-rouge">isEmpty()</code> and <code class="language-plaintext highlighter-rouge">size()</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">removeFirst()</code>
+    <ul>
+      <li>Calls <code class="language-plaintext highlighter-rouge">addFirst()</code> and <code class="language-plaintext highlighter-rouge">addLast()</code> a few times, then checks <code class="language-plaintext highlighter-rouge">removeFirst()</code>, <code class="language-plaintext highlighter-rouge">isEmpty()</code>, and <code class="language-plaintext highlighter-rouge">size()</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">removeLast()</code>
+    <ul>
+      <li>Calls <code class="language-plaintext highlighter-rouge">addFirst()</code> and <code class="language-plaintext highlighter-rouge">addLast()</code> a few times, then checks <code class="language-plaintext highlighter-rouge">removeLast()</code>, <code class="language-plaintext highlighter-rouge">isEmpty()</code>, and <code class="language-plaintext highlighter-rouge">size()</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">iterator()</code>
+    <ul>
+      <li>Calls <code class="language-plaintext highlighter-rouge">addFirst()</code>, <code class="language-plaintext highlighter-rouge">addLast()</code>, <code class="language-plaintext highlighter-rouge">removeFirst()</code>, and <code class="language-plaintext highlighter-rouge">removeLast()</code> a few times, then checks that the iterator’s <code class="language-plaintext highlighter-rouge">hasNext()</code> and <code class="language-plaintext highlighter-rouge">next()</code> methods return the expected values</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Hint:</strong>
+JUnit can test that code throws exceptions appropriately. To do this, JUnit uses “lambda expressions.” We haven’t discussed lambda expressions before, and we won’t use them much in the course. Here is an example of an assertion that uses a lambda expression:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Assertions.assertThrows(java.util.NoSuchElementException.class,
+                        () -&gt; {deque.removeLast();});
+</code></pre></div></div>
+<p>The second argument to <code class="language-plaintext highlighter-rouge">assertThrows()</code> is a lambda expression. This lambda expression describes the code that should be run to cause the <code class="language-plaintext highlighter-rouge">NoSuchElementException</code> to be thrown (i.e., <code class="language-plaintext highlighter-rouge">deque.removeLast();</code>). Essentially, lambda expressions allow you to define an unnamed method. This makes it easy to pass methods as parameters to other methods.</p>
+
+<p><strong>Note:</strong>
+If the option to run your new test class (e.g., <code class="language-plaintext highlighter-rouge">DequeTests</code>) doesn’t appear in the “Run …” dialogue, contact the instructor for help – you may need to edit the project configuration</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 10: Unit Tests for Deque” quiz on Canvas. You should submit a screenshot showing:</p>
+
+<ul>
+  <li>The code for your unit tests</li>
+  <li>The results of running your unit tests</li>
+</ul>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, you must write and run <strong>at least three unit tests.</strong></p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+
+:ET

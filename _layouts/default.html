@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page.title }}</title>
+      <link rel="stylesheet" type="text/css" href="{{'/css/bootstrap.min.css' | relative_url}}">
+      <link rel="stylesheet" type="text/css" href="{{'/css/styles.css' | relative_url}}">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="{{'/' | relative_url}}" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="{{ page.overview }}"><a href="{{'/' | relative_url}}">Overview</a></li>
+            <li class="{{ page.schedule }}"><a href="{{'/schedule/' | relative_url}}">Schedule and Materials</a></li>
+            <li class="{{ page.syllabus }}"><a href="{{'/syllabus/' | relative_url}}">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      {{ content }}
+    </div>
+
+    <script src="{{'/js/jquery.min.js' | relative_url}}"></script>
+    <script src="{{'/js/bootstrap.min.js' | relative_url}}"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

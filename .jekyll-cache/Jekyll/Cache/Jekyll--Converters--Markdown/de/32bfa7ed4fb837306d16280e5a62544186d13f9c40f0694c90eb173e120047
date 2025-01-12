@@ -1,0 +1,127 @@
+I"�<h1 id="lab-4-tracing-programs">Lab 4: Tracing Programs</h1>
+<p>The goal of this lab is to practice tracing the execution of recursive and dynamic programs.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p><strong>We encourage you to work with a partner</strong>. It is probably easiest to write your answers on paper.</p>
+
+<h3 id="task-1-trace-naïve-fibonacci">Task 1: Trace Naïve Fibonacci</h3>
+
+<p>Consider the following naïve recursion code for Fibonacci numbers:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static long F(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return F(n-1) + F(n-2);
+}
+</code></pre></div></div>
+
+<p>Trace the code and draw the recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code>.</p>
+
+<p>As an example of a recursion tree, consider the <code class="language-plaintext highlighter-rouge">ruler(4)</code> recursion tree from lecture:</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="ruler.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Ruler recursion tree" />
+</div>
+</div>
+
+<h3 id="task-2-trace-dynamic-fibonacci">Task 2: Trace Dynamic Fibonacci</h3>
+<p>Consider the following dynamic programming code for Fibonacci numbers:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>long[] F = new long[n+1];
+F[0] = 0;
+F[1] = 1;
+for (int i = 2; i &lt;= n; i++)
+    F[i] = F[i-1] + F[i-2];
+</code></pre></div></div>
+
+<p>Trace the code for <code class="language-plaintext highlighter-rouge">n</code> being 5, and write down the values of the elements in array <code class="language-plaintext highlighter-rouge">F</code>.</p>
+
+<h3 id="task-3-trace-recursive-dynamic-fibonacci">Task 3: Trace Recursive Dynamic Fibonacci</h3>
+
+<p>Consider the following recursion code with memoization for Fibonacci numbers.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static long[] memo = new long[100];
+public static long F(int n)
+{
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    if (memo[n] == 0)
+        memo[n] = F(n-1) + F(n-2);
+    return memo[n];
+}
+</code></pre></div></div>
+
+<ol>
+  <li>Trace the code and draw the recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code></li>
+  <li>Keep all the statements except change <code class="language-plaintext highlighter-rouge">memo[n] = F(n-1) + F(n-2);</code> to <code class="language-plaintext highlighter-rouge">memo[n] = F(n-2) + F(n-1);</code>. This just switches the positions for <code class="language-plaintext highlighter-rouge">F(n-1)</code> and <code class="language-plaintext highlighter-rouge">F(n-2)</code>. Now trace the slightly changed code and draw the new recursion tree for <code class="language-plaintext highlighter-rouge">F(5)</code>.</li>
+</ol>
+
+<h3 id="task-4-dynamic-coin-change">Task 4: Dynamic Coin Change</h3>
+
+<p>Consider the dynamic programming code for coin change:</p>
+
+\[c(i,j) = \begin{cases} 0 &amp; \text{if } j = 0 \\
+\frac{j}{d_1}               &amp; \text{if } i = 1 \\
+\infty                      &amp; \text{if } j &lt; 0 \\
+\text{min}\Big(c(i - 1, j), 1 + c(i, j - d_i)\Big) &amp; \text{otherwise} \\
+\end{cases}\]
+
+<ol>
+  <li>Draw the 2D array <code class="language-plaintext highlighter-rouge">C[i, j]</code>, and trace the algorithm for a change amount of <code class="language-plaintext highlighter-rouge">8</code> and a coin set <code class="language-plaintext highlighter-rouge">{1, 4, 5}</code>.</li>
+  <li>The mathematical definition above for the function \(c(i, j)\) has a problem for the base case \(i = 1\). It works when the first coin value \(d_1\) is 1. But if \(d_1\) is not 1, the base case needs to be changed.
+    <ul>
+      <li>Consider a change amount of <code class="language-plaintext highlighter-rouge">8</code> and the coin set <code class="language-plaintext highlighter-rouge">{2, 4, 5}</code>. Trace using the definition above for \(c(i, j)\) to identify the problem.</li>
+      <li>Try to fix the problem by changing the \(c(i, j)\) definition for the base case \(i = 1\). Check your fix by tracing your revised definition with an amount of <code class="language-plaintext highlighter-rouge">8</code> and the coin set <code class="language-plaintext highlighter-rouge">{2, 4, 5}</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="task-5-mutually-recursive-functions">Task 5: Mutually Recursive Functions</h3>
+
+<p>Consider the following pair of mutually recursive functions:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static int f(int n) {
+    if (n == 0) return 0;
+    return f(n-1) + g(n-1);
+}
+
+public static int g(int n) {
+    if (n == 0) return 0;
+    return g(n-1) + f(n);
+}
+</code></pre></div></div>
+
+<p>What is the value of <code class="language-plaintext highlighter-rouge">g(2)</code>?</p>
+
+<h2 id="submit">Submit</h2>
+
+<p>Create a .pdf file and upload it to Gradescope. It should contain:</p>
+
+<ul>
+  <li>Your responses to the questions above</li>
+  <li>A filled-in version of the information below:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/******************************************************************************
+ ***   You and your partner's name, if any.                                 ***
+ ******************************************************************************/
+
+
+/******************************************************************************
+ ***   Do you attest that this work is your own, in accordance with the     ***
+ ***   statement on academic integrity in the syllabus?                     ***
+ ******************************************************************************/
+
+Yes or no? 
+
+
+/******************************************************************************
+ ***   List any other comments here.                                        ***
+ ******************************************************************************/
+
+</code></pre></div></div>
+
+<p>This will only be graded for completion, as part of your attendance and participation grade.</p>
+:ET

@@ -1,0 +1,340 @@
+I"mp<h1 id="homework-11-shuffles-part-2">Homework 11: Shuffles, part 2</h1>
+<p>In this homework you will practice:</p>
+
+<ul>
+  <li>Implementing <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">hashCode()</code></li>
+  <li>Using HashMaps</li>
+  <li>Using Queues</li>
+  <li>Using LinkedLists</li>
+  <li>Implementing a breadth-first search algorithm</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>Start by downloading <a href="Shuffling.java">Shuffling.java</a>, which contains starter code for this assignment. You should add it to the IntelliJ project you used in <a href="/~cs121/homework/shuffles1/">part 1 of this assignment</a>.</p>
+
+<h3 id="finish-cardjava">Finish Card.java</h3>
+<p>You should implement the <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">hashCode()</code> methods in <code class="language-plaintext highlighter-rouge">Card.java</code>.</p>
+
+<p><strong>Ensure your code is correct before proceeding.</strong> You can test your code using a <code class="language-plaintext highlighter-rouge">main()</code> method, or ideally <a href="/~cs121/lab/shuffles-tests/">a unit testing class</a>. Be aware that incorrect implementation of these methods can cause <a href="https://stackoverflow.com/questions/57343069/how-does-containskey-really-work-in-java-when-working-with-map">strange behavior</a> if a <code class="language-plaintext highlighter-rouge">Card</code> is used as a key in a <code class="language-plaintext highlighter-rouge">HashMap</code>.</p>
+
+<p><strong>Hint:</strong>
+Follow the recipe for <code class="language-plaintext highlighter-rouge">equals()</code> given in <a href="/~cs121/slides/31ElementarySymbolTables.pdf">the “Symbol Tables” lecture</a>, and follow the recipe for <code class="language-plaintext highlighter-rouge">hashCode()</code> given in <a href="/~cs121/slides/34HashTables.pdf">the “Hash Tables” lecture</a>.</p>
+
+<h3 id="finish-arraydeckjava">Finish ArrayDeck.java</h3>
+<p>You should implement the <code class="language-plaintext highlighter-rouge">equals()</code> and <code class="language-plaintext highlighter-rouge">iterator()</code> methods in <code class="language-plaintext highlighter-rouge">ArrayDeck.java</code>.</p>
+
+<p><strong>Ensure your code is correct before proceeding.</strong> You can test your code using a <code class="language-plaintext highlighter-rouge">main()</code> method, or ideally <a href="/~cs121/lab/shuffles-tests/">a unit testing class</a>.</p>
+
+<p><strong>Hint:</strong>
+Review the <code class="language-plaintext highlighter-rouge">Iterable</code> interface described in <a href="/~cs121/slides/AdvancedJava1.pdf">the “Advanced Java, part 1” lecture</a>.</p>
+
+<h3 id="implement-shufflingjava">Implement Shuffling.java</h3>
+<p>You will complete the following methods in <code class="language-plaintext highlighter-rouge">Shuffling.java</code>:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">minOutShuffles()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">minInShuffles()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">computeDeckSequence()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">findShortestShuffles()</code></li>
+</ul>
+
+<p>You should implement them in the listed order.</p>
+
+<h4 id="minoutshuffles-and-mininshuffles">minOutShuffles() and minInShuffles()</h4>
+<p>If you repeatedly shuffle a deck of cards using “out shuffles” or “in shuffles,” it will eventually return to its original order. These methods should return the number times a deck must be shuffled to return it to its original order. Note that the full method signature for <code class="language-plaintext highlighter-rouge">minOutShuffles()</code> is:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static int minOutShuffles(int maxRank)
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">maxRank</code> parameter allows this method to work for different sized decks.</p>
+
+<p>Your code for <code class="language-plaintext highlighter-rouge">minInShuffles()</code> should be very similar to your code for <code class="language-plaintext highlighter-rouge">minOutShuffles()</code>.</p>
+
+<p>If your code is working correctly, the main method should show the following results:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Shuffling 10
+Minimum Numbers of Shuffles
+  maxRank    Min Out Shuffles  Min In Shuffles  
+  1          2                 4                
+  2          3                 6                
+  3          10                12               
+  4          4                 8                
+  5          18                6                
+  6          11                20               
+  7          18                28               
+  8          5                 10               
+  9          12                36               
+  10         12                20               
+...
+</code></pre></div></div>
+
+<h4 id="computedecksequence">computeDeckSequence()</h4>
+<p>This method will perform a sequence of “out” and “in” shuffling operations on a deck. The full method signature is:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static Queue&lt;Deck&gt; computeDeckSequence(Deck deck, String shuffleSequence)
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">deck</code> parameter is a <code class="language-plaintext highlighter-rouge">Deck</code>, which represents the initial state of the deck, before shuffling operations have been performed.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">shuffleSequence</code> parameter is a <code class="language-plaintext highlighter-rouge">String</code>, representing a sequence of shuffling operations, where <code class="language-plaintext highlighter-rouge">"I"</code> represents an “in shuffle” and <code class="language-plaintext highlighter-rouge">"O"</code> represents an “out shuffle”.</p>
+
+<p>Finally, notice that the return type <code class="language-plaintext highlighter-rouge">Queue</code> is <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Queue.html">the Java Standard Library’s <code class="language-plaintext highlighter-rouge">Queue</code> interface</a>, <strong>not the <code class="language-plaintext highlighter-rouge">Queue</code> class in the textbook’s <code class="language-plaintext highlighter-rouge">algs4</code> library.</strong></p>
+
+<p>If your code is working correctly, you should see the following results:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Shuffling 10
+...
+Shuffle Sequences
+  maxRank=1, shuffleSequence="OO"
+    AC AD AH AS 
+    AC AH AD AS 
+    AC AD AH AS 
+  maxRank=2, shuffleSequence="IIIIII"
+    AC 2C AD 2D AH 2H AS 2S 
+    AH AC 2H 2C AS AD 2S 2D 
+    AS AH AD AC 2S 2H 2D 2C 
+    2S AS 2H AH 2D AD 2C AC 
+    2D 2S AD AS 2C 2H AC AH 
+    2C 2D 2H 2S AC AD AH AS 
+    AC 2C AD 2D AH 2H AS 2S 
+  maxRank=1, shuffleSequence="OIOI"
+    AC AD AH AS 
+    AC AH AD AS 
+    AD AC AS AH 
+    AD AS AC AH 
+    AC AD AH AS 
+...
+</code></pre></div></div>
+<p>Notice that performing two “out shuffles” on a deck with four cards (<code class="language-plaintext highlighter-rouge">maxRank=1</code>) returns the deck to its original state, which corresponds to the result from <code class="language-plaintext highlighter-rouge">minOutShuffles(1)</code>. Also, notice that it is possible to find combinations of in and out shuffles that return the deck to its original state, as shown in the third example above.</p>
+
+<h4 id="findshortestshuffles">findShortestShuffles()</h4>
+<p>The full method signature for <code class="language-plaintext highlighter-rouge">findShortestShuffles()</code> is:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static HashMap&lt;Card, String&gt; findShortestShuffles(int maxRank)
+</code></pre></div></div>
+
+<p>For a factory-ordered deck determined by the specified <code class="language-plaintext highlighter-rouge">maxRank</code>, this method will consider each card. For each card, it will find the shortest shuffling sequence needed to bring that card to the top of the factory-ordered deck. It will store these shuffling sequences in a <code class="language-plaintext highlighter-rouge">HashMap</code>, where each <code class="language-plaintext highlighter-rouge">Card</code> is a key and a <code class="language-plaintext highlighter-rouge">String</code> representing that card’s shortest shuffling sequence is the corresponding value. The returned <code class="language-plaintext highlighter-rouge">HashMap</code> should contain the shortest shuffling sequence for each card in the deck.</p>
+
+<p>Refer to the Java Standard Library documentation as you write your code:</p>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/HashMap.html"><code class="language-plaintext highlighter-rouge">HashMap</code> class</a>
+    <ul>
+      <li><strong>Note:</strong> <code class="language-plaintext highlighter-rouge">HashMap</code> is an implementation of a hash table, a type of symbol table. The <a href="/~cs121/slides/34HashTables.pdf">“Hash Tables”</a> and <a href="/~cs121/slides/31ElementarySymbolTables.pdf">“Symbol Tables”</a> slides may be helpful.</li>
+    </ul>
+  </li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Queue.html"><code class="language-plaintext highlighter-rouge">Queue</code> interface</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/LinkedList.html"><code class="language-plaintext highlighter-rouge">LinkedList</code> class</a></li>
+</ul>
+
+<p>Here are solutions for the problem with <code class="language-plaintext highlighter-rouge">maxRank=1</code> , where <code class="language-plaintext highlighter-rouge">'O'</code> and <code class="language-plaintext highlighter-rouge">'I'</code> stand for “out shuffle” and “in shuffle,” respectively:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Card</th>
+      <th>Shortest Sequence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AC</td>
+      <td><code class="language-plaintext highlighter-rouge">""</code></td>
+    </tr>
+    <tr>
+      <td>AD</td>
+      <td><code class="language-plaintext highlighter-rouge">"OI"</code></td>
+    </tr>
+    <tr>
+      <td>AH</td>
+      <td><code class="language-plaintext highlighter-rouge">"I"</code></td>
+    </tr>
+    <tr>
+      <td>AS</td>
+      <td><code class="language-plaintext highlighter-rouge">"II"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s take a closer look at how these sequences move each card to the top of the deck. Note that when <code class="language-plaintext highlighter-rouge">maxRank=1</code>, the original deck sequence is: <code class="language-plaintext highlighter-rouge">AC AD AH AS</code>.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">AC</code> is already at the top of the deck, so no shuffling operations are needed</li>
+  <li><code class="language-plaintext highlighter-rouge">AD</code> (and all the other cards) does not start at the top of the deck, so some shuffling operations will be needed. Applying the sequent <code class="language-plaintext highlighter-rouge">"OI"</code> will means applying and “out shuffle” followed by an “in shuffle”. This will tranform the deck as follows:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">AC AD AH AS</code> becomes</li>
+      <li><code class="language-plaintext highlighter-rouge">AC AH AD AS</code> after applying an “out shuffle”, which becomes</li>
+      <li><code class="language-plaintext highlighter-rouge">AD AC AS AH</code> after applying an “in shuffle,” leaving <code class="language-plaintext highlighter-rouge">AD</code> on the top</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">AH</code> will be on the top after the sequence <code class="language-plaintext highlighter-rouge">"I"</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">AC AD AH AS</code> becomes</li>
+      <li><code class="language-plaintext highlighter-rouge">AH AC AS AD</code> after applying an “in shuffle,” leaving <code class="language-plaintext highlighter-rouge">AH</code> on the top</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">AS</code> will be on the top after the sequence <code class="language-plaintext highlighter-rouge">"II"</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">AC AD AH AS</code> becomes</li>
+      <li><code class="language-plaintext highlighter-rouge">AH AC AS AD</code> after applying an “in shuffle”</li>
+      <li><code class="language-plaintext highlighter-rouge">AS AH AD AC</code> after applying an “in shuffle,” leaving <code class="language-plaintext highlighter-rouge">AS</code> on the top</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Implementing this method is somewhat challenging, so we will include a detailed explanation. The main idea is to use a queue to systematically explore the decks that can be created using combinations of “in shuffles” and “out shuffles.” If you explore the possible decks using a “breadth-first search,” then the <strong>first time</strong> you see a card on the top of a deck, you will have found the shortest shuffling sequence for that card, and you can use the <code class="language-plaintext highlighter-rouge">HashMap</code> to record the sequence for that card.</p>
+
+<p>First, you should define a private inner class to bundle a <code class="language-plaintext highlighter-rouge">Deck</code> and a <code class="language-plaintext highlighter-rouge">String</code>. Each <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> object will represent a sequence of “in shuffles” and “out shuffles” (<code class="language-plaintext highlighter-rouge">shuffle</code>) that brings a deck from the original factory order to <code class="language-plaintext highlighter-rouge">deck</code>’s order.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private static class DeckShufflePair {
+    private final Deck deck;
+    private final String shuffle;
+    public DeckShufflePair(Deck deck, String shuffle) {
+        this.deck = deck;
+        this.shuffle = shuffle;
+    }
+}
+</code></pre></div></div>
+
+<p>We will use <code class="language-plaintext highlighter-rouge">(deck, sequence)</code> as the notation to represent a pair. For example <code class="language-plaintext highlighter-rouge">(AC AD AH AS, "")</code> is a pair, indicating the deck <code class="language-plaintext highlighter-rouge">AC AD AH AS</code> can be reached with an empty sequence (i.e.m no shuffle is needed). Here are two more example pairs <code class="language-plaintext highlighter-rouge">(AC AH AD AS, "O")</code> and <code class="language-plaintext highlighter-rouge">(AH AC AS AD, "I")</code>, representing the decks that can be reached by one “out shuffle” or one “in shuffle,” respectively.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DeckShufflePair</code> will be the element type of our queue. We will define a local variable, called <code class="language-plaintext highlighter-rouge">queue</code>, of the type <code class="language-plaintext highlighter-rouge">Queue&lt;DeckShufflePair&gt;</code>, and we will use Java’s <code class="language-plaintext highlighter-rouge">LinkedList</code> to construct it (since a <code class="language-plaintext highlighter-rouge">LinkedList</code> can behave like a <code class="language-plaintext highlighter-rouge">Queue</code>).</p>
+
+<p>Of course, we will also need a <code class="language-plaintext highlighter-rouge">HashMap&lt;Card, String&gt;</code>, since this is our return type. We will use this <code class="language-plaintext highlighter-rouge">HashMap</code> to save the solution. It will store each <code class="language-plaintext highlighter-rouge">Card</code> in the deck as a key. For each <code class="language-plaintext highlighter-rouge">Card</code>, the corresponding value will be a <code class="language-plaintext highlighter-rouge">String</code> representing the shortest shuffling sequence needed to put this card on top of the deck. We create a local variable, called <code class="language-plaintext highlighter-rouge">shortestShuffles</code>, for this. We will use <code class="language-plaintext highlighter-rouge">Card: String</code> to represent the information in this hash table (e.g. <code class="language-plaintext highlighter-rouge">AC: ""</code>, <code class="language-plaintext highlighter-rouge">AH: "I"</code>).</p>
+
+<p>Below is the process for solving the problem with <code class="language-plaintext highlighter-rouge">maxRank=1</code>. It illustrates the general algorithm for solving the problem with an arbitrary <code class="language-plaintext highlighter-rouge">maxRank</code>.</p>
+
+<h5 id="initialization">Initialization</h5>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">queue = (AC AD AH AS, "")</code>, representing a factory-order deck and no shuffling</li>
+  <li><code class="language-plaintext highlighter-rouge">shortestShuffles = (AC: "")</code>, since the card <code class="language-plaintext highlighter-rouge">AC</code> is at the top without any shuffling</li>
+</ul>
+
+<p>We will use a while loop to repeat the computation describe below until a shortest shuffling sequence is found for each card. In each round of the loop body execution, we will dequeue the <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> at the front of <code class="language-plaintext highlighter-rouge">queue</code>, and add two more pairs to the end of <code class="language-plaintext highlighter-rouge">queue</code>, reflecting the fact that, from the dequeued pair, we can generate two additional pairs by performing an “in shuffle” and, separately, an “out shuffle”. As we do this, we will keep track of the shortest sequence for each <code class="language-plaintext highlighter-rouge">Card</code>.</p>
+
+<p>Next, we explain several rounds of the loop’s execution, using our example of <code class="language-plaintext highlighter-rouge">maxRank=1</code>.</p>
+
+<h5 id="round-1">Round 1</h5>
+<p>Do a dequeue on <code class="language-plaintext highlighter-rouge">queue</code> to get <code class="language-plaintext highlighter-rouge">(AC AD AH AS, "")</code>, and <code class="language-plaintext highlighter-rouge">queue</code> becomes empty. We will refer to the deck and the string in the dequeued pair as the “dequeued deck” and the “dequeued sequence.”</p>
+
+<p>Some pseudo-code:</p>
+<ul>
+  <li>If the top card of the dequeued deck is already a key in <code class="language-plaintext highlighter-rouge">shortestShuffles</code>, this means that the shortest sequence for the top card has already been found
+    <ul>
+      <li>So we don’t change <code class="language-plaintext highlighter-rouge">shortestShuffles</code></li>
+    </ul>
+  </li>
+  <li>Otherwise, we have just found the shortest sequence for the top card!
+    <ul>
+      <li>So we add the top card and the dequeued sequence to <code class="language-plaintext highlighter-rouge">shortestShuffles</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>In this round, the top card is <code class="language-plaintext highlighter-rouge">AC</code>, which is already a key in <code class="language-plaintext highlighter-rouge">shortestShuffles</code>, so we don’t change <code class="language-plaintext highlighter-rouge">shortestShuffles</code>.</p>
+
+<p>Next, we make two copies of the dequeued deck <code class="language-plaintext highlighter-rouge">AC AD AH AS</code>:</p>
+<ul>
+  <li>With the first copy, we perform an “in shuffle.” We create a <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> with this copy and the dequeued sequence (<code class="language-plaintext highlighter-rouge">""</code>) concatenated with <code class="language-plaintext highlighter-rouge">"I"</code>, forming <code class="language-plaintext highlighter-rouge">(AH AC AS AD, "I")</code>. This indicates that this deck can be reached from the original, factory-order deck with one “in shuffle.” Finally, we add this <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> to <code class="language-plaintext highlighter-rouge">queue</code>. Now our queue has one item: <code class="language-plaintext highlighter-rouge">queue = (front) (AH AC AS AD, "I")</code></li>
+  <li>With the second copy, we perform an “out shuffle.” We create a <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> with this copy and the dequeued sequence (<code class="language-plaintext highlighter-rouge">""</code>) concatenated with <code class="language-plaintext highlighter-rouge">"O"</code>, forming <code class="language-plaintext highlighter-rouge">(AC AH AD AS, "O")</code>. This indicates that this deck can be reached from the original, factory-order deck with one “out shuffle.” Finally, we add this <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> to <code class="language-plaintext highlighter-rouge">queue</code>. Now our queue has one item: <code class="language-plaintext highlighter-rouge">queue = (front) (AH AC AS AD, "I"), (AC AH AD AS, "O")</code></li>
+</ul>
+
+<h5 id="round-2">Round 2</h5>
+<p>Do a dequeue on <code class="language-plaintext highlighter-rouge">queue</code> to get <code class="language-plaintext highlighter-rouge">(AH AC AS AD, "I")</code>, leaving <code class="language-plaintext highlighter-rouge">queue</code> with only <code class="language-plaintext highlighter-rouge">(AC AH AD AS, "O")</code>.</p>
+
+<p>The top of the dequeued deck <code class="language-plaintext highlighter-rouge">AH AC AS AD</code> is <code class="language-plaintext highlighter-rouge">AH</code>, which isn’t yet in <code class="language-plaintext highlighter-rouge">shortestShuffles</code>. This means we hadn’t already found a shortest sequence for <code class="language-plaintext highlighter-rouge">AH</code>, so the dequeued shuffling sequence is the shortest sequence for bringing this card to the top. We add this top card and the dequeued sequence to <code class="language-plaintext highlighter-rouge">shortestShuffles</code>. Now shortestShuffles includes the following card-string associations: <code class="language-plaintext highlighter-rouge">shortestShuffles = (AC: ""), (AH: "I")</code></p>
+
+<p>Next, we make two copies of the dequeued deck <code class="language-plaintext highlighter-rouge">AH AC AS AD</code>:</p>
+<ul>
+  <li>With the first copy, we perform an “in shuffle.” We create a <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> with this copy and the dequeued sequence (<code class="language-plaintext highlighter-rouge">"I"</code>) concatenated with <code class="language-plaintext highlighter-rouge">"I"</code>, forming <code class="language-plaintext highlighter-rouge">(AS AH AD AC, "II")</code>. This indicates that this deck can be reached from the original, factory-order deck with two “in shuffles.” Finally, we add this <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> to <code class="language-plaintext highlighter-rouge">queue</code>. Now our queue has two items: <code class="language-plaintext highlighter-rouge">queue = (front) (AC AH AD AS, "O"), (AS AH AD AC, "II")</code></li>
+  <li>With the second copy, we perform an “out shuffle.” We create a <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> with this copy and the dequeued sequence (<code class="language-plaintext highlighter-rouge">"I"</code>) concatenated with <code class="language-plaintext highlighter-rouge">"O"</code>, forming <code class="language-plaintext highlighter-rouge">(AC AH AD AS, "IO")</code>. This indicates that this deck can be reached from the original, factory-order deck with an “in shuffle” followed by an “out shuffle.” Finally, we add this <code class="language-plaintext highlighter-rouge">DeckShufflePair</code> to <code class="language-plaintext highlighter-rouge">queue</code>. Now our queue has three items: <code class="language-plaintext highlighter-rouge">queue = (front) (AC AH AD AS, "O"), (AS AH AD AC, "II"), (AH AS AC AD, "IO")</code></li>
+</ul>
+
+<p>You may have noticed that <code class="language-plaintext highlighter-rouge">queue</code> grows in size with each execution of the while loop.</p>
+
+<h5 id="round-3">Round 3</h5>
+<p>No shortest sequence found.</p>
+
+<h5 id="round-4">Round 4</h5>
+<p>Shortest sequence found for <code class="language-plaintext highlighter-rouge">AS</code>.</p>
+
+<h5 id="round-5">Round 5</h5>
+<p>No shortest sequence found.</p>
+
+<h5 id="round-6">Round 6</h5>
+<p>Rounds 3, 4, 5, and 6 will work similarly to Rounds 1 and 2. In Round 6, we will find the shortest sequence for <code class="language-plaintext highlighter-rouge">AD</code>, which will mean that we have found the shortest sequence for all cards. At this point, the while loop can be exited. Programmatically, you can do this by checking the size of <code class="language-plaintext highlighter-rouge">shortestShuffles</code>.</p>
+
+<p>When <code class="language-plaintext highlighter-rouge">maxRank=1</code>, we’ll know we have all the shortest sequences when <code class="language-plaintext highlighter-rouge">shortestShuffles</code> contains four card-string associations. Specifically, <code class="language-plaintext highlighter-rouge">shortestShuffles</code> will contain <code class="language-plaintext highlighter-rouge">shortestShuffles = (AC: ""), (AH: "I"), (AS: "II"), (AD: "OI")</code></p>
+
+<h5 id="testing">Testing</h5>
+<p>If your code is working correctly, the main method should show the following results:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Shuffling 10
+...
+Shortest Shuffles
+  maxRank=1
+    Card  Shuffle Sequence
+    AC    
+    AS    II
+    AD    OI
+    AH    I
+  maxRank=2
+    Card  Shuffle Sequence
+    2S    III
+    2C    OOI
+    AC    
+    AS    II
+    2D    OII
+    AD    OI
+    2H    IOI
+    AH    I
+...
+</code></pre></div></div>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Card.java</li>
+  <li>ArrayDeck.java</li>
+  <li>Shuffling.java</li>
+  <li><strong>A completed readme_part2.txt file,</strong> containing the information shown below</li>
+</ul>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Programming Assignment: Shuffles: Part 2
+
+
+/**********************************************************************
+ * All teammates' names                                               *
+ **********************************************************************/
+
+
+/**********************************************************************
+ * Approximate number of hours to complete this assignment            *
+ **********************************************************************/
+
+Number of hours for 1st TEAMMATE's NAME:
+
+Number of hours for 2nd TEAMMATE's NAME:
+
+
+/**********************************************************************
+ *  Did you receive help from classmates, past students, or
+ *  anyone else? If so, please list their names.  ("A Sunday lab TA"
+ *  or "Office hours on Thursday" is ok if you don't know their name.)
+ **********************************************************************/
+
+Yes or no?
+
+
+/**********************************************************************
+ *  Did you encounter any serious problems? If so, please describe.
+ **********************************************************************/
+
+Yes or no?
+
+
+/**********************************************************************
+ *  List any other comments here.                                     
+ **********************************************************************/
+
+
+</code></pre></div></div>
+
+:ET

@@ -1,0 +1,62 @@
+I"�<h1 id="lab-3-simple-grep">Lab 3: Simple Grep</h1>
+<p>In this lab, you will create a simplified implementation of the <code class="language-plaintext highlighter-rouge">grep</code> command-line utility. Your program will allow you to search through input text for lines matching a target string.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>Start by downloading <a href="grep.zip">grep.zip</a>, which contains the starter files for this assignment.</p>
+
+<p>Create your own <code class="language-plaintext highlighter-rouge">Grep</code> class which supports searching through input text for a target string. Your program should support input from either standard input (i.e., STDIN) or from a file. The number of arguments supplied should determine where input is read from. When your program finds an input line matching the target string, it should print the matching line.</p>
+
+<p>For example, searching through <code class="language-plaintext highlighter-rouge">the-raven.txt</code> for the string <code class="language-plaintext highlighter-rouge">raven</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Grep raven the-raven.txt
+In there stepped a stately raven of the saintly days of yore;
+"Though thy crest be shorn and shaven, thou," I said, "art sure no craven,
+Ghastly grim and ancient raven wandering from the Nightly shore,
+But the raven, sitting lonely on the placid bust, spoke only
+</code></pre></div></div>
+
+<p>Or searching through <code class="language-plaintext highlighter-rouge">the-raven.txt</code> using standard input:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Grep raven &lt; the-raven.txt
+In there stepped a stately raven of the saintly days of yore;
+"Though thy crest be shorn and shaven, thou," I said, "art sure no craven,
+Ghastly grim and ancient raven wandering from the Nightly shore,
+But the raven, sitting lonely on the placid bust, spoke only
+</code></pre></div></div>
+
+<p>Or searching through standard input typed by the user:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs Grep word
+Hello there!
+Hello?
+Can you read the words I am typing?
+Can you read the words I am typing?
+</code></pre></div></div>
+<p>Note that only the last line was repeated by the program, because it contained the string <code class="language-plaintext highlighter-rouge">word</code>.</p>
+
+<p><strong>Hint:</strong> To check whether a string contains another string, use <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#contains(java.lang.CharSequence)">the <code class="language-plaintext highlighter-rouge">String</code> class’s <code class="language-plaintext highlighter-rouge">contains()</code> method</a>.</p>
+
+<p><strong>Note</strong>:
+When reading from standard input, each time you press “Return” or “Enter”, <code class="language-plaintext highlighter-rouge">Grep</code> should process another line of input. <code class="language-plaintext highlighter-rouge">Grep</code> should not exit until it encounters the “end of file” character. On macOS and Linux, you can type this with “Control+D”, or on Windows “Control+Z” then “Enter”.</p>
+
+<p><strong>Hint:</strong> We usually use <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdIn.html">the <code class="language-plaintext highlighter-rouge">StdIn</code> class</a> to read from standard input. However, to read from a file, you will need to use <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/In.html">the <code class="language-plaintext highlighter-rouge">In</code> class</a>. Since the <code class="language-plaintext highlighter-rouge">In</code> class supports reading from either standard input or from a file, your code will be simpler if you only use the <code class="language-plaintext highlighter-rouge">In</code> class. You can create an <code class="language-plaintext highlighter-rouge">In</code> object that reads from standard input with:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In input = new In();
+</code></pre></div></div>
+<p>Then, you can read data using the same <code class="language-plaintext highlighter-rouge">StdIn</code> methods we discussed in lecture, but written as <code class="language-plaintext highlighter-rouge">input.readInt()</code>, <code class="language-plaintext highlighter-rouge">input.readDouble()</code>, etc. Refer to <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/In.html">the documentation for the <code class="language-plaintext highlighter-rouge">In</code> class</a> to learn how to read from a file.</p>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Grep.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to <strong>indicate your group member on Gradescope</strong>.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+<ul>
+  <li>Practice using STDIN and file-based I/O</li>
+  <li>Practice reading Java documentation</li>
+</ul>
+:ET

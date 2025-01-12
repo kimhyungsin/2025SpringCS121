@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homework 4: Drawing Fractals</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="homework-4-drawing-fractals">Homework 4: Drawing Fractals</h1>
+<p>In this homework, you will draw a fractal tree. <a href="https://en.wikipedia.org/wiki/Fractal">Fractals</a> are recursive geometric patterns, which occur in nature, mathematics, and engineering.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<h3 id="task-1-download-starter-files">Task 1: Download Starter Files</h3>
+<p><a href="fractals.zip">fractals.zip</a> contains the starter files for this assignment.</p>
+
+<h3 id="task-2-implement-treejava">Task 2: Implement Tree.java</h3>
+<p>You will use the textbook’s <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/StdDraw.html">StdDraw library</a> to draw your fractal tree. The only method you need to use is the <code class="language-plaintext highlighter-rouge">StdDraw.line()</code> method, but other methods may be helpful for debugging or customizing your tree.</p>
+
+<p>To draw a tree, you should implement the <code class="language-plaintext highlighter-rouge">drawBranch()</code> method, which will recursively call itself:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Draws a tree branch, and potentially sub-branches as well.
+ *
+ * @param x     the x-coordinate of the base of this branch
+ * @param y     the y-coordinate of the base of this branch
+ * @param size  the length of this branch
+ * @param angle the angle of this branch
+ */
+public static void drawBranch(double x, double y, double size, double angle)
+</code></pre></div></div>
+
+<p>Your main method should contain:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void main(String[] args) {
+    drawBranch(0.5, 0, 0.2, Math.PI / 2);
+    StdDraw.save("tree.png");
+}
+</code></pre></div></div>
+
+<p>After you’ve implemented <code class="language-plaintext highlighter-rouge">drawBranch()</code>, this <code class="language-plaintext highlighter-rouge">main()</code> method should draw the tree so its base is at the bottom-center of the canvas (i.e., at coordinates <code class="language-plaintext highlighter-rouge">(0.5, 0)</code>), with a trunk length of 0.2, pointing upwards. Then, the drawing is saved to the file <code class="language-plaintext highlighter-rouge">tree.png</code>.</p>
+
+<p>The end result should look like one of these examples:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:350px;">
+<img src="tree3.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A fractal tree." />
+</div>
+</div>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:350px;">
+<img src="tree1.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A fractal tree." />
+</div>
+</div>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:350px;">
+<img src="tree2.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A fractal tree." />
+</div>
+</div>
+
+<p>I recommend following these steps to implement <code class="language-plaintext highlighter-rouge">drawBranch()</code>:</p>
+<ol>
+  <li>First, draw a simple branch, without any recursive calls. This branch should be just a straight line. It should start at the appropriate coordinates, be of the appropriate length, and point in the direction specified by the angle.
+    <ul>
+      <li>You should use <code class="language-plaintext highlighter-rouge">Math.sin()</code> and <code class="language-plaintext highlighter-rouge">Math.cos()</code> to calculate the endpoint of the branch, based on the angle. <a href="https://en.wikipedia.org/wiki/Trigonometry#Trigonometric_ratios">Remember your Trigonometric ratios!</a></li>
+    </ul>
+  </li>
+  <li>Next, add two recursive calls to <code class="language-plaintext highlighter-rouge">drawBranch()</code> to create two smaller branches. These branches should angle to the left and right.
+    <ul>
+      <li>Be sure to include a base case, or else you will make an infinite number of recursive calls! The <code class="language-plaintext highlighter-rouge">size</code> parameter can be used to define the base case: you don’t want to draw extremely small branches.</li>
+      <li>Since <code class="language-plaintext highlighter-rouge">Math.sin()</code> and <code class="language-plaintext highlighter-rouge">Math.cos()</code> work with radians, it may be easier to write your code with radians. Refer to the unit circle for conversions between degrees and radians:</li>
+    </ul>
+  </li>
+</ol>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:500px;">
+<img src="unit-circle.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A unit circle showing conversions between degrees and radians." />
+</div>
+</div>
+
+<!-- Public domain image from: https://commons.wikimedia.org/wiki/File:Unit_circle_angles_color.svg -->
+
+<p><strong>Hint:</strong>
+Consider annotating your output with a grid, dividing the drawing area into 10 x 10 squares. This will help you compare your program’s output to calculations you do by hand.</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:350px;">
+<img src="tree3-annotated.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A fractal tree, drawn on a 10 x 10 grid." />
+</div>
+</div>
+
+<p><strong>Hint:</strong>
+When debugging with print statements, print the angles as degrees. You can use <code class="language-plaintext highlighter-rouge">Math.toDegrees()</code>.</p>
+
+<p><strong>Note:</strong>
+If you finish early, customize your tree. Consider adding color or variable branch width. However, don’t make changes that would violate <a href="https://en.wikipedia.org/wiki/Self-similarity">self-similarity</a>.</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:350px;">
+<img src="tree3-colored.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A fractal tree with brown branches and green leaves." />
+</div>
+</div>
+
+<h2 id="submit">Submit</h2>
+<p><strong>For full-credit:</strong></p>
+<ul>
+  <li>Your code must call itself recursively</li>
+  <li>At least five recursive calls should be visible in your output (i.e., there should be at least five branches from the tree’s trunk to its leaves)</li>
+  <li>Your output should exhibit <a href="https://en.wikipedia.org/wiki/Self-similarity">self-similarity</a>, as in the examples above</li>
+</ul>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Tree.java</li>
+  <li>tree.png, showing your code’s output</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to indicate your group member on Gradescope.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+
+<ul>
+  <li>Practice recursive programming</li>
+  <li>Practice using Java drawing libraries</li>
+  <li>Practice debugging</li>
+</ul>
+
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

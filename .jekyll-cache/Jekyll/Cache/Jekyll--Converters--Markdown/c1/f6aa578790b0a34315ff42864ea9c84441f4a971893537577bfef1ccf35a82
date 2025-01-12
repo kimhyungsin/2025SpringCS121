@@ -1,0 +1,187 @@
+I"�O<h1 id="lab-2-command-line-interface">Lab 2: Command-Line Interface</h1>
+<p>In this lab, you will practice using <a href="https://en.wikipedia.org/wiki/Unix_shell">the UNIX command-line interface (CLI)</a>. You will use the CLI to access a remote server, on which you will run several commands in order to discover a secret. Future assignments will assume familiarity with the CLI, so ask questions if anything is unclear!</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>Each student must complete all of the tasks described below. You should <strong>try to work individually</strong>, though if you get stuck you may ask other students, the TAs, or instructor for help.</p>
+
+<h3 id="task-1-claim-a-username-and-password">Task 1: Claim a Username and Password</h3>
+<p>You must use a unique username to access the remote server (e.g., <code class="language-plaintext highlighter-rouge">user1</code>). Usernames and passwords are projected and listed on the signup sheet. Write your name on the signup sheet to claim a username. Then, write your username and password down somewhere, so I don’t have to project them for the entire lab.</p>
+
+<h3 id="task-2-access-the-server-via-ssh">Task 2: Access the Server via SSH</h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Secure_Shell">Secure Shell (SSH)</a> allows you to securely access the CLI of another computer. After connecting via SSH, all data transferred between your device and the device you are connected to is encrypted for security.</p>
+
+<p>If your device runs macOS or Linux, you can simply open the Terminal app, then type the following command. <code class="language-plaintext highlighter-rouge">PORT</code> will vary based on your lab section, and <code class="language-plaintext highlighter-rouge">USERNAME</code> is the username you claimed in Task 1.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh -p PORT USERNAME@cs121.us.to
+</code></pre></div></div>
+<p>Then type your password when prompted.</p>
+
+<p>If your device runs Windows, I recommend <a href="https://docs.microsoft.com/en-us/windows/wsl/install">installing Windows Subsystem for Linux (WSL)</a>, which will allow you to open a Linux terminal on your PC. From the Linux terminal, you can run the <code class="language-plaintext highlighter-rouge">ssh</code> command. Alternatively, you could try using the <code class="language-plaintext highlighter-rouge">ssh</code> command built in to Windows, by running it directly from PowerShell. Another option is to install and use <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">the PuTTY utility</a>.</p>
+
+<p><strong>Note:</strong>
+When you type your password, you won’t see it displayed (i.e., “echoed”) on the screen. This is for security, to thwart <a href="https://en.wikipedia.org/wiki/Shoulder_surfing_(computer_security)">shoulder surfing</a>.</p>
+
+<p><strong>Note:</strong>
+Before SSH was created, people connected to remote devices using a command called <a href="https://en.wikipedia.org/wiki/Telnet">Telnet</a>. However, Telnet doesn’t encrypt data, which would make it easy for hackers to see everything transferred between connected devices, including your password. For this reason, Telnet is rarely used today.</p>
+
+<h3 id="task-3-practice-using-unix-commands">Task 3: Practice Using UNIX Commands</h3>
+<p>Now that you have access to the remote server’s CLI, you can run different programs, or commands, on the server. There are many <a href="https://en.wikipedia.org/wiki/List_of_Unix_commands">standard UNIX commands</a>, which you will find on (almost) any macOS or Linux device. Here are some basic commands, which you will use today. <strong>Practice using them</strong>, and ask if you have any questions.</p>
+
+<h4 id="pwd-print-working-directory"><code class="language-plaintext highlighter-rouge">pwd</code> print working directory</h4>
+<p>When using the CLI, it important to keep track of which directory (AKA folder) you are “in.” You are always “in” a particular directory, and this directory is referred to as your “working directory.” It is important to keep track of your working directory, since the effect of commands varies based on your working directory.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">pwd</code> command shows your current working directory. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pwd
+/home/user1
+</code></pre></div></div>
+<p>After typing <code class="language-plaintext highlighter-rouge">pwd</code> and pressing “Return,” <code class="language-plaintext highlighter-rouge">/home/user1</code> is printed. This tells me that I am within the <code class="language-plaintext highlighter-rouge">user1</code> directory, which is located within the <code class="language-plaintext highlighter-rouge">home</code> directory, which is located at the root of the filesystem. All directories are either immediate or indirect descendents of the root directory, <code class="language-plaintext highlighter-rouge">/</code>. Conceptually, directories are <a href="https://en.wikipedia.org/wiki/Unix_filesystem">organized as a tree</a>.</p>
+
+<p>When you first SSH to a server, you usually start in your “home directory.” Typically, each user is assigned a unique home directory, often named the same as the user themselves, where they are allowed to add, edit, and delete files. For security, such operations are often restricted in other directories on the server.</p>
+
+<p><strong>Note:</strong>
+The <code class="language-plaintext highlighter-rouge">$</code> sign used in the example above simply indicates your shell prompt. It is used to distinguish between input (things you type) and output (things printed by commands). As such, you should <strong>not</strong> type the <code class="language-plaintext highlighter-rouge">$</code> sign in the examples we give. The <code class="language-plaintext highlighter-rouge">$</code> is displayed as part of the “shell prompt.” Everything you type on the CLI is parsed by a shell program, which can run other programs based on what you type. For this lab, you will be interacting with the <code class="language-plaintext highlighter-rouge">bash</code> shell, but <a href="https://en.wikipedia.org/wiki/Comparison_of_command_shells">many different shells exist</a>. Personally, I prefer to use <a href="https://fishshell.com">the fish shell</a> on my own devices, but <code class="language-plaintext highlighter-rouge">bash</code> is much more widely used, which is why we are using it in this lab.</p>
+
+<h4 id="ls-list-directory-contents"><code class="language-plaintext highlighter-rouge">ls</code> list directory contents</h4>
+<p>Directories can contain other directories and files. To list the names of all the directories and files within the working directory, simply type:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ls
+</code></pre></div></div>
+<p>If nothing is printed, that means that the current directory is either empty, or contains only hidden directories or files.</p>
+
+<p>To show hidden files, type:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ls -al
+total 20
+drwxr-xr-x 2 user1 user1 4096 Jan  3 18:26 .
+drwxr-xr-x 1 root  root  4096 Jan  3 18:26 ..
+-rw-r--r-- 1 user1 user1  220 Apr  4  2018 .bash_logout
+-rw-r--r-- 1 user1 user1 3771 Apr  4  2018 .bashrc
+-rw-r--r-- 1 user1 user1  807 Apr  4  2018 .profile
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">a</code> tells <code class="language-plaintext highlighter-rouge">ls</code> to print “all” directory entries. The <code class="language-plaintext highlighter-rouge">l</code> tells <code class="language-plaintext highlighter-rouge">ls</code> to print using the “long” format. As you can see, there are several hidden files in our home directory. However, we won’t further concern ourselves with hidden files in this lab.</p>
+
+<p>To list the contents of another directory, type:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ls -a /home
+.       user12  user18  user23  user29  user34  user4   user45  user50
+..      user13  user19  user24  user3   user35  user40  user46  user6
+shared  user14  user2   user25  user30  user36  user41  user47  user7
+user1   user15  user20  user26  user31  user37  user42  user48  user8
+user10  user16  user21  user27  user32  user38  user43  user49  user9
+user11  user17  user22  user28  user33  user39  user44  user5
+</code></pre></div></div>
+<p>So you can see that typing <code class="language-plaintext highlighter-rouge">ls</code> without the name of a directory lists the contents of the current working directory, whereas if you give the name of a directory, the contents of that directory will be listed.</p>
+
+<p><strong>Note:</strong> The first thing you type on the command line is the name of the command itself (e.g., <code class="language-plaintext highlighter-rouge">ls</code>). Everything that follows is an “argument” to the command. This is analogous to how you might pass arguments, or parameters, to a function when programming. Often, <code class="language-plaintext highlighter-rouge">-</code> is used to prefix arguments, which allows the command to distinguish between configuration flags (e.g., the <code class="language-plaintext highlighter-rouge">-a</code> flag tells <code class="language-plaintext highlighter-rouge">ls</code> to print even hidden files and directories) and positional arguments (e.g., the name of a directory).</p>
+
+<h4 id="cd-change-the-working-directory"><code class="language-plaintext highlighter-rouge">cd</code> change the working directory</h4>
+<p>As mentioned earlier, when you first log into a device, your initial working directory is typically your home folder. However, it is useful to be able to change your working directory. You can do this using the <code class="language-plaintext highlighter-rouge">cd</code> command, as shown in the examples below.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pwd
+/home/user1
+$ cd /
+$ pwd
+/
+$ cd ~
+$ pwd
+/home/user1
+$ cd ..
+$ pwd
+/home
+$ cd user1
+$ pwd
+/home/user1
+</code></pre></div></div>
+<p>As shown in the examples, you can either type the path of a directory, or use a special directory name. <code class="language-plaintext highlighter-rouge">~</code> corresponds to your home directory. <code class="language-plaintext highlighter-rouge">..</code> corresponds to the parent directory.</p>
+
+<h4 id="cp-copy-files"><code class="language-plaintext highlighter-rouge">cp</code> copy files</h4>
+<p>The <code class="language-plaintext highlighter-rouge">cp</code>, or copy, command allows you to make a copy of a file or directory. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp .profile my_profile_backup
+</code></pre></div></div>
+<p>First, you specify the source file or directory. Next, you specify the destination file or directory.</p>
+
+<h4 id="man-an-interface-to-the-reference-manuals"><code class="language-plaintext highlighter-rouge">man</code> an interface to the reference manuals</h4>
+<p>Even the basic UNIX commands have many advanced capabilities. Certainly, it is possible to Google search for documentation for these commands. However, it is better to read the manuals included with the operating system you are using, since subtle differences exist between different operating systems.</p>
+
+<p>To read the documentation for a command, type:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ man cp
+</code></pre></div></div>
+<p>You can scroll through the documentation using the arrow keys. You can search by typing <code class="language-plaintext highlighter-rouge">/term</code>, then “Return.” You can exit by typing <code class="language-plaintext highlighter-rouge">q</code>. The <code class="language-plaintext highlighter-rouge">man</code> command actually uses the <code class="language-plaintext highlighter-rouge">more</code> command, so advanced navigation options are described in the documentation for <code class="language-plaintext highlighter-rouge">more</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ man more
+</code></pre></div></div>
+
+<h4 id="echo-write-to-standard-output"><code class="language-plaintext highlighter-rouge">echo</code> write to standard output</h4>
+<p>The <code class="language-plaintext highlighter-rouge">echo</code> command is quite simple: it simply repeats all arguments you pass to it. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo Hello World!
+Hello World!
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">echo</code> is particularly useful for printing the values of “environment variables.” Command-line programs can be configured using both parameters and “environment variables.” For example, the <code class="language-plaintext highlighter-rouge">HOME</code> variable specifies your home directory:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo $HOME
+/home/user1
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">HOME</code> and other environment variables can be accessed by any program you run from the CLI.</p>
+
+<p>One of the most important environment variables is <code class="language-plaintext highlighter-rouge">PATH</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+</code></pre></div></div>
+<p>Each time you type the name of a command, your shell searches the directories listed in <code class="language-plaintext highlighter-rouge">PATH</code> for programs that have that name. If you list the contents of these directories, you will see the names of many different commands.</p>
+
+<p>Typically, most commands you run will be stored in a directory included in <code class="language-plaintext highlighter-rouge">PATH</code>. However, it is also possible to run commands that aren’t in <code class="language-plaintext highlighter-rouge">PATH</code>. To do this, simply specify the path to the command. For example, the following would run a program named <code class="language-plaintext highlighter-rouge">my_program</code>, located in the current working directory:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./my_program
+</code></pre></div></div>
+<p>Note that <code class="language-plaintext highlighter-rouge">.</code> is short for the current working directory, but you could also write out the full path to the program (e.g., <code class="language-plaintext highlighter-rouge">/home/user1/my_program</code>).</p>
+
+<h4 id="additional-commands">Additional commands</h4>
+<p>Here are some additional commands you should be aware of. We have either previously discussed them, or they are not essential to this lab:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">javac</code> compile .java files</li>
+  <li><code class="language-plaintext highlighter-rouge">java</code> run java programs</li>
+  <li><code class="language-plaintext highlighter-rouge">cat</code> print files</li>
+  <li><code class="language-plaintext highlighter-rouge">more</code> display files on a page-by-page basis</li>
+  <li><code class="language-plaintext highlighter-rouge">rm</code> remove files or directories</li>
+  <li><code class="language-plaintext highlighter-rouge">find</code> find files</li>
+  <li><code class="language-plaintext highlighter-rouge">grep</code> search file(s) for a pattern</li>
+</ul>
+
+<p>You should also be aware of command-line text editors, which allow you to edit files from the CLI. Popular editors include <a href="https://en.wikipedia.org/wiki/GNU_nano">nano</a>, <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim</a>, and <a href="https://en.wikipedia.org/wiki/Emacs">Emacs</a>.</p>
+
+<h3 id="task-3-compile-and-run-hint-program">Task 3: Compile and Run <code class="language-plaintext highlighter-rouge">Hint</code> Program</h3>
+<p>Now that you have some familiarity with the basics of the CLI, you will perform a simple “scavenger hunt.”</p>
+
+<p>First, you should compile and run the <code class="language-plaintext highlighter-rouge">Hint</code> Java program. The source code for the program is located in the <code class="language-plaintext highlighter-rouge">/home/shared</code> directory.</p>
+<ol>
+  <li>Copy the source code into your home directory</li>
+  <li>Compile the program</li>
+  <li>Run the program</li>
+</ol>
+
+<h3 id="task-4-run-the-secret-program">Task 4: Run the Secret Program</h3>
+<p>The <code class="language-plaintext highlighter-rouge">Hint</code> program will tell you where the secret program is. Run the secret program, which will reveal your secret word.</p>
+
+<h3 id="bonus-tasks">Bonus Tasks</h3>
+
+<h4 id="find-the-ascii-cat">Find the ASCII Cat</h4>
+<p>Somewhere on the server is a text file containing <a href="https://en.wikipedia.org/wiki/ASCII_art">ASCII art</a> depicting a cat. Use the <code class="language-plaintext highlighter-rouge">grep</code> command to locate the file, and the <code class="language-plaintext highlighter-rouge">cat</code> command to display the file’s contents.</p>
+
+<p><strong>Hint:</strong> The ASCII art is credited to “Felix Lee.”</p>
+
+<p><strong>Hint:</strong> Review the man page for <code class="language-plaintext highlighter-rouge">grep</code>. If you’re still unsure how to use <code class="language-plaintext highlighter-rouge">grep</code>, search online for examples of using <code class="language-plaintext highlighter-rouge">grep</code>.</p>
+
+<p><strong>Hint:</strong> Sometimes <code class="language-plaintext highlighter-rouge">grep</code> can seem to hang. This may happen when it is reading from standard input, since <code class="language-plaintext highlighter-rouge">grep</code> will wait for you to type something. If you are searching through the entire filesystem, <code class="language-plaintext highlighter-rouge">grep</code> can also hang when it is reading very large files. In particular, you should avoid searching through <a href="https://www.linux.com/news/discover-possibilities-proc-directory/">the <code class="language-plaintext highlighter-rouge">/proc</code> directory</a>, because <code class="language-plaintext highlighter-rouge">/proc</code> contains special types of files. You can exit the currently running program by typing <code class="language-plaintext highlighter-rouge">Control+C</code>.</p>
+
+<h4 id="determine-remote-system-details">Determine Remote System Details</h4>
+<p>What kind of computer is <code class="language-plaintext highlighter-rouge">cs121.us.to</code>? Is it <a href="https://www.dell.com/en-us/shop/dell-poweredge-servers/sc/servers">an Intel-based server or workstation</a>, <a href="https://www.raspberrypi.com/products/">a Raspberry Pi</a>, or something else?</p>
+
+<p>What operating system is <code class="language-plaintext highlighter-rouge">cs121.us.to</code> running? Is it running macOS, <a href="https://en.wikipedia.org/wiki/Linux">a Linux distribution</a>, <a href="https://en.wikipedia.org/wiki/Berkeley_Software_Distribution">a BSD-based OS</a>, or something else?</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 2: Command-Line Interface” quiz on Canvas. You will submit:</p>
+
+<ul>
+  <li>The username you claimed for this lab</li>
+  <li>The output of the secret program</li>
+  <li>Any recommendations for improving this lab in the future</li>
+</ul>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade.</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Domain name provided by <a href="https://freedns.afraid.org/">Free DNS</a>.</p>
+:ET

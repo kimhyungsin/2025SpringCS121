@@ -1,0 +1,201 @@
+I"�0<h1 id="lab-15-graphs">Lab 15: Graphs</h1>
+<p>In this lab, you will write code to convert graph data into the format used by <a href="https://graphviz.org">the Graphviz tool.</a></p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<p>Start by downloading <a href="graphs.zip">graphs.zip</a>, which contains the starter files for this assignment.</p>
+
+<h3 id="task-1-install-graphviz-on-your-device">Task 1: Install Graphviz on your device</h3>
+<p>Graphviz is a tool for visualizing graphs.</p>
+
+<ul>
+  <li>First, <a href="https://graphviz.org/download/">install Graphviz by following the instructions for your platform</a>
+    <ul>
+      <li>On macOS, install <code class="language-plaintext highlighter-rouge">graphviz-gui</code> via MacPorts</li>
+      <li>On Windows, use the latest 64-bit EXE installer. Accept the option to add Graphviz to your PATH.</li>
+    </ul>
+  </li>
+  <li>Next, use Graphviz to render <code class="language-plaintext highlighter-rouge">starter-files.dot</code>. You should see something like the image below.
+    <ul>
+      <li>On macOS, open <code class="language-plaintext highlighter-rouge">starter-files.dot</code> using the “Graphviz” app installed in <code class="language-plaintext highlighter-rouge">/Applications/MacPorts/</code></li>
+      <li>On Windows, use the <code class="language-plaintext highlighter-rouge">dot</code> command in the IntelliJ terminal to save a PNG image of the graph using:
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dot -Tpng starter-files.dot -o starter-files.png
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>Familiarize yourself with <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">Graphviz’s DOT language</a> by comparing the data in <code class="language-plaintext highlighter-rouge">starter-files.dot</code> to the graph rendered by Graphviz.</li>
+</ul>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="starter-files.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A graph showing the starter files. The 'graphs' vertex is connected to the '.idea', '.lift', 'clusters.txt', etc. vertices." />
+</div>
+</div>
+
+<p><strong>Note:</strong> Spend at most 15 minutes trying to install Graphviz. If you cannot install Graphviz on either partner’s device, you can use <a href="https://edotor.net">an online Graphviz renderer.</a></p>
+
+<h3 id="task-2-complete-graphdotjava">Task 2: Complete GraphDOT.java</h3>
+<p>The <code class="language-plaintext highlighter-rouge">GraphDOT</code> class contains the unfinished <code class="language-plaintext highlighter-rouge">getDOT()</code> method. When completed, it should convert a <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Graph.html">Java <code class="language-plaintext highlighter-rouge">Graph</code> object</a> into <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language)">Graphviz DOT data</a>, suitable for rendering in Graphviz.</p>
+
+<p><code class="language-plaintext highlighter-rouge">GraphDOT</code>’s main method is already completed. The main method reads <code class="language-plaintext highlighter-rouge">Graph</code> data in the format described in the documentation for the <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Graph.html"><code class="language-plaintext highlighter-rouge">Graph</code> class</a> from either STDIN or from a file argument, and uses <code class="language-plaintext highlighter-rouge">getDOT()</code> to print Graphviz data to STDOUT.</p>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">clusters.txt</code> contains <code class="language-plaintext highlighter-rouge">Graph</code> data, with 10 vertices and edges:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10
+10
+1 2
+3 4
+4 5
+5 3
+6 7
+6 8
+6 9
+7 8
+7 9
+8 9
+</code></pre></div></div>
+
+<p>When the <code class="language-plaintext highlighter-rouge">GraphDOT</code> class is completed, it should convert <code class="language-plaintext highlighter-rouge">clusters.txt</code> into Graphviz data. Notice that each edge is printed once, and vertices with degree zero are printed without associated edges:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 GraphDOT clusters.txt
+graph {
+  "0"
+  "1" -- "2"
+  "3" -- "5"
+  "3" -- "4"
+  "4" -- "5"
+  "6" -- "9"
+  "6" -- "8"
+  "6" -- "7"
+  "7" -- "9"
+  "7" -- "8"
+  "8" -- "9"
+}
+</code></pre></div></div>
+
+<p>Redirect the Graphviz data to a new file, <code class="language-plaintext highlighter-rouge">clusters.dot</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 GraphDOT clusters.txt &gt; clusters.dot
+</code></pre></div></div>
+
+<p>Open <code class="language-plaintext highlighter-rouge">clusters.dot</code> with Graphviz, which should display:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="clusters.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Four clusters of fully connected vertices. The clusters contain one, two, three, and four vertices each, respectively." />
+</div>
+</div>
+
+<p><strong>Note:</strong> When running <code class="language-plaintext highlighter-rouge">GraphDOT</code> from the command-line, you may get the message:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Exception in thread "main" java.lang.NoClassDefFoundError: StdOut
+</code></pre></div></div>
+<p>This happens because the <code class="language-plaintext highlighter-rouge">java-algs4</code> command can’t locate the <code class="language-plaintext highlighter-rouge">StdOut</code> class. The <code class="language-plaintext highlighter-rouge">java-introcs</code> command can locate <code class="language-plaintext highlighter-rouge">StdOut</code>, but won’t be able to locate the <code class="language-plaintext highlighter-rouge">Graph</code> class! To resolve the issue, simply use <code class="language-plaintext highlighter-rouge">System.out.println()</code> instead of <code class="language-plaintext highlighter-rouge">StdOut.println()</code>.</p>
+
+<h3 id="task-3-generate-new-graphs">Task 3: Generate New Graphs</h3>
+<p>We have included the <code class="language-plaintext highlighter-rouge">GenerateGraph</code> class, which you can use to generate graphs using the single-argument methods of <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html">the <code class="language-plaintext highlighter-rouge">GraphGenerator</code> class</a>. In particular, all of these methods should work:</p>
+
+<ul>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#binaryTree-int-"><code class="language-plaintext highlighter-rouge">binaryTree()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#complete-int-"><code class="language-plaintext highlighter-rouge">complete()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#cycle-int-"><code class="language-plaintext highlighter-rouge">cycle()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#path-int-"><code class="language-plaintext highlighter-rouge">path()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#star-int-"><code class="language-plaintext highlighter-rouge">star()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#tree-int-"><code class="language-plaintext highlighter-rouge">tree()</code></a></li>
+  <li><a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html#wheel-int-"><code class="language-plaintext highlighter-rouge">wheel()</code></a></li>
+</ul>
+
+<p>For example, to randomly generate a wheel with ten vertices, run:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-algs4 GenerateGraph wheel 10 | java-algs4 GraphDOT &gt; wheel.dot
+</code></pre></div></div>
+
+<p>Open <code class="language-plaintext highlighter-rouge">wheel.dot</code> in Graphviz, and you should see something similar to:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="wheel-dot.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A wheel, improperly visualized as a hierarchical graph drawing." />
+</div>
+</div>
+
+<p>Although the visualization below depicts an equivalent graph, its layout makes the graph’s structure more interpretable:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="wheel-neato.svg" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="The same wheel, more clearly visualized using the 'spring model' offered by the neato layout." />
+</div>
+</div>
+
+<p>Graphviz offers a variety of <a href="https://graphviz.org/docs/layouts/">different layout engines.</a> By default, the <code class="language-plaintext highlighter-rouge">dot</code> layout is used, which attempts to <a href="https://en.wikipedia.org/wiki/Layered_graph_drawing">draw the graph heirarchically.</a> However, this is not appropriate for all types of graphs. To change the layout engine, add a <code class="language-plaintext highlighter-rouge">layout</code> statement within your graph block. For example, to use the <code class="language-plaintext highlighter-rouge">neato</code> layout:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>graph {
+  layout="neato"
+  "0" -- "2"
+  "0" -- "9"
+...
+</code></pre></div></div>
+
+<p>Referring to <a href="https://graphviz.org/docs/layouts/">the list of Graphviz layout engines</a>, match each graph type with the most appropriate layout. In your testing, generate graphs with ten vertices.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Graph Type</th>
+      <th>Ideal Layout Engine</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Binary Tree</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Complete</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Cycle</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Path</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Star</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Tree</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Wheel</td>
+      <td>neato</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Note:</strong> In general, you should choose layouts that minimize the number of <a href="https://en.wikipedia.org/wiki/Planar_graph">intersecting edges</a>.</p>
+
+<p><strong>Note:</strong> If you’re using <a href="https://edotor.net">the online Graphviz renderer</a>, you can change the layout engine using the “Engine” menu.</p>
+
+<h3 id="bonus-tasks">Bonus Tasks</h3>
+
+<p>If you finish early, try using the optional attributes of the layout engines to further improve your graph visualizations.</p>
+
+<p>Also, try writing code to generate other types of graphs using <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/GraphGenerator.html">the <code class="language-plaintext highlighter-rouge">GraphGenerator</code> class</a>. In particular, try the methods that accept more than one parameter.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>GraphDOT.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.
+    <ul>
+      <li>Also, match the graph types to the ideal layout engines!</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Finally, be sure to indicate your group member on Gradescope.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+<ul>
+  <li>Practice using graphs in programs</li>
+  <li>Practice visualizing graphs</li>
+</ul>
+:ET
