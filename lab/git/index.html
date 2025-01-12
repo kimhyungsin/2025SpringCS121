@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 16: Git</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-16-git">Lab 16: Git</h1>
+<p>In this lab, you will perform several activities using the git version control system.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<h3 id="activity-1-contribute-using-github">Activity 1: Contribute Using GitHub</h3>
+<p>Start by loading this website: <a href="http://cs121.us.to">http://cs121.us.to</a></p>
+
+<p>The code for the website is stored in this git repository:
+<a href="https://github.com/ClarkuCSCI/csci121-ascii-art">https://github.com/ClarkuCSCI/csci121-ascii-art</a></p>
+
+<p>This website contains several examples of <a href="https://en.wikipedia.org/wiki/ASCII_art">ASCII art</a>. In this activity, you will contribute ASCII artwork of your choice to the website. Guidelines for contributing to the website are described in the project’s README. If the guidelines are unclear, please ask the instructor for help.</p>
+
+<p>Follow these steps to contribute to the website:</p>
+<ol>
+  <li>Choose an example of ASCII art you would like to contribute. For example, from these websites:
+    <ul>
+      <li><a href="https://www.asciiart.eu/">ASCII Art Archive</a></li>
+      <li><a href="https://www.text-image.com/convert/ascii.html">Text-Image.com</a></li>
+    </ul>
+  </li>
+  <li>Log into your own GitHub account</li>
+  <li>On the repository’s page, click the “Fork” button to create your own copy of the repository</li>
+  <li>It is possible to commit your changes to your fork’s “main” branch, but it is better practice to commit to a feature branch. Follow these steps to create a new branch:
+    <ul>
+      <li>On your fork’s page, click the “main” button to show the list of branches</li>
+      <li>Next, type the name of a new branch (e.g., <code class="language-plaintext highlighter-rouge">llama-art</code>)</li>
+      <li>Finally, click the “Create branch: llama-art from ‘main’” link</li>
+    </ul>
+  </li>
+  <li>Follow these steps to make changes to your branch:
+    <ul>
+      <li>Enter the <code class="language-plaintext highlighter-rouge">art</code> folder, then click “Add file,” “Create new file”</li>
+      <li>Enter a name for your file (e.g., <code class="language-plaintext highlighter-rouge">llama.txt</code>)</li>
+      <li>Paste the ASCII art into this file</li>
+      <li>Note the default commit message – it’s okay to leave this as-is</li>
+      <li>Check that your change will be committed to your branch</li>
+      <li>Click “Commit new file”</li>
+      <li>Return to the top-level directory of your fork</li>
+      <li>Click on <code class="language-plaintext highlighter-rouge">art.js</code></li>
+      <li>Click the pencil icon to “Edit this file”</li>
+      <li>Based on the examples, add the data about your ASCII art</li>
+      <li>Edit the commit message to describe your change (e.g, “Add llama details to art.js”)</li>
+      <li>Check that your change will be committed to your branch</li>
+      <li>Click “Commit changes”</li>
+    </ul>
+  </li>
+  <li>Follow these steps to open a pull request for your changes:
+    <ul>
+      <li>Return to the top-level directory of your fork</li>
+      <li>Click the “Compare &amp; pull request” button</li>
+      <li>Carefully review the details shown on this page. You should see that you are requesting that the changes made to the branch on your fork be applied to the <code class="language-plaintext highlighter-rouge">main</code> branch of the original repository. Scrolling down, you can review the edits you made earlier.</li>
+      <li>Write a more descriptive title for your pull request (by default, it uses the name of your branch), and optionally a brief description</li>
+      <li>Click the “Create pull request” button</li>
+    </ul>
+  </li>
+  <li>The instructor will review your changes. They may request further edits, or merge your changes into the original repository’s <code class="language-plaintext highlighter-rouge">main</code> branch.</li>
+</ol>
+
+<h3 id="activity-2-contribute-using-a-local-client">Activity 2: Contribute Using a Local Client</h3>
+<p>Making edits directly on GitHub doesn’t always make sense. For example, if you were contributing a bug fix for a Java program, you would want to test your edits on your local device before committing changes and opening a pull request.</p>
+
+<p>For this activity, you will improve this Java program:
+<a href="https://github.com/ClarkuCSCI/csci121-anagram">https://github.com/ClarkuCSCI/csci121-anagram</a></p>
+
+<p>The program is designed to test whether two strings are anagrams of each other. However, the program has at least one bug! If you are unfamiliar with anagrams, here is <a href="https://en.wikipedia.org/wiki/Anagram">Wikipedia’s explanation</a>:</p>
+<blockquote>
+  <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. For example, the word <em>anagram</em> itself can be rearranged into <em>nag a ram</em>, also the word <em>binary</em> into <em>brainy</em> and the word <em>adobe</em> into <em>abode</em>.</p>
+</blockquote>
+
+<p>Follow these steps:</p>
+<ol>
+  <li>First, install a local git client. Consider choosing one of these options:
+    <ul>
+      <li><a href="https://desktop.github.com">GitHub Desktop</a>: this option is very user-friendly</li>
+      <li><a href="https://www.jetbrains.com/help/idea/github.html">GitHub IntelliJ Plugin</a>: having git integrated into your IDE can be very helpful! First, you will need to re-enable the Git and GitHub plugins in the IntelliJ preferences. After restarting IntelliJ, git-related functionality will be enabled.</li>
+      <li><a href="https://code.visualstudio.com/docs/editor/github">GitHub VS Code Plugin</a>: this is a good option if you plan to use VS Code for programming after this course. I recommend following <a href="https://peterstory.me/projects/config_docker_windows.html">“Step 2: Configure Git and VSCode” from these instructions</a>.</li>
+      <li><a href="https://training.github.com/downloads/github-git-cheat-sheet.pdf">git CLI</a>: this is more challenging, but will prepare you for the bonus task. The <code class="language-plaintext highlighter-rouge">git</code> command is pre-installed on macOS and on most Linux distros. On Windows, you can either use git from <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Windows Subsystem for Linux (WSL)</a>, or using <a href="https://gitforwindows.org">Git BASH</a>.</li>
+    </ul>
+  </li>
+  <li>On GitHub, create a fork of the <code class="language-plaintext highlighter-rouge">csci121-anagram</code> repo</li>
+  <li>Using your client, clone your fork of the website’s repository to your local device</li>
+  <li>Using your client, create a new branch for your new changes</li>
+  <li>Diagnose and fix the bug in the <code class="language-plaintext highlighter-rouge">Anagram</code> class
+    <ul>
+      <li><strong>Hint:</strong> The project includes unit tests which demonstrate the bug, so I recommend running those first</li>
+      <li><strong>Note:</strong> Only spend a couple minutes trying to figure out the bug, since this isn’t the main point of the activity. If you are stuck, ask for help!</li>
+    </ul>
+  </li>
+  <li>Using your client, commit your changes to your local branch</li>
+  <li>Using your client, push your changes to your fork on GitHub</li>
+  <li>On GitHub, open a pull request for your changes
+    <ul>
+      <li>The instructor will review your changes, but won’t merge them (since we will be using this activity in the future)</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="bonus-activity-git-internals">Bonus Activity: Git Internals</h3>
+<p>In the second activity, you cloned a repository to your local device. A local git repository contains all the data associated with the repository (e.g., information on past commits, etc.). Git repositories use a hidden <code class="language-plaintext highlighter-rouge">.git</code> directory to store data like this. Using the terminal, you can easily inspect this directory:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; ls csci121-anagram/.git/
+COMMIT_EDITMSG config         hooks          info           objects
+HEAD           description    index          logs           refs
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">objects</code> subdirectory is of particular interest, because it stores commit, tree, and blob data:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; ls csci121-anagram/.git/objects/*/
+csci121-anagram/.git/objects/02/:
+2abfc18add614914927b6ddfa3df461141b892
+
+csci121-anagram/.git/objects/03/:
+58489d41224031e7667565da5a85141deed944
+
+csci121-anagram/.git/objects/11/:
+a54f6ba1d2033facb878730df2100d56d567c0
+
+csci121-anagram/.git/objects/1a/:
+f3227e2e1e67e9eabc0538b2d800f933143ee8
+
+...
+</code></pre></div></div>
+
+<p>Each object is stored by its SHA-1 checksum (i.e., hash), with the first two characters of the hash used to name the subdirectory, and the rest of the hash used to name the file (this is for performance reasons, so files will be distributed across multiple directories). The <code class="language-plaintext highlighter-rouge">git cat-file</code> command can be used to inspect these objects. <code class="language-plaintext highlighter-rouge">git cat-file -t</code> will print the type of an object, and <code class="language-plaintext highlighter-rouge">git cat-file -p</code> will print the contents of the object. For example, inspecting the object described in the last line of the output shown above:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; git cat-file -t 1af3227e2e1e67e9eabc0538b2d800f933143ee8
+blob
+&gt; git cat-file -p 1af3227e2e1e67e9eabc0538b2d800f933143ee8
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+class AnagramTests {
+
+    @Test
+    void testAnagrams() {
+        Assertions.assertTrue(Anagram.anagram("rat", "tar"));
+        Assertions.assertTrue(Anagram.anagram("rat", "art"));
+        Assertions.assertTrue(Anagram.anagram("creative", "reactive"));
+    }
+
+    @Test
+    void testNonAnagrams() {
+        Assertions.assertFalse(Anagram.anagram("alphabet", "cat"));
+        Assertions.assertFalse(Anagram.anagram("coin", "buzz"));
+        Assertions.assertFalse(Anagram.anagram("banana", "ban"));
+    }
+
+}
+</code></pre></div></div>
+
+<p>For this activity, you should find the hashes of the commits, trees, and/or blobs associated with your commit (i.e., the commit in which you fixed the bug).</p>
+
+<p><strong>Hint:</strong>
+Start by running <code class="language-plaintext highlighter-rouge">git log</code>, which will give you the hash of your commit. Then, use <code class="language-plaintext highlighter-rouge">git cat-file -p COMMITHASH</code> to view the details of this commit, which includes the hash of the associated tree. Viewing the details of this tree, you can find associate blobs and other trees, etc.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 16: Git” quiz on Canvas.</p>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, <strong>you must share links to your pull requests.</strong></p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+  <li><a href="https://cbea.ms/git-commit/">How to Write a Git Commit Message</a></li>
+  <li><a href="https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development">Trunk-based development</a></li>
+</ul>
+
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

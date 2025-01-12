@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homework 8: Elevator Simulation</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="homework-8-elevator-simulation">Homework 8: Elevator Simulation</h1>
+<p>In this homework, you will implement the <code class="language-plaintext highlighter-rouge">Elevator</code> and <code class="language-plaintext highlighter-rouge">Floor</code> clases for the elevator simulation project. You should use the textbook’s <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Stack.html">Stack</a> and <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Queue.html">Queue</a> classes in your code.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<h3 id="task-1-review-the-starter-files">Task 1: Review the Starter Files</h3>
+<p>Download <a href="elevator.zip">elevator.zip</a>, which contains the starter files for this assignment.</p>
+
+<p>Next, review the provided classes:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Building</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Elevator</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ElevatorException</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Floor</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ManualOperator</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Passenger</code></li>
+</ul>
+
+<p>All the classes except the <code class="language-plaintext highlighter-rouge">Elevator</code> and <code class="language-plaintext highlighter-rouge">Floor</code> classes have been completed for you. After implementing <code class="language-plaintext highlighter-rouge">Elevator</code> and <code class="language-plaintext highlighter-rouge">Floor</code>, you can interact with the simulation by running the <code class="language-plaintext highlighter-rouge">ManualOperator</code> class.</p>
+
+<p>Initially, there should be 14 people waiting on the 1st and 5th floors, and the elevator should be empty. Note that people are represented by their destinations, and the elevator’s position is represented by an <code class="language-plaintext highlighter-rouge">E</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs ManualOperator
+Options: (p)rint state, (a)scend, (d)escend, (l)oad, (u)nload
+&gt; p
+5   1 1 1 1 1 2 3 4 2 3 4 2 3 4 
+4   
+3   
+2   
+1 E 5 5 5 5 5 2 3 4 2 3 4 2 3 4 
+Elevator: 
+</code></pre></div></div>
+
+<p>After loading the elevator on the 1st floor, ascending a floor, then unloading on the 2nd floor, several people have made it to their destination:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; l
+&gt; a
+&gt; u
+&gt; p
+5   1 1 1 1 1 2 3 4 2 3 4 2 3 4 
+4   
+3   
+2 E 
+1   4 2 3 4 
+Elevator: 3 4 3 5 5 5 5 5 
+</code></pre></div></div>
+
+<p><strong>Note:</strong> The provided classes have dependencies on each other:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Building</code> uses: <code class="language-plaintext highlighter-rouge">Floor</code> and <code class="language-plaintext highlighter-rouge">Elevator</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Elevator</code> uses: <code class="language-plaintext highlighter-rouge">Floor</code>, <code class="language-plaintext highlighter-rouge">Passenger</code>, and <code class="language-plaintext highlighter-rouge">ElevatorException</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Floor</code> uses: <code class="language-plaintext highlighter-rouge">Passenger</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ManualOperator</code> uses: <code class="language-plaintext highlighter-rouge">Building</code>, <code class="language-plaintext highlighter-rouge">Elevator</code>, <code class="language-plaintext highlighter-rouge">Floor</code>, <code class="language-plaintext highlighter-rouge">Passenger</code>, and <code class="language-plaintext highlighter-rouge">ElevatorException</code></li>
+  <li>Whereas <code class="language-plaintext highlighter-rouge">Passenger</code> and <code class="language-plaintext highlighter-rouge">ElevatorException</code> don’t use any of the other classes</li>
+</ul>
+
+<p>As a result, the classes must be compiled in a specific order. For example, this ordering will always work: <code class="language-plaintext highlighter-rouge">Passenger</code>, <code class="language-plaintext highlighter-rouge">ElevatorException</code>, <code class="language-plaintext highlighter-rouge">Floor</code>, <code class="language-plaintext highlighter-rouge">Elevator</code>, <code class="language-plaintext highlighter-rouge">Building</code>, then <code class="language-plaintext highlighter-rouge">ManualOperator</code>. Alternatively, you can use IntelliJ’s “Build Project” option, which will automatically compile the classes in the proper order.</p>
+
+<h3 id="task-2-implement-floorjava">Task 2: Implement Floor.java</h3>
+<p>On each floor, passengers wait in line for the elevator. The first person to arrive in line should be the first person to board the elevator when it arrives.</p>
+
+<p>Refer to the <code class="language-plaintext highlighter-rouge">Floor</code> class’s method comments for additional implementation details.</p>
+
+<p>Before implementing <code class="language-plaintext highlighter-rouge">Floor</code>, the building visualization won’t show the passengers:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs ManualOperator
+Options: (p)rint state, (a)scend, (d)escend, (l)oad, (u)nload
+&gt; p
+5   Floor@30c7da1e
+4   Floor@5b464ce8
+3   Floor@57829d67
+2   Floor@19dfb72a
+1   Floor@17c68925
+Elevator: Elevator@7e0ea639
+</code></pre></div></div>
+
+<p>After implementing <code class="language-plaintext highlighter-rouge">Floor</code>, the building visualization should show the passengers:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs ManualOperator
+Options: (p)rint state, (a)scend, (d)escend, (l)oad, (u)nload
+&gt; p
+5   1 1 1 1 1 2 3 4 2 3 4 2 3 4 
+4   
+3   
+2   
+1   5 5 5 5 5 2 3 4 2 3 4 2 3 4 
+Elevator: Elevator@2d6e8792
+</code></pre></div></div>
+
+<p><strong>Hint:</strong> Consider whether a <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Stack.html">Stack</a> or <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Queue.html">Queue</a> is appropriate for keeping track of the passengers on each <code class="language-plaintext highlighter-rouge">Floor</code>. Use the data structures provided by the textbook authors, instead of the versions included in the Java standard library.</p>
+
+<p><strong>Hint:</strong> Override the default <code class="language-plaintext highlighter-rouge">toString()</code> method and depict the passengers waiting for the elevator. It will be easiest if you use the <code class="language-plaintext highlighter-rouge">toString()</code> method of the data structure you’re using.</p>
+
+<p><strong>Hint:</strong> Create unit tests for <code class="language-plaintext highlighter-rouge">Floor</code>.</p>
+
+<h3 id="task-3-implement-elevatorjava">Task 3: Implement Elevator.java</h3>
+<p>The elevator should initially start on the 1st floor, and can travel to any of the floors in the building by moving one floor at a time. If the elevator operator tries to travel to a non-existent floor, an <code class="language-plaintext highlighter-rouge">ElevatorException</code> should be raised.</p>
+
+<p>The elevator should have a limited capacity for passengers. The elevator should be filled from back to front, so that the first person to enter the elevator should be the last person to exit the elevator when they disembark.</p>
+
+<p>Refer to the <code class="language-plaintext highlighter-rouge">Elevator</code> class’s method comments for additional implementation details.</p>
+
+<p>After implementing <code class="language-plaintext highlighter-rouge">Elevator</code>, test that you can use the <code class="language-plaintext highlighter-rouge">ManualOperator</code> class to transport all the passengers to their destinations.</p>
+
+<p><strong>Hint:</strong> Consider whether a <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Stack.html">Stack</a> or <a href="https://algs4.cs.princeton.edu/code/javadoc/edu/princeton/cs/algs4/Queue.html">Queue</a> is appropriate for keeping track of the passengers in the <code class="language-plaintext highlighter-rouge">Elevator</code>. Use the data structures provided by the textbook authors, instead of the versions included in the Java standard library.</p>
+
+<p><strong>Hint:</strong> Override the default <code class="language-plaintext highlighter-rouge">toString()</code> method and depict the passengers riding in the elevator. It will be easiest if you use the <code class="language-plaintext highlighter-rouge">toString()</code> method of the data structure you’re using.</p>
+
+<p><strong>Hint:</strong> Create unit tests for <code class="language-plaintext highlighter-rouge">Elevator</code>.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Floor.java</li>
+  <li>Elevator.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.</li>
+</ul>
+
+<p>Also, be sure to indicate your group member on Gradescope.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+<ul>
+  <li>Practice using stacks and queues</li>
+  <li>Practice using exceptions</li>
+  <li>Practice debugging</li>
+</ul>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

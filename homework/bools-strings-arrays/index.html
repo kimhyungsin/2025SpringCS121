@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homework 3: Booleans, Strings, and Arrays</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="homework-3-booleans-strings-and-arrays">Homework 3: Booleans, Strings, and Arrays</h1>
+
+<p>The goal of this homework is to familiarize you with programming in Java. In particular, you will practice:</p>
+
+<ul>
+  <li>Using booleans, Strings, and Arrays</li>
+  <li>Reading from standard input</li>
+  <li>Reading from files</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<h3 id="task-1-reading-and-exercises">Task 1: Reading and Exercises</h3>
+
+<ul>
+  <li>Read Algorithms, chapter 1, “Input and output” (pages 36-45) and “Static methods” (pages 22-27)</li>
+  <li>Read and do the exercises in <a href="https://runestone.academy/runestone/books/published/java4python/Java4Python/toctree.html">Java For Python Programmers</a>, “Java Data Types: Input / Output / Scanner” and “Defining Classes in Java”
+    <ul>
+      <li>In assignments, I recommend using the Algorithms textbook’s <code class="language-plaintext highlighter-rouge">StdIn</code> and <code class="language-plaintext highlighter-rouge">In</code> classes instead of Java’s built-in <code class="language-plaintext highlighter-rouge">Scanner</code> class. However, it is useful to learn about <code class="language-plaintext highlighter-rouge">Scanner</code>, since <code class="language-plaintext highlighter-rouge">Scanner</code> is widely-used in real-world programs.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="task-2-coding-practice">Task 2: Coding Practice</h3>
+
+<p>To practice using boolean expressions and branching statements, do the following <a href="https://codingbat.com/java">CodingBat</a> problems:</p>
+
+<ul>
+  <li><a href="https://codingbat.com/prob/p187868">Sleep in</a></li>
+  <li><a href="https://codingbat.com/prob/p181646">Monkey Trouble</a></li>
+  <li><a href="https://codingbat.com/prob/p140449">Parrot Trouble</a></li>
+  <li><a href="https://codingbat.com/prob/p159227">posNeg</a></li>
+</ul>
+
+<h3 id="task-3-implement-two-programs">Task 3: Implement Two Programs</h3>
+
+<p>This is an <strong>individual</strong> assignment.</p>
+
+<p>Start by downloading the <a href="hw3.zip">hw3.zip starter project</a>. Then create two programs:</p>
+
+<h4 id="caesarjava">Caesar.java</h4>
+
+<p>Julius Caesar sent secret messages to Cicero using a scheme that is now known as a <em>Caesar cipher</em>. Each letter is replaced by the letter <code class="language-plaintext highlighter-rouge">k</code> positions ahead of it in the alphabet (and you wrap around if needed).</p>
+
+<p>The table below gives the Caesar cipher when <code class="language-plaintext highlighter-rouge">k = 3</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+Caesar:   D E F G H I J K L M N O P Q R S T U V W X Y Z A B C
+</code></pre></div></div>
+
+<p>For example the message “VENI, VIDI, VICI” is converted to “YHQL, YLGL, YLFL”.</p>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">Caesar.java</code> that takes a command-line argument <code class="language-plaintext highlighter-rouge">k</code> and applies a Caesar cipher with shift = <code class="language-plaintext highlighter-rouge">k</code> to a sequence of letters read from <strong>standard input</strong>. If a character is not an uppercase letter (e.g., if the character is a symbol or a lowercase letter), simply print it back out. The program should read from standard input until it encounters the newline character <code class="language-plaintext highlighter-rouge">'\n'</code> (i.e., the users presses “Return”). Then, it should print out the shifted text.</p>
+
+<p><strong>Hint:</strong>
+Use <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/StdIn.html">the <code class="language-plaintext highlighter-rouge">StdIn</code> methods</a> we discussed in class. To use libraries supplied by the textbook authors, you can use either the LIFT menu, or the <code class="language-plaintext highlighter-rouge">javac-introcs</code> and <code class="language-plaintext highlighter-rouge">java-introcs</code> commands to compile and run your code.</p>
+
+<p><strong>Hint:</strong>
+You can use type casting to convert characters to their ASCII values, and vice-versa. For example, if <code class="language-plaintext highlighter-rouge">c</code> is a <code class="language-plaintext highlighter-rouge">char</code> variable storing <code class="language-plaintext highlighter-rouge">'A'</code>, <code class="language-plaintext highlighter-rouge">(int) c</code> will convert it to <code class="language-plaintext highlighter-rouge">65</code>. Casts can be used to go in the opposite direction as well. Use <a href="https://www.asciitable.com">this reference for ASCII code values</a>. Representing characters as numbers makes it easy to do math on them.</p>
+
+<p><strong>Hint:</strong>
+This is how your program should work when it is finished.</p>
+
+<p>First, you run the program, supplying the shift:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:250px;">
+<img src="Caesar1.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Step 1: Enter CLI args" />
+</div>
+</div>
+
+<p>Next, the program will start running, but nothing should appear:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="Caesar2.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Step 2: Wait for the program to run" />
+</div>
+</div>
+
+<p>However, you can type. Type the input to the program:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="Caesar3.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Step 3: Type input to standard input" />
+</div>
+</div>
+
+<p>Nothing should happen until you press “Return” or “Enter” on your keyboard. Then, your program should print the shifted output:</p>
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="Caesar4.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Step 4: Press return, and output should appear" />
+</div>
+</div>
+
+<h4 id="queenscheckerjava">QueensChecker.java</h4>
+
+<p>A permutation of n integers in the range 0 to n-1 corresponds to a placement of queens on an n-by-n chessboard so that no two queens are in the same row or column.</p>
+
+<p>Write a program <code class="language-plaintext highlighter-rouge">QueensChecker.java</code> that takes a filename as its only command-line argument. Using the permutation encoded in this file, the program should determine whether or not the permutation corresponds to a valid placement of queens so that no two are in the same <strong>row</strong>, <strong>column</strong>, or <strong>diagonal</strong>. The program should print “true” if the permutation is valid, or “false” otherwise.</p>
+
+<p>As an example, assume test1.txt has the following content: <code class="language-plaintext highlighter-rouge">4 1 3 0 2</code>. These numbers correspond to the queens’ positions below, with each number specifying a different queen’s position. This is a legal placement, so the program should print “true”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs QueensChecker test1.txt
+* * * Q *
+* Q * * *
+* * * * Q
+* * Q * *
+Q * * * *
+true
+</code></pre></div></div>
+
+<p>Take a moment to carefully compare this board with the corresponding test input. Assume you write code to store the queen positions in a 1D array, <code class="language-plaintext highlighter-rouge">q</code>. How does the length of <code class="language-plaintext highlighter-rouge">q</code> correspond to the dimensions of the board? How do the array element values, <code class="language-plaintext highlighter-rouge">q[i]</code>, <code class="language-plaintext highlighter-rouge">i=0, ..., last</code>, correspond to the queens’ positions?</p>
+
+<p>For full-credit, your program should:</p>
+<ul>
+  <li>Print whether the permutation is valid</li>
+  <li>Print a board representing the placement of the queens, matching the output shown above</li>
+</ul>
+
+<p><strong>Hint:</strong>
+Create a 2D array representing the queens’ positions, and use this to print out the board. Make sure the orientation matches the board in the example.</p>
+
+<p><strong>Hint:</strong>
+It is possible to check whether the placement is valid using just the 1D array of length n representing the input permutation (e.g., <code class="language-plaintext highlighter-rouge">q</code>, as described above).</p>
+
+<p><strong>More hints:</strong>
+To determine whether setting <code class="language-plaintext highlighter-rouge">q[i]</code> conflicts with <code class="language-plaintext highlighter-rouge">q[j]</code> for i &lt; j.</p>
+<ul>
+  <li>If <code class="language-plaintext highlighter-rouge">q[i]</code> equals <code class="language-plaintext highlighter-rouge">q[j]</code>: two queens are placed in the same row</li>
+  <li>If <code class="language-plaintext highlighter-rouge">q[i] - q[j]</code> equals <code class="language-plaintext highlighter-rouge">j - i</code>: two queens are on same major diagonal</li>
+  <li>If <code class="language-plaintext highlighter-rouge">q[j] - q[i]</code> equals <code class="language-plaintext highlighter-rouge">j - i</code>: two queens are on same minor diagonal</li>
+</ul>
+
+<p><strong>Hint:</strong>
+This code will allow you to read the input filename into the <code class="language-plaintext highlighter-rouge">q</code> array. The <code class="language-plaintext highlighter-rouge">In()</code> class is supplied by the textbook authors, and works similarly to the <code class="language-plaintext highlighter-rouge">StdIn</code> library we covered in lecture.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In in = new In(args[0]);
+int[] q = in.readAllInts();
+</code></pre></div></div>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>Your two .java files:
+    <ul>
+      <li>Caesar.java</li>
+      <li>QueensChecker.java</li>
+    </ul>
+  </li>
+  <li><strong>A completed readme.txt file,</strong> including your name, etc.</li>
+</ul>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

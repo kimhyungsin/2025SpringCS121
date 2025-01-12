@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 8: Unit Testing</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-8-unit-testing">Lab 8: Unit Testing</h1>
+<p>The goal of this lab is to practice creating unit tests for your code. Unit tests will help you develop code more efficiently by quickly identifying bugs.</p>
+
+<p>Although course assignments usually won’t required you to create unit tests, unit testing will make it easier to write programs, especially as assignments become more complicated.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>In this lab, you will write unit tests to help develop your code for <a href="/~cs121/homework/tsp/">the Traveling Salesperson Problem (TSP) homework</a>. If you are working on the TSP homework with a partner, you should work on this lab together. If you are working on the homework individually, you should work on this lab individually.</p>
+
+<h3 id="task-1-create-tourjava">Task 1: Create Tour.java</h3>
+<p>If you haven’t already, spend a few minutes reviewing the instructions for <a href="/~cs121/homework/tsp/">the Traveling Salesperson Problem (TSP) homework</a>.</p>
+
+<p>Next, create <code class="language-plaintext highlighter-rouge">Tour.java</code>, based on the method signatures described in the assignment. Write just enough code to get <code class="language-plaintext highlighter-rouge">Tour.java</code> to compile. For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Returns the length of this tour.
+public double length() {
+    return -1.0;
+}
+</code></pre></div></div>
+<p>Notice that we return <code class="language-plaintext highlighter-rouge">-1.0</code>, which will never be correct, to make it clear that this method hasn’t been implemented yet.</p>
+
+<h3 id="task-2-run-exampletests">Task 2: Run ExampleTests</h3>
+<p>First, open <a href="/~cs121/homework/tsp/tsp.zip">the Traveling Salesperson Problem (TSP) starter files</a> in IntelliJ.</p>
+
+<p>Next, open the “Run” menu, select “Run …”, then select “All in COS 126” or “ExampleTests”. This will recompile your code, then run the tests in the <code class="language-plaintext highlighter-rouge">ExampleTests</code> class.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:250px;">
+<img src="runalltests.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Run All in COS 126" />
+</div>
+</div>
+
+<p>The bottom of the IntelliJ window should show that all the tests passed.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="allpassed.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Tests passed: 1 of 1 test" />
+</div>
+</div>
+
+<h3 id="task-3-create-tests-for-your-own-code">Task 3: Create tests for your own code</h3>
+<p>Your assignment is to write unit tests for your homework code. I recommend creating a <code class="language-plaintext highlighter-rouge">TourTests</code> class in the <code class="language-plaintext highlighter-rouge">test</code> directory.</p>
+
+<p>You should write unit tests using JUnit 5 Jupiter (version 5.4.2). You may find it helpful to consult <code class="language-plaintext highlighter-rouge">ExampleTests</code>, <a href="/~cs121/slides/UnitTesting.pdf">the slides</a>, and the resources linked below:</p>
+
+<ul>
+  <li><a href="http://junit.org/junit5/docs/current/user-guide/">JUnit 5 User Guide</a></li>
+  <li><a href="https://junit.org/junit5/docs/5.4.2/api/">JUnit 5 API Javadoc</a> in particular, <a href="https://junit.org/junit5/docs/5.4.2/api/org/junit/jupiter/api/Assertions.html">the list of available assertions</a></li>
+  <li><a href="https://phauer.com/2019/modern-best-practices-testing-java/">Modern Best Practices for Testing in Java</a></li>
+</ul>
+
+<p><strong>Note:</strong> It’s okay to write tests before implementing the <code class="language-plaintext highlighter-rouge">Tour</code> class – this is known as <a href="https://en.wikipedia.org/wiki/Test-driven_development">test-driven development (TDD).</a> In this case, your tests should fail until you finish implementing <code class="language-plaintext highlighter-rouge">Tour</code>.</p>
+
+<p><strong>Hints:</strong></p>
+<ul>
+  <li>Examples of program output in the homework instructions can serve as a basis for tests</li>
+  <li>To test my code thoroughly, I created the following tests:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">emptySize()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">squareSize()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">emptyLength()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">squareLength()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">emptyToString()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">squareToString()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">insertNearest()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">insertSmallest()</code></li>
+    </ul>
+  </li>
+  <li>It can sometimes be hard to test code unless you refactor it first. For example, moving potentially buggy code into static methods, so unit tests can call that code directly, instead of having to initialize objects and call methods on those objects.</li>
+  <li>If the option to run your new test class (e.g., <code class="language-plaintext highlighter-rouge">TourTests</code>) doesn’t appear in the “Run …” dialogue, contact the instructor for help – you may need to edit the project configuration</li>
+</ul>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 8: Unit Testing” quiz on Canvas. You should submit a screenshot showing:</p>
+
+<ul>
+  <li>The code for your unit tests</li>
+  <li>The results of running your unit tests</li>
+</ul>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, <strong>you must write and run at least one unit test.</strong></p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

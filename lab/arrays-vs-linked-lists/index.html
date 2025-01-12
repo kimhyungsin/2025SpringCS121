@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 9: Arrays vs Linked Lists</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-9-arrays-vs-linked-lists">Lab 9: Arrays vs Linked Lists</h1>
+<p>The goal of this lab is to practice analyzing the performance of data structures. Specifically, you will compare the performance characteristics of Java Arrays and LinkedLists.</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>We encourage you to <strong>work with a partner</strong>.</p>
+
+<h3 id="task-1-review-array-and-linkedlist">Task 1: Review Array and LinkedList</h3>
+
+<p>For the Array and LinkedList data types, I have include sample code for:</p>
+
+<ul>
+  <li>Random initialization</li>
+  <li>Retrieving an element at an index</li>
+  <li>Retrieving the index of an element</li>
+  <li>Inserting an element into the middle</li>
+</ul>
+
+<p>Carefully review the example code below – be sure to ask questions if you don’t understand parts of it.</p>
+
+<h4 id="array">Array</h4>
+
+<p>You are probably most familiar with Java Arrays. They can be defined using literals, and support the square-bracket indexing notation. Notice that we import <code class="language-plaintext highlighter-rouge">java.util.Arrays</code> and <code class="language-plaintext highlighter-rouge">java.lang.reflect.Array</code> to get access to some helper methods. We need <code class="language-plaintext highlighter-rouge">java.util.ArrayList</code> for the element insertion.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.util.ArrayList;
+import java.util.Arrays;
+import java.lang.reflect.Array;
+
+// Shortcut initialization, using literals
+Double [] d1 = {1.0, 1.1, 1.2, 1.3};
+// Alternative initialization
+Double [] d2 = new Double[4];
+d1[0] = 1.0;
+d1[1] = 1.1;
+d1[2] = 1.2;
+d1[3] = 1.3;
+
+// Retrieving an element at an index, using square-brackets
+System.out.println(d1[1]);
+// Retrieving an element at an index, using a method
+System.out.println(Array.get(d1, 1));
+
+// Sorting the array (this is needed, or else the binary search won't work)
+Arrays.sort(d1);
+
+// Retrieving the index of an element
+System.out.println(Arrays.binarySearch(d1, 1.1));
+
+// Insert an element into the middle. This is complicated because the length
+// of an Array is fixed when it is initialized, so we must:
+// 1. Copy the Array into an ArrayList
+// 2. Perform the insertion there
+// 3. Convert the ArrayList back into an Array
+// It's okay if you find this confusing - it is confusing!
+ArrayList&lt;Double&gt; d1_temp = new ArrayList&lt;Double&gt;(Arrays.asList(d1));
+d1_temp.add(d1.length / 2, 2.0);
+d1 = d1_temp.toArray(new Double[5]);
+</code></pre></div></div>
+
+<p>Documentation:</p>
+
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayList.html">java.util.ArrayList</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Arrays.html">java.util.Arrays</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/Array.html">java.lang.reflect.Array</a></li>
+</ul>
+
+<h4 id="linkedlist">LinkedList</h4>
+
+<p>We talked about linked lists in lecture. Java’s implementation is of a “doubly-linked” list, but otherwise it is quite similar to what we discussed.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.util.Comparator;
+import java.util.LinkedList;
+
+// Initialization
+LinkedList&lt;Double&gt; d = new LinkedList&lt;Double&gt;();
+d.addLast(1.0);
+d.addLast(1.1);
+d.addLast(1.2);
+d.addLast(1.3);
+
+// Retrieving an element at an index
+System.out.println(d.get(1));
+
+// Sorting the list
+d.sort(Comparator.naturalOrder());
+
+// Retrieving the index of an element
+System.out.println(d.indexOf(1.1));
+
+// Insert an element into the middle
+d.add(d.size() / 2, 2.0);
+</code></pre></div></div>
+
+<p>Documentation:</p>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Comparator.html">java.util.Comparator</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/LinkedList.html">java.util.LinkedList</a></li>
+</ul>
+
+<h3 id="task-2-complete-arrayexperimentsjava">Task 2: Complete ArrayExperiments.java</h3>
+
+<p>First, download the starter files: <a href="arrays-vs-linked-lists.zip">arrays-vs-linked-lists.zip</a></p>
+
+<p>Next, you will complete the <code class="language-plaintext highlighter-rouge">ArrayExperiments.java</code> program. This program should calculate how long it takes to perform different operations using Arrays.</p>
+
+<p>ArrayExperiments accepts two parameters: the <code class="language-plaintext highlighter-rouge">size</code> of the Array and the number of experiment <code class="language-plaintext highlighter-rouge">trials</code> to run. It should run the number of trials specified, then print the average time taken to run a single trial. The program is mostly complete, but there is one <code class="language-plaintext highlighter-rouge">TODO</code>, which indicates code you will need to write.</p>
+
+<p>Carefully read the <code class="language-plaintext highlighter-rouge">ArrayExperiments.java</code>, and make sure you understand how it works. Noticed that we use <code class="language-plaintext highlighter-rouge">System.nanoTime</code> to time the operations – this provides greater precision than the <code class="language-plaintext highlighter-rouge">Stopwatch</code> class provided by the textbook authors. We need this extra precision because some of the operations we are timing are extremely fast.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.util.Arrays;
+
+public class ArrayExperiments {
+
+    public static Double[] initialize(int size) {
+        // An array of random doubles
+        Double[] d = new Double[size];
+        for (int i = 0; i &lt; size; i++) {
+            d[i] = StdRandom.uniform();
+        }
+        return d;
+    }
+
+    public static long retrieve_by_index(Double[] d) {
+        int i = (int) (StdRandom.uniform() * d.length);
+        long startTime = System.nanoTime();
+        Double r = d[i];
+        return (System.nanoTime() - startTime);
+    }
+
+    public static long retrieve_by_element(Double[] d) {
+        Double r = d[(int) (StdRandom.uniform() * d.length)];
+        long startTime = System.nanoTime();
+        // TODO Find element r in Array d using Arrays.binarySearch()
+        return (System.nanoTime() - startTime);
+    }
+
+    public static void main(String[] args) {
+        int size = Integer.parseInt(args[0]);
+        long trials = Long.parseLong(args[1]);
+
+        Double[] d = initialize(size);
+
+        System.out.println("Timing retrieval by index...");
+        long index_retrieval = 0;
+        for (long t = 0; t &lt; trials; t++) {
+            index_retrieval += retrieve_by_index(d);
+        }
+        System.out.println(
+                "Retrieval by index: " + (index_retrieval / ((double) trials))
+                        + " nanoseconds on average");
+
+        System.out.println("Sorting array...");
+        Arrays.sort(d);
+
+        System.out.println("Timing retrieval by element...");
+        long element_retrieval = 0;
+        for (long t = 0; t &lt; trials; t++) {
+            element_retrieval += retrieve_by_element(d);
+        }
+        System.out.println(
+                "Retrieval by element: " + element_retrieval / ((double) trials)
+                        + " nanoseconds on average");
+
+    }
+}
+</code></pre></div></div>
+
+<p>When the program is finished, it should work like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs ArrayExperiments 500000 10000000
+Timing retrieval by index...
+Retrieval by index: 30.5145226 nanoseconds on average
+Sorting array...
+Timing retrieval by element...
+Retrieval by element: 467.0542783 nanoseconds on average
+</code></pre></div></div>
+
+<p>The program already supports timing “retrieval of an element from a random index”. You simply need to finish the <code class="language-plaintext highlighter-rouge">retrieve_by_element</code> method, which will time “retrieving the index of a random element”.</p>
+
+<h3 id="task-3-write-linkedlistexperimentsjava">Task 3: Write LinkedListExperiments.java</h3>
+
+<p>Next, you will write <code class="language-plaintext highlighter-rouge">LinkedListExperiments.java</code>. This program will be very similar to <code class="language-plaintext highlighter-rouge">ArrayExperiments.java</code>, expect that it will use LinkedLists instead of Arrays. We recommend modifying a copy of <code class="language-plaintext highlighter-rouge">ArrayExperiments.java</code> to use LinkedList operations.</p>
+
+<h3 id="task-4-estimate-running-time-and-runtime-complexity">Task 4: Estimate Running Time and Runtime Complexity</h3>
+
+<p>Next, you will run experiments to determine the growth rate of the operations on Arrays and LinkedLists. Specifically, your goal is to determine \(b\) in this equation:</p>
+
+\[\text{Running time} = a N^b\]
+
+<p>Where \(b = \text{log}_2(t_N \div t_{N/2})\), with \(t_N\) representing the time it takes to perform the operation on an Array or LinkedList of size \(N\), and \(t_{N/2}\) representing the time it takes to perform the operation on a data structure half that size.</p>
+
+<p><strong>Hint</strong>: A reminder from algebra class:</p>
+
+\[\text{log}_2(X) = \frac{\text{ln}(X)}{\text{ln}(2)}\]
+
+<p><strong>Hint</strong>: The \(a N^b\) formula may not describe the growth rate of all operations. If this is the case, try plotting a graph of Size and Time, and simply give your best guess for the growth rate.</p>
+
+<h4 id="array-retrieval-of-an-element-by-index">Array: Retrieval of an element by index</h4>
+
+<p>Here are my results for the retrieval of an element by index, calculated using 10,000,000 trials.</p>
+
+<p>I ran the program multiple times, doubling the size of the data structure each time. I used the data to estimate the exponent \(b\) in the growth rate equation, as shown in the third column of the table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Size \((N)\)</th>
+      <th>Time \((t_N)\)</th>
+      <th>Log Ratio \((b = \text{log}_2(t_N \div t_{N/2}))\)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10000</td>
+      <td>30.6725031</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>20000</td>
+      <td>29.9520132</td>
+      <td>\(\text{ln}(29.9520132 \div 30.6725031)/\text{ln}(2) \approx -0.03429 \approx 0\)</td>
+    </tr>
+    <tr>
+      <td>40000</td>
+      <td>30.8575394</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>80000</td>
+      <td>30.5059546</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>160000</td>
+      <td>30.5368424</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>320000</td>
+      <td>31.28404</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>640000</td>
+      <td>30.8744206</td>
+      <td>\(\text{ln}(30.8744206 \div 31.28404)/\text{ln}(2) \approx -0.01901 \approx 0\)</td>
+    </tr>
+    <tr>
+      <td>1280000</td>
+      <td>31.1663318</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>2560000</td>
+      <td>31.0351684</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>5120000</td>
+      <td>31.1552376</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>10240000</td>
+      <td>31.493183</td>
+      <td>\(\text{ln}(31.493183 \div 31.1552376)/\text{ln}(2) \approx 0.01556 \approx 0\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You are welcome to use <a href="https://docs.google.com/spreadsheets/d/1TFKAb4XjhayMaDQlacycgZ_r0gWurKGg_2fZFMn0D6E/edit?usp=sharing">this spreadsheet</a> to perform the log ratio calculations, and to generate a graph of the data. If you use the spreadsheet, inspect the forumula in the third column, so you understand how \(b\) is calculated.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="">
+<img src="spreadsheet.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="A spreadsheet with size, time, and log ratio columns, populated with data about retrieval of an element by index from an array. The spreadsheet contains a scatterplot of size and time, showing a linear relationship." />
+</div>
+</div>
+
+<p>My experiments suggest that:</p>
+
+\[b \approx 0\]
+
+\[\text{Running time} = a N^0 = a\]
+
+<p>That is, retrieval of an element by index is a constant order operation. Based on the data, it seems that \(a \approx 30\) nanoseconds. So:</p>
+
+\[\text{Running time} \approx 30 \text{ nanoseconds}\]
+
+<p>Now, this constant may differ from one computer to another. So we are more interested in the Big Theta runtime complexity, which is:</p>
+
+\[\Theta(1)\]
+
+<p>Your task is to <strong>complete similar experiments and calculations</strong> for the following:</p>
+
+<ul>
+  <li>Array: Retrieval of an element’s index</li>
+  <li>LinkedList: Retrieval of an element’s index</li>
+  <li>LinkedList: Retrieval of an element by index</li>
+</ul>
+
+<h3 id="bonus-task-inserting-an-element">Bonus Task: Inserting an element</h3>
+<p>If you finish early, you should modify <code class="language-plaintext highlighter-rouge">ArrayExperiments.java</code> and <code class="language-plaintext highlighter-rouge">LinkedListExperiments.java</code> to perform an additional experiment: testing the time it takes to insert an element into the <strong>beginning</strong> and <strong>middle</strong> of each data structure.</p>
+
+<h2 id="submit">Submit</h2>
+<p>Complete the “Lab 9: Arrays vs Linked Lists” quiz on Canvas. You should submit screenshots showing:</p>
+
+<ul>
+  <li>The code for your <code class="language-plaintext highlighter-rouge">ArrayExperiments</code> class</li>
+  <li>The code for your <code class="language-plaintext highlighter-rouge">LinkedListExperiments</code> class</li>
+</ul>
+
+<p>This lab will be graded for completion, as part of your attendance and participation grade. However, to be counted towards your grade, <strong>you must answer the multiple choice questions correctly.</strong> If you answer incorrectly, you can retake the quiz after a short time.</p>
+
+<p>If you worked with a partner, <strong>each of you should submit the quiz on Canvas,</strong> since there isn’t an easy way to join groups on Canvas.</p>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

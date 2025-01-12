@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 5: Recursive Grep</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-5-recursive-grep">Lab 5: Recursive Grep</h1>
+<p>In this lab, you will create a version of the <code class="language-plaintext highlighter-rouge">grep</code> command-line utility that supports recursively searching for files matching a target string.</p>
+
+<h2 id="instructions">Instructions</h2>
+<p>We encourage you to <strong>work with a partner</strong>. If you worked with a partner on <a href="/~cs121/lab/grep/">the Simple Grep lab</a>, <strong>work with the same partner on this assignment.</strong> You can reuse some of your code from <a href="/~cs121/lab/grep/">the Simple Grep lab</a> in this assignment.</p>
+
+<p>Start by downloading <a href="recursive-grep.zip">recursive-grep.zip</a>, which contains the starter files for this assignment.</p>
+
+<p>Explore the <code class="language-plaintext highlighter-rouge">poems</code> subdirectory. Notice that the text files containing the poems are stored in subdirectories by author and download source.</p>
+
+<p>Your task is to create a <code class="language-plaintext highlighter-rouge">RecursiveGrep</code> class which supports recursively searching within a directory to find files which match a target string. When your program finds a line matching the target string, it should print the name of the file along with the matching line.</p>
+
+<p>For example, searching through <code class="language-plaintext highlighter-rouge">poems</code> directory for the string <code class="language-plaintext highlighter-rouge">dream</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; java-introcs RecursiveGrep dream poems
+poems/project-gutenberg/alexander-pushkin/the-roussalka.txt The dreamy wave she vanished under.
+poems/public-domain-poetry/charlotte-bronte/life.txt Life, believe, is not a dream
+poems/public-domain-poetry/charlotte-bronte/the-wood.txt We'll seek a couch of dreamless ease;
+poems/public-domain-poetry/edgar-allan-poe/the-raven.txt Doubting, dreaming dreams no mortals ever dared to dream before;
+poems/public-domain-poetry/edgar-allan-poe/the-raven.txt And his eyes have all the seeming of a demon's that is dreaming,
+</code></pre></div></div>
+
+<p>You should implement the <code class="language-plaintext highlighter-rouge">searchFile()</code> and <code class="language-plaintext highlighter-rouge">findFiles()</code> methods:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Print lines within the file that match the target string.
+ *
+ * @param target the string we are searching for
+ * @param file   the text file we are searching within
+ */
+public static void searchFile(String target, File file)
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
+ * Find and search within files for lines matching the target string.
+ *
+ * @param target    the string we are searching for
+ * @param directory the directory we are searching within
+ */
+public static void findFiles(String target, File directory)
+</code></pre></div></div>
+
+<p>Your main method should contain:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public static void main(String[] args) {
+    findFiles(args[0], new File(args[1]));
+}
+</code></pre></div></div>
+
+<p>Before you start coding, decide:</p>
+<ol>
+  <li>Which operations will form your <strong>recursive step</strong> (i.e., they need to be performed recursively)?</li>
+  <li>Which operations will form your <strong>base case</strong> (i.e., they don’t need to be performed recursively)?</li>
+</ol>
+
+<p><strong>Hint:</strong>
+To read from a file, you can use <a href="https://introcs.cs.princeton.edu/java/stdlib/javadoc/In.html">the textbook’s <code class="language-plaintext highlighter-rouge">In</code> class</a>. To find files you will need to use <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html">the Java Standard Library’s <code class="language-plaintext highlighter-rouge">File</code> class</a>. In particular, read the documentation for the methods <code class="language-plaintext highlighter-rouge">listFiles()</code>, <code class="language-plaintext highlighter-rouge">isDirectory()</code>, and <code class="language-plaintext highlighter-rouge">isFile()</code>.</p>
+
+<p><strong>Hint:</strong>
+If IntelliJ doesn’t add it automatically, you may need to add this import statement to the top of your <code class="language-plaintext highlighter-rouge">RecursiveGrep.java</code> file to use the <code class="language-plaintext highlighter-rouge">File</code> class:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import java.io.File;
+</code></pre></div></div>
+
+<h2 id="submit">Submit</h2>
+
+<p>Upload the following files to <strong>Gradescope</strong>:</p>
+
+<ul>
+  <li>RecursiveGrep.java</li>
+  <li><strong>A completed readme.txt file,</strong> including your names, etc.
+    <ul>
+      <li>Also, respond to: “Describe your program’s recursive step and base case.”</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Finally, be sure to indicate your group member on Gradescope.</p>
+
+<h2 id="learning-goals">Learning Goals</h2>
+<ul>
+  <li>Practice using file-based I/O</li>
+  <li>Practice reading Java documentation</li>
+  <li>Practice recursive programming</li>
+</ul>
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

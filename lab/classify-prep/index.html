@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lab 6: Preparation for the Image Classification Project</title>
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/~cs121/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-float-top">
+      <div class="container">
+        <a href="/~cs121/" class="navbar-brand">Data Structures (CSCI 121), Spring 2023</a>
+
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class=""><a href="/~cs121/">Overview</a></li>
+            <li class=""><a href="/~cs121/schedule/">Schedule and Materials</a></li>
+            <li class=""><a href="/~cs121/syllabus/">Syllabus</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" role="main">
+      <h1 id="lab-6-preparation-for-the-image-classification-project">Lab 6: Preparation for the Image Classification Project</h1>
+<p>The goal of this lab is prepare you for the Image Classification Project (i.e., Homework 5).</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<p>This lab should be done <strong>individually</strong>.</p>
+
+<h3 id="task-1-rotatejava">Task 1: Rotate.java</h3>
+
+<p>In class, we discussed a program that would flip an image upside down:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Picture source = new Picture(args[0]);
+int width  = source.width();
+int height = source.height();
+Picture target = new Picture(width, height);
+for (int col = 0; col &lt; width; col++)
+   for (int row = 0; row &lt; height; row++)
+      target.set(col, height-row-1, source.get(col, row));
+target.show();
+</code></pre></div></div>
+
+<p>Using this code as a starting point, create a program <code class="language-plaintext highlighter-rouge">Rotate.java</code> that will instead rotate an image by 90 degrees. Use <a href="/~cs121/homework/classify1/classify.zip">classify.zip</a> from the “Image Classification” assignment as your starter project.</p>
+
+<p><strong>Hint:</strong>
+Review the <a href="https://introcs.cs.princeton.edu/java/11cheatsheet/#Picture">“Picture” data type</a>, particularly the <code class="language-plaintext highlighter-rouge">get</code> and <code class="language-plaintext highlighter-rouge">set</code> methods.</p>
+
+<p><strong>Hint:</strong>
+<code class="language-plaintext highlighter-rouge">mandrill.png</code> isn’t square.</p>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:150px;">
+<img src="mandrill.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Original mandrill image" />
+</div>
+</div>
+
+<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+<div class="col-md-8 center-block" style="max-width:149px;">
+<img src="mandrill90.png" class="img-responsive" style="box-shadow: 5px 5px 5px black; border: 1px solid black;" alt="Mandrill image, rotated 90 degrees" />
+</div>
+</div>
+
+<h3 id="task-2-review-homework-instructions">Task 2: Review Homework Instructions</h3>
+
+<p>Carefully read all of the information about <a href="/~cs121/homework/classify1/">Homework 5: Image Classification, Part 1</a>.</p>
+
+<p>Write down answers to:</p>
+
+<ol>
+  <li>What is the image classification problem?</li>
+  <li>What is the machine learning process described in the documentation?</li>
+  <li>What are the inputs to <code class="language-plaintext highlighter-rouge">ImageClassifier.java</code>?</li>
+  <li>What methods must you write?</li>
+</ol>
+
+<p><strong>Please <em>don’t</em> discuss how you would solve the problem or how you would program the methods, etc.</strong> The “how” part is your assignment and needs to be done by you, with guidance <strong>only from the course staff</strong>, if needed. Please contact us early if you have questions or need help.</p>
+
+<h2 id="before-you-leave">Before You Leave</h2>
+
+<ul>
+  <li>Ensure your <code class="language-plaintext highlighter-rouge">Rotate.java</code> program can rotate <code class="language-plaintext highlighter-rouge">mandrill.png</code></li>
+  <li>Write down your answers to the four questions in Task 2</li>
+  <li>Ask any remaining questions you have about Homework 5</li>
+</ul>
+
+<p>This lab won’t be graded, due to the Wellness Day on Friday.</p>
+
+
+    </div>
+
+    <script src="/~cs121/js/jquery.min.js"></script>
+    <script src="/~cs121/js/bootstrap.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>
