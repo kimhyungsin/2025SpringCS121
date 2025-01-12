@@ -8,9 +8,9 @@ schedule: active
 
 <!-- Latest assignments: https://www.cs.princeton.edu/courses/archive/spr21/cos126/assignments.html -->
 
-- Homework 1: "Hello, World" assigned Wednesday, January 18th, **due Wednesday, January 25th**
+- Homework 1: "Hello, World" assigned Wednesday, January 17th, **due Wednesday, January 24th**
   - [Description](../homework/1/)
-- Lecture 1: "CS and Java Fundamentals: Java Basics, part 1" on 1/18 (Section 2) and 1/19 (Section 1)
+- Lecture 1: "CS and Java Fundamentals: Java Basics, part 1" on 1/13 (Section 1 & Section 2)
   - [Syllabus](../syllabus/)
   - [Slides](../slides/CS.1.Basics.pdf)
 - Lecture 2: "CS and Java Fundamentals: Java Basics, part 2" on 1/19 (Section 1) and 1/20 (Section 2)
